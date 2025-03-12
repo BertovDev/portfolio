@@ -24,7 +24,7 @@ export default function Experience() {
     rotation: [0, 0.67, 0],
     zoom: 130,
   });
-  const { cameraZoomed } = useCameraStore();
+  const { cameraZoomed, isTransitioning, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   const cameraPositions: CameraPositions = {
@@ -43,6 +43,12 @@ export default function Experience() {
         onUpdate: () => {
           refCamera.current?.updateProjectionMatrix();
         },
+        onComplete: () => {
+          setTransitioning(false);
+        },
+        onStart: () => {
+          setTransitioning(true);
+        },
       });
 
       gsap.to(refCamera.current, {
@@ -59,6 +65,12 @@ export default function Experience() {
         ease: "power3.inOut",
         onUpdate: () => {
           refCamera.current?.updateProjectionMatrix();
+        },
+        onComplete: () => {
+          setTransitioning(false);
+        },
+        onStart: () => {
+          setTransitioning(true);
         },
       });
 

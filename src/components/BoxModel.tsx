@@ -17,23 +17,31 @@ export function BoxModel() {
 
   const [hover, setHover] = useState(false);
 
-  const { setCameraZoomed } = useCameraStore();
+  const { setCameraZoomed, isTransitioning, setTransitioning } =
+    useCameraStore();
 
-  const hoverBox = (isHovering: boolean) => {
-    setHover(isHovering);
-    const cursor: string = isHovering ? "pointer" : "grab";
-    const camera: string = isHovering ? "closeUp" : "ortMain";
+  const hoverBox = () => {
+    if (isTransitioning) return;
+    setHover(true);
 
-    document.body.style.cursor = cursor;
-    setCameraZoomed(isHovering);
+    document.body.style.cursor = "pointer";
+    setCameraZoomed(true);
+  };
+
+  const hoverLeave = () => {
+    if (isTransitioning) return;
+    setHover(false);
+
+    document.body.style.cursor = "grab";
+    setCameraZoomed(false);
   };
 
   const { nodes, materials } = useGLTF("box1.glb");
   return (
     <group
       dispose={null}
-      onPointerOver={() => hoverBox(true)}
-      onPointerLeave={() => hoverBox(false)}
+      onPointerOver={() => hoverBox()}
+      onPointerLeave={() => hoverLeave()}
     >
       <mesh
         castShadow
