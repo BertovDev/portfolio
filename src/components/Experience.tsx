@@ -7,6 +7,7 @@ import { BoxModel } from "../components/BoxModel";
 import useCameraStore from "@/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
+import { PorfolioModel } from "../components/Portfolio";
 
 type CameraProp = {
   position: [number, number, number];
@@ -29,7 +30,7 @@ export default function Experience() {
 
   const cameraPositions: CameraPositions = {
     initialPos: { position: [-1.1, 3.9, 5], zoom: 130 },
-    zoomedPos: { position: [-3, 4, 5], zoom: 200 },
+    zoomedPos: { position: [-3, 5, 5], zoom: 180 },
   };
 
   useEffect(() => {
@@ -111,7 +112,8 @@ export default function Experience() {
 
         <shadowMaterial opacity={0.4} />
       </mesh>
-      <BoxModel />
+      {/* <BoxModel /> */}
+      <PorfolioModel />
     </group>
   );
 }
