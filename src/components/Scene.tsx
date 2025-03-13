@@ -5,7 +5,7 @@ import React, { Suspense, useContext } from "react";
 import Experience from "./Experience";
 import { Perf } from "r3f-perf";
 
-import { useControls } from "leva";
+import { Leva, useControls } from "leva";
 
 export default function Scene() {
   const { pos, rot } = useControls({
@@ -22,6 +22,7 @@ export default function Scene() {
     >
       <Perf position="top-left" />
       <Suspense fallback={null}>
+        <Leva hidden />
         <Experience />
       </Suspense>
     </Canvas>

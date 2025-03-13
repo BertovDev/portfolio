@@ -41,7 +41,7 @@ export function PorfolioModel(props) {
       {...props}
       dispose={null}
       scale={11}
-      position={[4.2, 0, -2.3]}
+      position={[4, 0, -1.7]}
       rotation={[0, 5.4, 0]}
       onPointerOver={() => hoverBox()}
       onPointerLeave={() => hoverLeave()}
