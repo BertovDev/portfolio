@@ -8,6 +8,7 @@ import useCameraStore from "@/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
+import { useFrame } from "@react-three/fiber";
 
 type CameraProp = {
   position: [number, number, number];
@@ -29,7 +30,7 @@ export default function Experience() {
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   const cameraPositions: CameraPositions = {
-    initialPos: { position: [-1.1, 3.9, 5], zoom: 130 },
+    initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
     zoomedPos: { position: [-3, 5, 5], zoom: 180 },
   };
 
