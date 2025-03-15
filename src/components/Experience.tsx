@@ -3,12 +3,11 @@ import { OrbitControls } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
-import { BoxModel } from "../components/BoxModel";
 import useCameraStore from "@/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
-import { useFrame } from "@react-three/fiber";
+import { AboutModel } from "./AboutModel";
 
 type CameraProp = {
   position: [number, number, number];
@@ -113,8 +112,9 @@ export default function Experience() {
 
         <shadowMaterial opacity={0.4} />
       </mesh>
-      {/* <BoxModel /> */}
       <PorfolioModel />
+      {/* <AboutModel /> */}
+      <AboutModel />
     </group>
   );
 }
