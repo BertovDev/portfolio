@@ -10,6 +10,7 @@ import useCameraStore from "@/Utils";
 
 import PorfolioGLTF from "@/types/model";
 import Annotation from "./Annotation";
+import { DoubleSide } from "three";
 
 export function PorfolioModel() {
   const { rota, posa } = useControls({
@@ -133,11 +134,11 @@ export function PorfolioModel() {
           </mesh>
           {hoverShovel && (
             <Annotation
-              position={[21, 18, 12.0]}
+              position={[22, 18, 11.5]}
               rotation={[0, 173.6, 0]}
               scale={10}
             >
-              <span>Experience</span>
+              <span>Work</span>
             </Annotation>
           )}
         </group>
@@ -150,24 +151,36 @@ export function PorfolioModel() {
         castShadow
         receiveShadow
       />
+
+      <group>
+        <mesh
+          position={[-0.061, 0.079, 0.319]}
+          rotation={[-0.17, 3.14, 0]}
+          onPointerEnter={() => setHoverVinyl(true)}
+          onPointerLeave={() => setHoverVinyl(false)}
+        >
+          <planeGeometry args={[0.15, 0.15]} />
+          <meshStandardMaterial color={"black"} side={DoubleSide} />
+        </mesh>
+        {hoverVinyl && (
+          <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
+            <span>Projects</span>
+          </Annotation>
+        )}
+      </group>
+
       <mesh
-        geometry={nodes.Object_46.geometry}
-        material={materials["cover.117"]}
-        position={[-0.064, 0.08, 0.307]}
-        rotation={[1.32, 0.09, -0.01]}
-        scale={0.55}
-        onPointerEnter={() => setHoverVinyl(true)}
-        onPointerLeave={() => setHoverVinyl(false)}
-      >
-        {hoverVinyl && <Outlines thickness={2} color="red" />}
-      </mesh>
-      <mesh
-        position={[-0.061, 0.079, 0.319]}
-        rotation={[-0.4, 0, 0]}
+        position={[-0.055, 0.079, 0.33]}
+        rotation={[-0.26, 3.14, 0]}
+        scale={0.99}
         onPointerEnter={() => setHoverVinyl(true)}
         onPointerLeave={() => setHoverVinyl(false)}
       >
         <planeGeometry args={[0.15, 0.15]} />
+        <meshStandardMaterial color={"white"} side={DoubleSide} />
+        {hoverVinyl && (
+          <Outlines thickness={0.5} color="red" angle={0} scale={1.02} />
+        )}
       </mesh>
     </group>
   );
