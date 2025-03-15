@@ -74,7 +74,7 @@ export function PorfolioModel() {
         </group>
       </group>
       <group
-        position={[0.055, -0.117, 0.5]}
+        position={[0.06, -0.117, 0.51]}
         rotation={[-3.135, 0.523, 3.132]}
         scale={0.008}
         onPointerEnter={() => setHoverShovel(true)}
@@ -132,7 +132,6 @@ export function PorfolioModel() {
           </mesh>
         </group>
       </group>
-
       <mesh
         geometry={nodes["Box_1-b_Boxes_0"].geometry}
         material={materials.Boxes}
@@ -151,6 +150,14 @@ export function PorfolioModel() {
         onPointerLeave={() => setHoverVinyl(false)}
       >
         {hoverVinyl && <Outlines thickness={2} color="red" />}
+      </mesh>
+      <mesh
+        position={[-0.061, 0.079, 0.319]}
+        rotation={[-0.4, 0, 0]}
+        onPointerEnter={() => setHoverVinyl(true)}
+        onPointerLeave={() => setHoverVinyl(false)}
+      >
+        <planeGeometry args={[0.15, 0.15]} />
       </mesh>
     </group>
   );

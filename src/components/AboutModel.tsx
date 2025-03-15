@@ -16,10 +16,6 @@ export function AboutModel() {
 
   const [hover, setHover] = useState(false);
 
-  useEffect(() => {
-    console.log("hover: " + hover);
-  }, [hover]);
-
   const { nodes, materials } = useGLTF(
     "/bautiModel.glb"
   ) as unknown as AboutModelGLTF;
@@ -36,6 +32,7 @@ export function AboutModel() {
         geometry={nodes.tmpsj0p995tply001.geometry}
         material={materials["Material_0.002"]}
         position={[0, 0, 0]}
+        castShadow
       >
         {hover && <Outlines thickness={1.1} color="red" />}
       </mesh>
