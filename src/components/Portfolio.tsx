@@ -8,19 +8,20 @@ import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import useCameraStore from "@/Utils";
 
-export function PorfolioModel(props) {
+import PorfolioGLTF from "@/types/model";
+
+export function PorfolioModel() {
   const { rota, posa } = useControls({
     posa: [4.2, 0, -2.3],
     rota: [0, 5.4, 0],
   });
 
-  const [hover, setHover] = useState(false);
-  const [hoverShovel, setHoverShovel] = useState(false);
-  const [hoverCard, setHoverCard] = useState(false);
-  const [hoverVinyl, setHoverVinyl] = useState(false);
+  const [hover, setHover] = useState<boolean>(false);
+  const [hoverShovel, setHoverShovel] = useState<boolean>(false);
+  const [hoverCard, setHoverCard] = useState<boolean>(false);
+  const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
 
-  const { setCameraZoomed, isTransitioning, setTransitioning } =
-    useCameraStore();
+  const { setCameraZoomed, isTransitioning } = useCameraStore();
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -38,10 +39,11 @@ export function PorfolioModel(props) {
     setCameraZoomed(false);
   };
 
-  const { nodes, materials } = useGLTF("/portfolio.glb");
+  const { nodes, materials } = useGLTF(
+    "/portfolio.glb"
+  ) as unknown as PorfolioGLTF;
   return (
     <group
-      {...props}
       dispose={null}
       scale={11}
       position={[4, 0, -1.7]}
