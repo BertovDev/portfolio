@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 public/portfolio.glb
 */
 
 import React, { useState } from "react";
-import { useGLTF } from "@react-three/drei";
+import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import useCameraStore from "@/Utils";
 
@@ -15,6 +15,9 @@ export function PorfolioModel(props) {
   });
 
   const [hover, setHover] = useState(false);
+  const [hoverShovel, setHoverShovel] = useState(false);
+  const [hoverCard, setHoverCard] = useState(false);
+  const [hoverVinyl, setHoverVinyl] = useState(false);
 
   const { setCameraZoomed, isTransitioning, setTransitioning } =
     useCameraStore();
@@ -54,6 +57,8 @@ export function PorfolioModel(props) {
         <group
           position={[-12.118, 6.028, 5.83]}
           rotation={[1.698, 0.352, 0.692]}
+          onPointerEnter={() => setHoverCard(true)}
+          onPointerLeave={() => setHoverCard(false)}
         >
           <mesh
             geometry={nodes.pPlane3_lambert4_0.geometry}
@@ -61,47 +66,68 @@ export function PorfolioModel(props) {
             position={[-8.273, 4.847, -0.877]}
             rotation={[1.231, 0.197, 0.237]}
             scale={[1, 1, 1.044]}
-          />
+          >
+            {hoverCard && <Outlines thickness={1.1} color="red" />}
+          </mesh>
         </group>
       </group>
       <group
         position={[0.055, -0.117, 0.5]}
         rotation={[-3.135, 0.523, 3.132]}
         scale={0.008}
+        onPointerEnter={() => setHoverShovel(true)}
+        onPointerLeave={() => setHoverShovel(false)}
       >
         <group position={[1.237, 0.03, -3.857]}>
           <mesh
             geometry={nodes.Object_10.geometry}
             material={materials.VoxMaterial_250}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_11.geometry}
             material={materials.VoxMaterial_251}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_12.geometry}
             material={materials.VoxMaterial_252}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
+
           <mesh
             geometry={nodes.Object_5.geometry}
             material={materials.VoxMaterial_225}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_6.geometry}
             material={materials.VoxMaterial_227}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_7.geometry}
             material={materials.VoxMaterial_229}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_8.geometry}
             material={materials.VoxMaterial_231}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
           <mesh
             geometry={nodes.Object_9.geometry}
             material={materials.VoxMaterial_249}
-          />
+          >
+            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+          </mesh>
         </group>
       </group>
 
@@ -119,7 +145,11 @@ export function PorfolioModel(props) {
         position={[-0.064, 0.08, 0.307]}
         rotation={[1.32, 0.09, -0.01]}
         scale={0.55}
-      />
+        onPointerEnter={() => setHoverVinyl(true)}
+        onPointerLeave={() => setHoverVinyl(false)}
+      >
+        {hoverVinyl && <Outlines thickness={2} color="red" />}
+      </mesh>
     </group>
   );
 }
