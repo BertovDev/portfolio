@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import AboutModelGLTF from "@/types/model";
+import Annotation from "./Annotation";
 
 export function AboutModel() {
   const { angle, rotAbout } = useControls({
@@ -36,6 +37,11 @@ export function AboutModel() {
       >
         {hover && <Outlines thickness={1.1} color="red" />}
       </mesh>
+      {hover && (
+        <Annotation position={[0, 1.2, 0]} rotation={[-0.2, -0.2, -0.3]}>
+          <span>About</span>
+        </Annotation>
+      )}
     </group>
   );
 }

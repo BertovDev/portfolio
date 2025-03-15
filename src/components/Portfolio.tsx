@@ -9,6 +9,7 @@ import { useControls } from "leva";
 import useCameraStore from "@/Utils";
 
 import PorfolioGLTF from "@/types/model";
+import Annotation from "./Annotation";
 
 export function PorfolioModel() {
   const { rota, posa } = useControls({
@@ -130,6 +131,15 @@ export function PorfolioModel() {
           >
             {hoverShovel && <Outlines thickness={1.1} color="red" />}
           </mesh>
+          {hoverShovel && (
+            <Annotation
+              position={[21, 18, 12.0]}
+              rotation={[0, 173.6, 0]}
+              scale={10}
+            >
+              <span>Experience</span>
+            </Annotation>
+          )}
         </group>
       </group>
       <mesh
