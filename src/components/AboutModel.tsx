@@ -39,7 +39,7 @@ export function AboutModel() {
       </mesh>
       {hover && (
         <Annotation position={[0, 1.2, 0]} rotation={[-0.2, -0.2, -0.3]}>
-          <span>About</span>
+          <span>About me</span>
         </Annotation>
       )}
     </group>
