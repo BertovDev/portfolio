@@ -7,6 +7,7 @@ import React, { useState, useEffect } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import AboutModelGLTF from "@/types/model";
+import Annotation from "./Annotation";
 
 export function AboutModel() {
   const { angle, rotAbout } = useControls({
@@ -15,10 +16,6 @@ export function AboutModel() {
   });
 
   const [hover, setHover] = useState(false);
-
-  useEffect(() => {
-    console.log("hover: " + hover);
-  }, [hover]);
 
   const { nodes, materials } = useGLTF(
     "/bautiModel.glb"
@@ -36,9 +33,15 @@ export function AboutModel() {
         geometry={nodes.tmpsj0p995tply001.geometry}
         material={materials["Material_0.002"]}
         position={[0, 0, 0]}
+        castShadow
       >
         {hover && <Outlines thickness={1.1} color="red" />}
       </mesh>
+      {hover && (
+        <Annotation position={[0, 1.2, 0]} rotation={[-0.2, -0.2, -0.3]}>
+          <span>About me</span>
+        </Annotation>
+      )}
     </group>
   );
 }
