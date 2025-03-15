@@ -113,7 +113,6 @@ export default function Experience() {
         <shadowMaterial opacity={0.4} />
       </mesh>
       <PorfolioModel />
-      {/* <AboutModel /> */}
       <AboutModel />
     </group>
   );
