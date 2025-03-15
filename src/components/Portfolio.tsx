@@ -8,7 +8,7 @@ import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
 import useCameraStore from "@/Utils";
 
-import GLTFResult from "@/types/model";
+import PorfolioGLTF from "@/types/model";
 
 export function PorfolioModel() {
   const { rota, posa } = useControls({
@@ -41,7 +41,7 @@ export function PorfolioModel() {
 
   const { nodes, materials } = useGLTF(
     "/portfolio.glb"
-  ) as unknown as GLTFResult;
+  ) as unknown as PorfolioGLTF;
   return (
     <group
       dispose={null}

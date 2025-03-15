@@ -6,8 +6,9 @@ Command: npx gltfjsx@6.5.3 public/bautiweirdMoreTriangles.glb
 import React, { useState, useEffect } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
+import AboutModelGLTF from "@/types/model";
 
-export function AboutModel(props) {
+export function AboutModel() {
   const { angle, rotAbout } = useControls({
     angle: 0,
     rotAbout: [0, 0, 0],
@@ -19,10 +20,11 @@ export function AboutModel(props) {
     console.log("hover: " + hover);
   }, [hover]);
 
-  const { nodes, materials } = useGLTF("/bautiModel.glb");
+  const { nodes, materials } = useGLTF(
+    "/bautiModel.glb"
+  ) as unknown as AboutModelGLTF;
   return (
     <group
-      {...props}
       dispose={null}
       position={[-0.02, 0.08, 0]}
       rotation={[-0.51, -0.26, 0]}

@@ -1,4 +1,6 @@
-type GLTFResult = GLTF & {
+import { ThreeElement } from "@react-three/fiber";
+
+type PorfolioGLTF = GLTF & {
   nodes: {
     pPlane3_lambert4_0: THREE.Mesh;
     Object_10: THREE.Mesh;
@@ -37,4 +39,11 @@ type GLTFResult = GLTF & {
   };
 };
 
-export default GLTFResult;
+type AboutModelGLTF = GLTF & {
+  nodes: {
+    tmpsj0p995tply001: THREE.Mesh;
+  };
+};
+
+export default PorfolioGLTF;
+export default AboutModelGLTF;
