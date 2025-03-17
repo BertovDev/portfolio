@@ -17,7 +17,7 @@ export default function About() {
         />
       </div>
       <div className="flex-none w-2/4 mb-20">
-        <p className="text-black font-inter font-semibold text-center text-3xl xl:textl-5xl">
+        <p className="text-black font-inter font-semibold text-center text-3xl xl:text-5xl">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-red-500">Creative</span>{" "}
           Frontend Developer from Buenos Aires, Argentina. I thrive on turning

@@ -6,22 +6,33 @@ import About from "./About";
 import { useSectionStore } from "@/Utils";
 import Work from "./Work";
 
+type SectionComponent = {
+  About: React.FC;
+  Work: React.FC;
+};
+
+const SectionComponents: SectionComponent = {
+  About,
+  Work,
+};
+
 export default function Content() {
   const { isSectionClicked } = useSectionStore();
 
-  return (
-    <div>
-      {isSectionClicked.name === "About" && isSectionClicked.isClicked && (
-        <Section>
-          <About />
-        </Section>
-      )}
+  if (isSectionClicked.name === null && !isSectionClicked.isClicked) {
+    return;
+  }
 
-      {isSectionClicked.name === "Work" && isSectionClicked.isClicked && (
+  if (isSectionClicked.name && isSectionClicked.isClicked) {
+    const SectionToRender: React.FC =
+      SectionComponents[isSectionClicked.name as keyof SectionComponent];
+
+    return (
+      <div>
         <Section>
-          <Work />
+          <SectionToRender />
         </Section>
-      )}
-    </div>
-  );
+      </div>
+    );
+  }
 }
