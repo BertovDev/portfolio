@@ -3,7 +3,7 @@ import React from "react";
 export default function About() {
   return (
     <div className="flex items-center h-full ">
-      <div id="leftSide" className="| flex flex-col items-center flex-auto">
+      <div id="leftSide" className="flex flex-col items-center flex-auto ">
         <img
           className="relative bottom-20"
           src="/images/SmilingFace.svg"
@@ -17,7 +17,7 @@ export default function About() {
         />
       </div>
       <div className="flex-none w-2/4 mb-20">
-        <p className="text-black font-inter font-semibold text-center text-5xl">
+        <p className="text-black font-inter font-semibold text-center text-3xl xl:textl-5xl">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-red-500">Creative</span>{" "}
           Frontend Developer from Buenos Aires, Argentina. I thrive on turning

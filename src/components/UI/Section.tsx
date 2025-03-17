@@ -14,22 +14,22 @@ const Section: React.FC<SectionProps> = ({ children }) => {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (ref.current) {
+    if (ref.current && isSectionClicked.name !== null) {
       gsap.fromTo(
         ref.current,
         {
           y: -100,
           opacity: 0,
-          duration: 1,
+          duration: 0.7,
         },
         {
           y: 0,
           opacity: 1,
-          duration: 1,
+          duration: 0.7,
         }
       );
     }
-  }, [isSectionClicked]);
+  }, [isSectionClicked.isClicked]);
 
   return (
     <div ref={ref} className="opacity-0 absolute h-screen w-screen bg-white">
@@ -44,7 +44,9 @@ const Section: React.FC<SectionProps> = ({ children }) => {
               opacity: 0,
               duration: 0.5,
               onComplete: () => {
-                setSectionClicked(false);
+                if (isSectionClicked.name !== null) {
+                  setSectionClicked(null, false);
+                }
               },
             });
           }
