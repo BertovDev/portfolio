@@ -177,6 +177,9 @@ export function PorfolioModel() {
         scale={0.99}
         onPointerEnter={() => setHoverVinyl(true)}
         onPointerLeave={() => setHoverVinyl(false)}
+        onClick={() => {
+          setSectionClicked("Projects", true);
+        }}
       >
         <planeGeometry args={[0.15, 0.15]} />
         <meshStandardMaterial color={"white"} side={DoubleSide} />
