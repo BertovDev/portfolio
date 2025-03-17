@@ -2,15 +2,17 @@
 
 import React from "react";
 import Section from "./Section";
-import About from "./About";
 import { useSectionStore } from "@/Utils";
+import About from "./About";
 import Work from "./Work";
+import Projects from "./Projects";
 
 type SectionComponent = Record<string, React.FC>;
 
 const SectionComponents: SectionComponent = {
   About,
   Work,
+  Projects,
 };
 
 export default function Content() {
