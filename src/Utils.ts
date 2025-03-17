@@ -7,9 +7,14 @@ type CameraState = {
   setTransitioning: (camera: boolean) => void;
 };
 
+type SectionParms = {
+  isClicked: boolean;
+  name: string | null;
+};
+
 type SectionState = {
-  isSectionClicked: boolean;
-  setSectionClicked: (section: boolean) => void;
+  isSectionClicked: SectionParms;
+  setSectionClicked: (name: string | null, state: boolean) => void;
 };
 
 const useCameraStore = create<CameraState>((set) => ({
@@ -20,8 +25,9 @@ const useCameraStore = create<CameraState>((set) => ({
 }));
 
 const useSectionStore = create<SectionState>((set) => ({
-  isSectionClicked: false,
-  setSectionClicked: (state: boolean) => set({ isSectionClicked: state }),
+  isSectionClicked: { isClicked: false, name: null },
+  setSectionClicked: (name: string | null, state: boolean) =>
+    set({ isSectionClicked: { name: name, isClicked: state } }),
 }));
 
 export { useCameraStore, useSectionStore };

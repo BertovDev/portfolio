@@ -32,7 +32,7 @@ export function AboutModel() {
       scale={0.7}
       onPointerOver={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
-      onClick={() => setSectionClicked(true)}
+      onClick={() => setSectionClicked("About", true)}
     >
       <mesh
         geometry={nodes.tmpsj0p995tply001.geometry}
