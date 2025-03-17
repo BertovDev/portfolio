@@ -26,7 +26,14 @@ export default function Aside() {
           >
             Work
           </li>
-          <li className="hover:underline">Projects</li>
+          <li
+            className="hover:underline"
+            onClick={() => {
+              setSectionClicked("Projects", true);
+            }}
+          >
+            Projects
+          </li>
           <li className="hover:underline">Contact</li>
         </ul>
       )}
