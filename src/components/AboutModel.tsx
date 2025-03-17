@@ -9,6 +9,8 @@ import { useControls } from "leva";
 import AboutModelGLTF from "@/types/model";
 import Annotation from "./Annotation";
 
+import { useSectionStore } from "@/Utils";
+
 export function AboutModel() {
   const { angle, rotAbout } = useControls({
     angle: 0,
@@ -16,6 +18,8 @@ export function AboutModel() {
   });
 
   const [hover, setHover] = useState(false);
+
+  const { setSectionClicked } = useSectionStore();
 
   const { nodes, materials } = useGLTF(
     "/bautiModel.glb"
@@ -28,6 +32,7 @@ export function AboutModel() {
       scale={0.7}
       onPointerOver={() => setHover(true)}
       onPointerLeave={() => setHover(false)}
+      onClick={() => setSectionClicked(true)}
     >
       <mesh
         geometry={nodes.tmpsj0p995tply001.geometry}
