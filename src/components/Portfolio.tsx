@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.5.3 public/portfolio.glb
 import React, { useState } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
-import useCameraStore from "@/Utils";
+import { useCameraStore, useSectionStore } from "@/Utils";
 
 import PorfolioGLTF from "@/types/model";
 import Annotation from "./Annotation";
@@ -24,6 +24,7 @@ export function PorfolioModel() {
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
 
   const { setCameraZoomed, isTransitioning } = useCameraStore();
+  const { setSectionClicked } = useSectionStore();
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -51,7 +52,7 @@ export function PorfolioModel() {
       position={[4, 0, -1.7]}
       rotation={[0, 5.4, 0]}
       onPointerOver={() => hoverBox()}
-      onPointerLeave={() => hoverLeave()}
+      onPointerMissed={() => hoverLeave()}
     >
       <group
         position={[-0.02, 0.018, 0.471]}
@@ -81,6 +82,7 @@ export function PorfolioModel() {
         scale={0.008}
         onPointerEnter={() => setHoverShovel(true)}
         onPointerLeave={() => setHoverShovel(false)}
+        onClick={() => setSectionClicked("Work", true)}
       >
         <group position={[1.237, 0.03, -3.857]}>
           <mesh
@@ -175,6 +177,9 @@ export function PorfolioModel() {
         scale={0.99}
         onPointerEnter={() => setHoverVinyl(true)}
         onPointerLeave={() => setHoverVinyl(false)}
+        onClick={() => {
+          setSectionClicked("Projects", true);
+        }}
       >
         <planeGeometry args={[0.15, 0.15]} />
         <meshStandardMaterial color={"white"} side={DoubleSide} />
