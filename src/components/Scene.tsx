@@ -22,7 +22,7 @@ export default function Scene() {
     >
       <Perf position="top-left" />
       <Suspense fallback={null}>
-        {/* <Leva /> */}
+        {/* <Leva hidden /> */}
         <Experience />
       </Suspense>
     </Canvas>
