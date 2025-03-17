@@ -6,10 +6,7 @@ import About from "./About";
 import { useSectionStore } from "@/Utils";
 import Work from "./Work";
 
-type SectionComponent = {
-  About: React.FC;
-  Work: React.FC;
-};
+type SectionComponent = Record<string, React.FC>;
 
 const SectionComponents: SectionComponent = {
   About,
