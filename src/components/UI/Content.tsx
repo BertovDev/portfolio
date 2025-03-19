@@ -2,7 +2,7 @@
 
 import React from "react";
 import Section from "./Section";
-import { useSectionStore } from "@/Utils";
+import { useSectionStore } from "@/utils/Utils";
 import About from "./About";
 import Work from "./Work";
 import Projects from "./Projects";
