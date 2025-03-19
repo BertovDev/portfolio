@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
-import { useCameraStore } from "@/Utils";
+import { useCameraStore } from "@/utils/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";

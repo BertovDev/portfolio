@@ -9,7 +9,7 @@ import { useControls } from "leva";
 import AboutModelGLTF from "@/types/model";
 import Annotation from "./Annotation";
 
-import { useSectionStore } from "@/Utils";
+import { useSectionStore } from "@/utils/Utils";
 
 export function AboutModel() {
   const { angle, rotAbout } = useControls({
