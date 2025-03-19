@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import CursorTip from "./CursorTip";
+import gsap from "gsap";
 
 type ImageInfoState = {
   textContent: string;
@@ -12,6 +13,9 @@ export default function About() {
     isHovering: false,
   });
 
+  const turnstileImage: React.RefObject<HTMLImageElement | null> =
+    useRef<HTMLImageElement>(null);
+
   return (
     <div className="flex items-center h-full cursor-auto">
       <div id="leftSide" className="flex flex-col items-center flex-auto ">
@@ -20,15 +24,60 @@ export default function About() {
           src="/images/SmilingFace.svg"
           alt=""
         />
-        <img
+        <div
           className="relative cursor-pointer md:w-40 lg:w-40 xl:w-60 xl:right-5 2xl:right-15"
-          src="/images/Heart.svg"
-          alt=""
-        />
+          onMouseOver={(e) => {
+            e.stopPropagation();
+            gsap.to(turnstileImage.current, {
+              opacity: 1,
+              duration: 0.5,
+            });
+            setImageInfoState({
+              textContent: "I love hardcore music, specially turnstile",
+              isHovering: true,
+            });
+          }}
+          onMouseOut={(e) => {
+            e.stopPropagation();
+            gsap.to(turnstileImage.current, {
+              opacity: 0,
+              duration: 0.5,
+            });
+            setImageInfoState({
+              textContent: "<3",
+              isHovering: false,
+            });
+          }}
+        >
+          <div className="relative">
+            <img className="w-full" src="/images/Heart.svg" alt="" />
+            <img
+              ref={turnstileImage}
+              className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+              src="/images/TLC.svg"
+              alt=""
+            />
+          </div>
+        </div>
+
         <img
           className="relative cursor-pointer left-25 top-20 w-38"
           src="/images/sapporo.svg"
           alt=""
+          onMouseOver={(e) => {
+            e.stopPropagation();
+            setImageInfoState({
+              textContent: "I would die for a pint rn (sapporo)",
+              isHovering: true,
+            });
+          }}
+          onMouseOut={(e) => {
+            e.stopPropagation();
+            setImageInfoState({
+              textContent: "cheers",
+              isHovering: false,
+            });
+          }}
         />
       </div>
       <div className="flex-none w-2/4 mb-20">
