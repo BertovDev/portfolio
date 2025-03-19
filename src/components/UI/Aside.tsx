@@ -1,6 +1,6 @@
 "use client";
 
-import { useSectionStore } from "@/Utils";
+import { useSectionStore } from "@/utils/Utils";
 import React from "react";
 
 export default function Aside() {

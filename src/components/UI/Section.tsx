@@ -1,6 +1,6 @@
 "use client";
 
-import { useSectionStore } from "@/Utils";
+import { useSectionStore } from "@/utils/Utils";
 import React, { useEffect, useReducer, useRef } from "react";
 import gsap from "gsap";
 
@@ -32,7 +32,10 @@ const Section: React.FC<SectionProps> = ({ children }) => {
   }, [isSectionClicked.isClicked]);
 
   return (
-    <div ref={ref} className="opacity-0 absolute h-screen w-screen bg-white">
+    <div
+      ref={ref}
+      className="z-100 opacity-0 absolute h-screen w-screen bg-white"
+    >
       {children}
 
       <button

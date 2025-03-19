@@ -3,7 +3,7 @@ import { OrbitControls } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
-import { useCameraStore } from "@/Utils";
+import { useCameraStore } from "@/utils/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
@@ -25,7 +25,7 @@ export default function Experience() {
     rotation: [0, 0.67, 0],
     zoom: 130,
   });
-  const { cameraZoomed, isTransitioning, setTransitioning } = useCameraStore();
+  const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   const cameraPositions: CameraPositions = {
@@ -58,6 +58,7 @@ export default function Experience() {
         ease: "power3.inOut",
       });
     } else if (!cameraZoomed && refCamera.current) {
+      //Zoomout anim
       gsap.to(refCamera.current.position, {
         x: cameraPositions.initialPos.position[0],
         y: cameraPositions.initialPos.position[1],

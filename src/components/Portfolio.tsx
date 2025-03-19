@@ -6,7 +6,7 @@ Command: npx gltfjsx@6.5.3 public/portfolio.glb
 import React, { useState } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { useControls } from "leva";
-import { useCameraStore, useSectionStore } from "@/Utils";
+import { useCameraStore, useSectionStore } from "@/utils/Utils";
 
 import PorfolioGLTF from "@/types/model";
 import Annotation from "./Annotation";
