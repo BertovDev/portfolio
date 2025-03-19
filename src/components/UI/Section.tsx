@@ -34,7 +34,7 @@ const Section: React.FC<SectionProps> = ({ children }) => {
   return (
     <div
       ref={ref}
-      className="z-100 opacity-0 absolute h-screen w-screen bg-white"
+      className="z-100 opacity-0 absolute h-screen w-screen bg-white overflow-hidden"
     >
       {children}
 

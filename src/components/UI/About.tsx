@@ -16,6 +16,9 @@ export default function About() {
   const turnstileImage: React.RefObject<HTMLImageElement | null> =
     useRef<HTMLImageElement>(null);
 
+  const flowerRef: React.RefObject<HTMLImageElement | null> =
+    useRef<HTMLImageElement>(null);
+
   return (
     <div className="flex items-center h-full cursor-auto">
       <div id="leftSide" className="flex flex-col items-center flex-auto ">
@@ -93,11 +96,18 @@ export default function About() {
       </div>
 
       <div id="rightSide" className="flex flex-col items-center flex-auto ">
-        <img
+        <div
           className="relative cursor-pointer bottom-30"
-          src="/images/Flower.svg"
-          alt=""
-        />
+          onMouseEnter={(e) => {
+            e.stopPropagation();
+            gsap.to(flowerRef.current, {
+              rotation: 360,
+              duration: 1,
+            });
+          }}
+        >
+          <img ref={flowerRef} className="" src="/images/Flower.svg" alt="" />
+        </div>
 
         <img
           className="relative cursor-pointer top-20 xl:left-0 2xl:left-25"
