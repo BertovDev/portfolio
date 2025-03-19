@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 
-import { useCameraStore } from "@/Utils";
+import { useCameraStore } from "@/utils/Utils";
 
 type Props = {};
 
@@ -17,7 +17,7 @@ export default function TipBar({}: Props) {
   }, [cameraZoomed]);
 
   return (
-    <div className="absolute z-10 border rounded-2xl bottom-0 py-1 px-2  left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-inter font-semibold text-start ">
+    <div className="absolute z-10 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-black font-inter font-semibold text-start ">
       <span className="text-xl relative">{tipText}</span>
     </div>
   );

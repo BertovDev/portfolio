@@ -1,6 +1,6 @@
 "use client";
 
-import { useSectionStore } from "@/Utils";
+import { useSectionStore } from "@/utils/Utils";
 import React, { useEffect, useReducer, useRef } from "react";
 import gsap from "gsap";
 
