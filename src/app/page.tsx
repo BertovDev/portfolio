@@ -9,7 +9,7 @@ export default function Home() {
     <main className="absolute h-full w-full">
       <AsideInfo />
       <Scene />
-      <TipBar />
+      <TipBar hasInteration={true} initialText="Hover on box to zoom" />
       <Aside />
       <Content />
     </main>
