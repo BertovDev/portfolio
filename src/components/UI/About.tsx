@@ -1,6 +1,9 @@
-import React, { useRef, useState } from "react";
+"use client";
+
+import React, { useEffect, useRef, useState } from "react";
 import CursorTip from "./CursorTip";
 import gsap from "gsap";
+import TipBar from "./TipBar";
 
 type ImageInfoState = {
   textContent: string;
@@ -18,6 +21,19 @@ export default function About() {
 
   const flowerRef: React.RefObject<HTMLImageElement | null> =
     useRef<HTMLImageElement>(null);
+
+  const sapporoRef: React.RefObject<HTMLImageElement | null> =
+    useRef<HTMLImageElement>(null);
+
+  useEffect(() => {
+    gsap.to(sapporoRef.current, {
+      scale: 1.1,
+      duration: 0.9,
+      yoyo: true,
+      repeat: 1,
+      ease: "power1.inOut",
+    });
+  }, []);
 
   return (
     <div className="flex items-center h-full cursor-auto">
@@ -64,6 +80,7 @@ export default function About() {
         </div>
 
         <img
+          ref={sapporoRef}
           className="relative cursor-pointer left-25 top-20 w-38"
           src="/images/sapporo.svg"
           alt=""
@@ -93,6 +110,7 @@ export default function About() {
           expertise I thrive on turning ideas into fully functional, stunning
           applications projects.
         </p>
+        {/* <TipBar hasInteration={false} initialText="hover to discover" /> */}
       </div>
 
       <div id="rightSide" className="flex flex-col items-center flex-auto ">
