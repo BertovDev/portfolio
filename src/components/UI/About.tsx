@@ -70,12 +70,18 @@ export default function About() {
         >
           <div className="relative">
             <img className="w-full" src="/images/Heart.svg" alt="" />
-            <img
-              ref={turnstileImage}
-              className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-              src="/images/TLC.svg"
-              alt=""
-            />
+            <a
+              href="https://www.youtube.com/watch?v=gCR5jwLVf0E&t=1s"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                ref={turnstileImage}
+                className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                src="/images/TLC.svg"
+                alt="TLC"
+              />
+            </a>
           </div>
         </div>
 
@@ -101,16 +107,25 @@ export default function About() {
         />
       </div>
       <div className="flex-none w-2/4 mb-20">
-        <p className="text-black font-inter font-semibold text-center text-3xl xl:text-4xl  2xl:text-5xl">
+        <p className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
-          <span className="line-through decoration-2 decoration-red-500">
+          <span className="line-through decoration-3 decoration-red-500 font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
           expertise I thrive on turning ideas into fully functional, stunning
-          applications projects.
+          applications using React, Typescript, ThreeJs, NextJs. I combine a
+          creative perspective with JavaScript tools, leveraging my experience
+          in application and video game development to create <br />
+          <span className=" underline decoration-3 decoration-red-500">
+            Unique Web Experiences.
+          </span>
         </p>
-        {/* <TipBar hasInteration={false} initialText="hover to discover" /> */}
+        <TipBar
+          hasInteration={false}
+          initialText="Currently finishing my Bachelor of Information Systems and already got
+        my Systems Analyst tittle."
+        />
       </div>
 
       <div id="rightSide" className="flex flex-col items-center flex-auto ">
@@ -138,7 +153,7 @@ export default function About() {
           onMouseOver={(e) => {
             e.stopPropagation();
             setImageInfoState({
-              textContent: "I love to buy random vinyls",
+              textContent: "I love to buy vinyls",
               isHovering: true,
             });
           }}
