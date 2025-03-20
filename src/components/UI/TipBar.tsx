@@ -3,17 +3,19 @@ import React, { useEffect, useRef, useState } from "react";
 
 import { useCameraStore } from "@/utils/Utils";
 
-type Props = {};
+type Props = {
+  initialText: string;
+  hasInteration: boolean;
+};
 
-export default function TipBar({}: Props) {
+export default function TipBar({ initialText, hasInteration }: Props) {
   const { cameraZoomed } = useCameraStore();
 
-  const [tipText, setTipText] = useState<string>("Hover on box to zoom");
+  const [tipText, setTipText] = useState<string>(initialText);
 
   useEffect(() => {
-    setTipText(
-      cameraZoomed ? "Click outside to zoom out" : "Hover on box to zoom"
-    );
+    if (!hasInteration) return;
+    setTipText(cameraZoomed ? "Click outside to zoom out" : initialText);
   }, [cameraZoomed]);
 
   return (
