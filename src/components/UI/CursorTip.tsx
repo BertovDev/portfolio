@@ -43,7 +43,7 @@ export default function CursorTip({ isHovering, textContent }: Props) {
         opacity: isHovering ? 1 : 0,
         transition: "opacity 1s",
       }}
-      className="text-2xl  pointer-events-none text-black  absolute"
+      className="text-2xl pointer-events-none text-black font-medium  absolute"
     >
       {textContent}
     </div>
