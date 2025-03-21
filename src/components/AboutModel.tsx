@@ -30,9 +30,18 @@ export function AboutModel() {
       position={[-0.02, 0.08, 0]}
       rotation={[-0.51, -0.26, 0]}
       scale={0.7}
-      onPointerOver={() => setHover(true)}
-      onPointerLeave={() => setHover(false)}
-      onClick={() => setSectionClicked("About", true)}
+      onPointerOver={(e) => {
+        e.stopPropagation();
+        setHover(true);
+      }}
+      onPointerLeave={(e) => {
+        e.stopPropagation();
+        setHover(false);
+      }}
+      onClick={(event) => {
+        event.stopPropagation();
+        setSectionClicked("About", true);
+      }}
     >
       <mesh
         geometry={nodes.tmpsj0p995tply001.geometry}
