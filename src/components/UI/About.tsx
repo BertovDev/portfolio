@@ -119,7 +119,7 @@ export default function About() {
         />
       </div>
       <div className="flex-none w-2/4 mb-20 ">
-        <p className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
+        <div className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-3 decoration-[#006be4] font-mono">
             Creative
@@ -132,7 +132,7 @@ export default function About() {
           <span className=" underline decoration-3 decoration-red-500">
             Unique Web Experiences.
           </span>
-        </p>
+        </div>
 
         <TipBar
           hasAnimation={true}
