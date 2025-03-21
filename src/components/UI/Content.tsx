@@ -28,9 +28,7 @@ export default function Content() {
 
     return (
       <div>
-        <Section>
-          <SectionToRender />
-        </Section>
+        <Section>{isSectionClicked.isClicked && <SectionToRender />}</Section>
       </div>
     );
   }

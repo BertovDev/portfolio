@@ -1,4 +1,5 @@
 import Scene from "@/components/Scene";
+import About from "@/components/UI/About";
 import Aside from "@/components/UI/Aside";
 import AsideInfo from "@/components/UI/AsideInfo";
 import Content from "@/components/UI/Content";
@@ -9,7 +10,12 @@ export default function Home() {
     <main className="absolute h-full w-full">
       <AsideInfo />
       <Scene />
-      <TipBar hasInteration={true} initialText="Hover on box to zoom" />
+      <TipBar
+        hasAnimation={false}
+        hasInteration={true}
+        initialText="Hover on box to zoom"
+        styleProps=" text-black"
+      />
       <Aside />
       <Content />
     </main>

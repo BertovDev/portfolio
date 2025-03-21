@@ -1,11 +1,4 @@
-import useMousePosition from "@/utils/mousePosition";
-import gsap from "gsap";
-import React, { useEffect, useRef, useState } from "react";
-
-type MousePosition = {
-  x: number;
-  y: number;
-};
+import React, { useCallback, useEffect, useRef } from "react";
 
 type Props = {
   isHovering: boolean;
@@ -14,36 +7,29 @@ type Props = {
 
 export default function CursorTip({ isHovering, textContent }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const positionRef = useRef({ x: 0, y: 0 });
 
-  const [mousePosition, setMousePosition] = useState<MousePosition>({
-    x: 0,
-    y: 0,
-  });
+  const updateMousePosition = useCallback((ev: MouseEvent) => {
+    if (!ref.current) return;
 
-  useEffect(() => {
-    const updateMousePosition = (ev: MouseEvent) => {
-      setMousePosition({ x: ev.clientX, y: ev.clientY });
-    };
-
-    window.addEventListener("mousemove", updateMousePosition);
-
-    return () => {
-      window.removeEventListener("mousemove", updateMousePosition);
-    };
+    requestAnimationFrame(() => {
+      positionRef.current = { x: ev.clientX, y: ev.clientY };
+      ref.current!.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
+    });
   }, []);
 
-  //   if (!isHovering) return null;
+  useEffect(() => {
+    window.addEventListener("mousemove", updateMousePosition, {
+      passive: true,
+    });
+    return () => window.removeEventListener("mousemove", updateMousePosition);
+  }, [isHovering, updateMousePosition]);
 
   return (
     <div
       ref={ref}
-      style={{
-        left: mousePosition.x,
-        top: mousePosition.y,
-        opacity: isHovering ? 1 : 0,
-        transition: "opacity 1s",
-      }}
-      className="text-2xl  pointer-events-none text-black  absolute"
+      className="text-2xl pointer-events-none text-black font-medium fixed top-0 left-0 transform -translate-x-1/2 -translate-y-3/3 transition-opacity duration-1000"
+      style={{ opacity: isHovering ? 1 : 0 }}
     >
       {textContent}
     </div>
