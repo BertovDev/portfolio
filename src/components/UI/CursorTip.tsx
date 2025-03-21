@@ -1,17 +1,4 @@
-import useMousePosition from "@/utils/mousePosition";
-import gsap from "gsap";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-
-type MousePosition = {
-  x: number;
-  y: number;
-};
+import React, { useCallback, useEffect, useRef } from "react";
 
 type Props = {
   isHovering: boolean;
