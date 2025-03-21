@@ -53,9 +53,12 @@ export default function About() {
           className="relative cursor-pointer md:w-40 lg:w-40 xl:w-60 xl:right-5 2xl:right-15"
           onMouseOver={(e) => {
             e.stopPropagation();
-            gsap.to(turnstileImage.current, {
+            const anim = gsap.to(turnstileImage.current, {
               opacity: 1,
               duration: 0.5,
+              onComplete: () => {
+                anim.kill();
+              },
             });
             setImageInfoState({
               textContent: "I love hardcore music, specially turnstile",
@@ -64,9 +67,12 @@ export default function About() {
           }}
           onMouseOut={(e) => {
             e.stopPropagation();
-            gsap.to(turnstileImage.current, {
+            const anim = gsap.to(turnstileImage.current, {
               opacity: 0,
               duration: 0.5,
+              onComplete: () => {
+                anim.kill();
+              },
             });
             setImageInfoState({
               textContent: "<3",
