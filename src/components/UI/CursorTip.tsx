@@ -28,7 +28,7 @@ export default function CursorTip({ isHovering, textContent }: Props) {
   return (
     <div
       ref={ref}
-      className="text-2xl pointer-events-none text-black font-medium fixed top-0 left-0 transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-1000"
+      className="text-2xl pointer-events-none text-black font-medium fixed top-0 left-0 transform -translate-x-1/2 -translate-y-3/3 transition-opacity duration-1000"
       style={{ opacity: isHovering ? 1 : 0 }}
     >
       {textContent}
