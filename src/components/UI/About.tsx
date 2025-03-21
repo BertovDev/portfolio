@@ -156,11 +156,27 @@ export default function About() {
           <img ref={flowerRef} className="" src="/images/Flower.svg" alt="" />
         </div>
 
-        <img
-          className="relative cursor-pointer top-20 xl:left-0 2xl:left-25"
-          src="/images/pokerface2.svg"
-          alt=""
-        />
+        <a
+          className="relative cursor-pointer top-0 xl:left-0 2xl:left-25"
+          href="/BautistaBertoResume.pdf"
+          target="_blank"
+          onMouseOver={(e) => {
+            e.stopPropagation();
+            setImageInfoState({
+              textContent: "Click",
+              isHovering: true,
+            });
+          }}
+          onMouseOut={(e) => {
+            e.stopPropagation();
+            setImageInfoState({
+              textContent: "D:",
+              isHovering: false,
+            });
+          }}
+        >
+          <img className="" src="/images/Resume.svg" alt="" />
+        </a>
 
         <div
           className="relative md:top-30 lg:top-30 xl:top-30 2xl:top-25 md:right-40"
