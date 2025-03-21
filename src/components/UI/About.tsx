@@ -33,6 +33,12 @@ export default function About() {
       repeat: 1,
       ease: "power1.inOut",
     });
+
+    gsap.to(flowerRef.current, {
+      rotation: 360,
+      duration: 1.2,
+      ease: "power1.inOut",
+    });
   }, []);
 
   return (
@@ -106,10 +112,10 @@ export default function About() {
           }}
         />
       </div>
-      <div className="flex-none w-2/4 mb-20">
+      <div className="flex-none w-2/4 mb-20 ">
         <p className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
-          <span className="line-through decoration-3 decoration-red-500 font-mono">
+          <span className="line-through decoration-3 decoration-[#006be4] font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
@@ -121,10 +127,12 @@ export default function About() {
             Unique Web Experiences.
           </span>
         </p>
+
         <TipBar
+          hasAnimation={true}
           hasInteration={false}
-          initialText="Currently finishing my Bachelor of Information Systems and already got
-        my Systems Analyst tittle."
+          initialText="Finishing my Bachelor of Information Systems studies."
+          styleProps="text-[#006be4]"
         />
       </div>
 
@@ -134,7 +142,7 @@ export default function About() {
           onMouseEnter={(e) => {
             e.stopPropagation();
             gsap.to(flowerRef.current, {
-              rotation: 360,
+              rotation: 0,
               duration: 1,
             });
           }}
