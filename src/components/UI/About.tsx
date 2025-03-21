@@ -163,7 +163,7 @@ export default function About() {
           onMouseOver={(e) => {
             e.stopPropagation();
             setImageInfoState({
-              textContent: "Click",
+              textContent: "Click to open :D",
               isHovering: true,
             });
           }}
