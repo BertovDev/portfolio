@@ -14,3 +14,15 @@ body {
   overflow: hidden;
   /* font-family: Arial, Helvetica, sans-serif; */
 }
+
+.work-title-li {
+  @apply [writing-mode:sideways-lr] h-full text-end  text-5xl  hover:cursor-pointer;
+}
+
+.work-title-vertical-line {
+  @apply border-r-2 h-full block opacity-100  my-2;
+}
+
+.work-title-text {
+  @apply opacity-100 px-4;
+}
