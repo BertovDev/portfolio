@@ -183,7 +183,7 @@ export default function About() {
           onMouseOver={(e) => {
             e.stopPropagation();
             setImageInfoState({
-              textContent: "I love to buy vinyls",
+              textContent: "I like to buy vinyls",
               isHovering: true,
             });
           }}
