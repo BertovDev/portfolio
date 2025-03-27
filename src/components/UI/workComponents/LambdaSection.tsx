@@ -27,7 +27,6 @@ export default function LambdaSection({}: Props) {
         duration: 1,
         stagger: 0.2,
         ease: "power2.out",
-        delay: 0.3,
       });
 
       // Simultaneous animation for section titles
