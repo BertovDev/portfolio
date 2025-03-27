@@ -11,6 +11,7 @@ export default function LambdaSection({}: Props) {
       // Initial state
       gsap.set(".animate-section", { opacity: 0, y: 0 });
       gsap.set(".tech-stack-img", { opacity: 0, scale: 0.5 });
+      gsap.set(".section-title", { opacity: 0, y: 20 });
 
       // Main container animation
       gsap.to(ref.current, {
@@ -29,6 +30,15 @@ export default function LambdaSection({}: Props) {
         delay: 0.3,
       });
 
+      // Simultaneous animation for section titles
+      gsap.to(".section-title", {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out",
+        delay: 0.6,
+      });
+
       // Staggered animation for stack and about sections
       gsap.to(".animate-info", {
         opacity: 1,
@@ -36,7 +46,7 @@ export default function LambdaSection({}: Props) {
         duration: 1,
         stagger: 0.3,
         ease: "power2.out",
-        delay: 0.6,
+        delay: 0.5,
       });
 
       // Staggered animation for technology stack images
@@ -70,7 +80,9 @@ export default function LambdaSection({}: Props) {
     >
       <div id="info" className="flex flex-row gap-x-10 order-2">
         <div className="flex flex-col gap-y-7 animate-section animate-info">
-          <h2 className="font-inter font-semibold underline text-3xl">Stack</h2>
+          <h2 className="font-inter font-semibold underline text-3xl section-title">
+            Stack
+          </h2>
           <div className="flex flex-col h-full justify-between mb-2">
             <img src="/images/work/Ts.svg" alt="" className="tech-stack-img" />
             <img
@@ -93,7 +105,7 @@ export default function LambdaSection({}: Props) {
         </div>
         <div className="flex flex-col gap-y-7 animate-section animate-info">
           <div className="flex flex-col gap-y-4">
-            <h2 className="font-inter font-semibold underline text-3xl">
+            <h2 className="font-inter font-semibold underline text-3xl section-title">
               About
             </h2>
             <p className="font-light font-inter text-2xl">
@@ -146,7 +158,7 @@ export default function LambdaSection({}: Props) {
             LambdaClass
           </h3>
           <h4 className="text-red-500 text-3xl font-semibold">
-            Frontend and Game developer
+            Frontend and Game Developer
           </h4>
         </div>
         <span className="text-3xl animate-section animate-name-date">
