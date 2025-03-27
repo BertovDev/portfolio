@@ -46,7 +46,7 @@ export default function About() {
       <div id="leftSide" className="flex flex-col items-center flex-auto ">
         <img
           className="relative cursor-pointer md:bottom-40 lg:bottom-35 xl:bottom-25 md:left-15 lg:left-25 w-60"
-          src="/images/SmilingFace.svg"
+          src="/images/AboutSection/SmilingFace.svg"
           alt=""
         />
         <div
@@ -81,7 +81,11 @@ export default function About() {
           }}
         >
           <div className="relative">
-            <img className="w-full" src="/images/Heart.svg" alt="" />
+            <img
+              className="w-full"
+              src="/images/AboutSection/Heart.svg"
+              alt=""
+            />
             <a
               href="https://www.youtube.com/watch?v=gCR5jwLVf0E&t=1s"
               target="_blank"
@@ -90,7 +94,7 @@ export default function About() {
               <img
                 ref={turnstileImage}
                 className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
-                src="/images/TLC.svg"
+                src="/images/AboutSection/TLC.svg"
                 alt="TLC"
               />
             </a>
@@ -100,7 +104,7 @@ export default function About() {
         <img
           ref={sapporoRef}
           className="relative cursor-pointer left-25 top-20 w-38"
-          src="/images/sapporo.svg"
+          src="/images/AboutSection/sapporo.svg"
           alt=""
           onMouseOver={(e) => {
             e.stopPropagation();
@@ -153,7 +157,12 @@ export default function About() {
             });
           }}
         >
-          <img ref={flowerRef} className="" src="/images/Flower.svg" alt="" />
+          <img
+            ref={flowerRef}
+            className=""
+            src="/images/AboutSection/Flower.svg"
+            alt=""
+          />
         </div>
 
         <a
@@ -175,7 +184,7 @@ export default function About() {
             });
           }}
         >
-          <img className="" src="/images/Resume.svg" alt="" />
+          <img className="" src="/images/AboutSection/Resume.svg" alt="" />
         </a>
 
         <div
@@ -197,7 +206,7 @@ export default function About() {
         >
           <img
             className=" cursor-pointer "
-            src="/images/turntableImage.svg"
+            src="/images/AboutSection/turntableImage.svg"
             alt=""
           />
         </div>
