@@ -2,12 +2,14 @@
 import { useSectionStore } from "@/utils/Utils";
 import React, { useState } from "react";
 import LambdaSection from "./workComponents/LambdaSection";
+import SchoolarshipSection from "./workComponents/SchoolarShipSection";
 
 export default function Work() {
+  const [next, setNext] = useState<string>("???? Be the next in here :D");
   const [workExperience, setWorkExperience] = useState<string>("Lambda");
 
   return (
-    <div className="text-black text-5xl  h-full bg-white flex flex-row">
+    <div className="text-black text-5xl h-full bg-white flex flex-row">
       <div className="ml-2">
         <ul className=" flex flex-row items-start  text-red-500 gap-x-0.5">
           <li
@@ -48,7 +50,7 @@ export default function Work() {
               setWorkExperience("next");
             }}
           >
-            <span className="work-title-text">???? Be the next in here :D</span>
+            <span className="work-title-text">{next}</span>
             <span className="work-title-vertical-line"></span>
           </li>
         </ul>
@@ -56,11 +58,13 @@ export default function Work() {
       <div className="flex-1 flex items-center justify-center h-full ">
         <div className="flex  items-center w-3/5 h-full ">
           {workExperience === "Lambda" && <LambdaSection />}
-          {workExperience === "Scholarship" && (
-            <div className="bg-emerald-200"></div>
-          )}
+          {workExperience === "Scholarship" && <SchoolarshipSection />}
 
-          {workExperience === "next" && <div>NEEEXT</div>}
+          {workExperience === "next" && (
+            <div className="h-full w-full flex items-center justify-center">
+              <h1>Be the next</h1>
+            </div>
+          )}
         </div>
       </div>
     </div>
