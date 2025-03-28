@@ -43,7 +43,7 @@ export default function LambdaSection({}: Props) {
             Frontend and Game Developer
           </h4>
         </div>
-        <span className="text-2xl 2xl:text-2xl animate-section animate-name-date">
+        <span className="text-2xl 2xl:text-2xl animate-section animate-name-date mt-2">
           Nov 2022 - Aug 2024
         </span>
       </div>
