@@ -16,7 +16,7 @@ body {
 }
 
 .work-title-li {
-  @apply [writing-mode:sideways-lr] h-full text-end  text-5xl  hover:cursor-pointer;
+  @apply [writing-mode:sideways-lr] h-full text-end  text-2xl 2xl:text-4xl  hover:cursor-pointer;
 }
 
 .work-title-vertical-line {
