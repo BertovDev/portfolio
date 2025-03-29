@@ -72,7 +72,7 @@ export function PorfolioModel() {
             rotation={[1.231, 0.197, 0.237]}
             scale={[1, 1, 1.044]}
           >
-            {hoverCard && <Outlines thickness={1.1} color="red" />}
+            {hoverCard && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
         </group>
       </group>
@@ -89,50 +89,50 @@ export function PorfolioModel() {
             geometry={nodes.Object_10.geometry}
             material={materials.VoxMaterial_250}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_11.geometry}
             material={materials.VoxMaterial_251}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_12.geometry}
             material={materials.VoxMaterial_252}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
 
           <mesh
             geometry={nodes.Object_5.geometry}
             material={materials.VoxMaterial_225}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_6.geometry}
             material={materials.VoxMaterial_227}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_7.geometry}
             material={materials.VoxMaterial_229}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_8.geometry}
             material={materials.VoxMaterial_231}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_9.geometry}
             material={materials.VoxMaterial_249}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           {hoverShovel && (
             <Annotation
@@ -184,7 +184,7 @@ export function PorfolioModel() {
         <planeGeometry args={[0.15, 0.15]} />
         <meshStandardMaterial color={"white"} side={DoubleSide} />
         {hoverVinyl && (
-          <Outlines thickness={0.5} color="red" angle={0} scale={1.02} />
+          <Outlines thickness={0.5} color="#db0000" angle={0} scale={1.02} />
         )}
       </mesh>
     </group>

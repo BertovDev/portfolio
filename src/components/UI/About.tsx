@@ -133,7 +133,7 @@ export default function About() {
           applications using React, Typescript, ThreeJs, NextJs. I combine a
           creative perspective with JavaScript tools, leveraging my experience
           in application and video game development to create <br />
-          <span className=" underline decoration-3 decoration-red-500">
+          <span className=" underline decoration-3 decoration-custom-red">
             Unique Web Experiences.
           </span>
         </div>
