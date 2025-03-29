@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+  --color-custom-red: #db0000;
+}
+
 html {
   width: 100%;
   height: 100%;
@@ -16,7 +20,7 @@ body {
 }
 
 .work-title-li {
-  @apply [writing-mode:sideways-lr] h-full text-end  text-2xl 2xl:text-4xl  hover:cursor-pointer;
+  @apply [writing-mode:sideways-lr] h-full text-end  text-2xl 2xl:text-3xl  hover:cursor-pointer;
 }
 
 .work-title-vertical-line {
