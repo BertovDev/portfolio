@@ -9,19 +9,21 @@ import { useControls } from "leva";
 import { useCameraStore, useSectionStore } from "@/utils/Utils";
 
 import PorfolioGLTF from "@/types/model";
+import { MailModel } from "./Mail";
 import Annotation from "./Annotation";
 import { DoubleSide } from "three";
 
 export function PorfolioModel() {
   const { rota, posa } = useControls({
-    posa: [4.2, 0, -2.3],
-    rota: [0, 5.4, 0],
+    posa: [-0.02, 0.04, 0.35],
+    rota: [-0.22, 0.13, 45.52],
   });
 
   const [hover, setHover] = useState<boolean>(false);
   const [hoverShovel, setHoverShovel] = useState<boolean>(false);
   const [hoverCard, setHoverCard] = useState<boolean>(false);
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
+  const [hoverMail, setHoverMail] = useState<boolean>(false);
 
   const { setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
@@ -187,6 +189,36 @@ export function PorfolioModel() {
           <Outlines thickness={0.5} color="#db0000" angle={0} scale={1.02} />
         )}
       </mesh>
+
+      <group>
+        <MailModel
+          isHovered={hoverMail}
+          scale={0.02}
+          position={[-0.02, 0.04, 0.35]}
+          rotation={[-0.22, 0.13, 45.52]}
+          onPointerEnter={(e) => {
+            e.stopPropagation();
+            setHoverMail(true);
+          }}
+          onPointerLeave={(e) => {
+            e.stopPropagation();
+            setHoverMail(false);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSectionClicked("Contact", true);
+          }}
+        />
+        {hoverMail && (
+          <Annotation
+            scale={0.05}
+            position={[-0.017, 0.09, 0.34]}
+            rotation={[-0.29, 0.16, -0.01]}
+          >
+            <span>Contact</span>
+          </Annotation>
+        )}
+      </group>
     </group>
   );
 }

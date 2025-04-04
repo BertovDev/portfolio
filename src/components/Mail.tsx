@@ -7,13 +7,16 @@ Source: https://sketchfab.com/3d-models/low-poly-mail-letter-e6b3a25ed9234c5fa8f
 Title: low-poly-mail-letter
 */
 
-import * as THREE from "three";
-import React, { JSX } from "react";
+import React, { ComponentProps } from "react";
 import { useGLTF } from "@react-three/drei";
-import { GLTF } from "three-stdlib";
 import MailGltfResult from "@/types/model";
+import { Outlines } from "@react-three/drei";
 
-export function MailModel(props: JSX.IntrinsicElements["group"]) {
+interface MailModelProps extends ComponentProps<"group"> {
+  isHovered?: boolean;
+}
+
+export function MailModel({ isHovered = false, ...props }: MailModelProps) {
   const { nodes, materials } = useGLTF(
     "/mail.glb"
   ) as unknown as MailGltfResult;
@@ -32,7 +35,16 @@ export function MailModel(props: JSX.IntrinsicElements["group"]) {
           <mesh
             geometry={nodes["Letter_01_-_Default_0"].geometry}
             material={materials["01_-_Default"]}
-          />
+          >
+            {isHovered && (
+              <Outlines
+                thickness={0.6}
+                color="#db0000"
+                angle={0}
+                scale={1.02}
+              />
+            )}
+          </mesh>
         </group>
       </group>
     </group>
