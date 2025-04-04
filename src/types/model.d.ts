@@ -45,5 +45,17 @@ type AboutModelGLTF = GLTF & {
   };
 };
 
+type MailGltfResult = GLTF & {
+  nodes: {
+    ["Letter_02_-_Default_0"]: THREE.Mesh;
+    ["Letter_01_-_Default_0"]: THREE.Mesh;
+  };
+  materials: {
+    ["02_-_Default"]: THREE.MeshStandardMaterial;
+    ["01_-_Default"]: THREE.MeshStandardMaterial;
+  };
+};
+
 export default PorfolioGLTF;
 export default AboutModelGLTF;
+export default MailGltfResult;

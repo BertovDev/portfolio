@@ -34,7 +34,14 @@ export default function Aside() {
           >
             Projects
           </li>
-          <li className="hover:underline">Contact</li>
+          <li
+            className="hover:underline"
+            onClick={() => {
+              setSectionClicked("Contact", true);
+            }}
+          >
+            Contact
+          </li>
         </ul>
       )}
     </div>
