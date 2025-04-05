@@ -50,7 +50,7 @@ export default function ContactForm({}: Props) {
           src={"/images/Contact/Mail.svg"}
           height={50}
           width={50}
-          className="mb-3"
+          className="mb-3 hover:rotate-45 transition-all"
         />
       </div>
       <div className="h-full border-b border-gray-300 mb-3"></div>

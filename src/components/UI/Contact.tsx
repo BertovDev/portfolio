@@ -132,6 +132,7 @@ export default function Contact({}: Props) {
                     alt="X logo"
                     width={60}
                     height={60}
+                    className=" hover:-rotate-15 transition-all"
                   />
                 </a>
                 <a
@@ -143,6 +144,7 @@ export default function Contact({}: Props) {
                     alt="Linkedin logo"
                     width={60}
                     height={60}
+                    className=" hover:rotate-15 transition-all"
                   />
                 </a>
                 <a
@@ -154,6 +156,7 @@ export default function Contact({}: Props) {
                     alt="Github logo"
                     width={60}
                     height={60}
+                    className=" hover:-rotate-15 transition-all"
                   />
                 </a>
               </div>
