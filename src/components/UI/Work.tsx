@@ -11,7 +11,7 @@ export default function Work() {
   return (
     <div className="text-black text-5xl h-full bg-white flex flex-row">
       <div className="ml-2">
-        <ul className=" flex flex-row items-start  text-red-500 gap-x-0.5">
+        <ul className=" flex flex-row items-start  text-custom-red gap-x-0.5">
           <li
             className={`work-title-li ${
               workExperience === "Lambda"

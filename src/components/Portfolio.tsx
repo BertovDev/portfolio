@@ -9,19 +9,21 @@ import { useControls } from "leva";
 import { useCameraStore, useSectionStore } from "@/utils/Utils";
 
 import PorfolioGLTF from "@/types/model";
+import { MailModel } from "./Mail";
 import Annotation from "./Annotation";
 import { DoubleSide } from "three";
 
 export function PorfolioModel() {
   const { rota, posa } = useControls({
-    posa: [4.2, 0, -2.3],
-    rota: [0, 5.4, 0],
+    posa: [-0.02, 0.04, 0.35],
+    rota: [-0.22, 0.13, 45.52],
   });
 
   const [hover, setHover] = useState<boolean>(false);
   const [hoverShovel, setHoverShovel] = useState<boolean>(false);
   const [hoverCard, setHoverCard] = useState<boolean>(false);
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
+  const [hoverMail, setHoverMail] = useState<boolean>(false);
 
   const { setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
@@ -72,7 +74,7 @@ export function PorfolioModel() {
             rotation={[1.231, 0.197, 0.237]}
             scale={[1, 1, 1.044]}
           >
-            {hoverCard && <Outlines thickness={1.1} color="red" />}
+            {hoverCard && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
         </group>
       </group>
@@ -89,50 +91,50 @@ export function PorfolioModel() {
             geometry={nodes.Object_10.geometry}
             material={materials.VoxMaterial_250}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_11.geometry}
             material={materials.VoxMaterial_251}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_12.geometry}
             material={materials.VoxMaterial_252}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
 
           <mesh
             geometry={nodes.Object_5.geometry}
             material={materials.VoxMaterial_225}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_6.geometry}
             material={materials.VoxMaterial_227}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_7.geometry}
             material={materials.VoxMaterial_229}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_8.geometry}
             material={materials.VoxMaterial_231}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           <mesh
             geometry={nodes.Object_9.geometry}
             material={materials.VoxMaterial_249}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="red" />}
+            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
           </mesh>
           {hoverShovel && (
             <Annotation
@@ -184,9 +186,39 @@ export function PorfolioModel() {
         <planeGeometry args={[0.15, 0.15]} />
         <meshStandardMaterial color={"white"} side={DoubleSide} />
         {hoverVinyl && (
-          <Outlines thickness={0.5} color="red" angle={0} scale={1.02} />
+          <Outlines thickness={0.5} color="#db0000" angle={0} scale={1.02} />
         )}
       </mesh>
+
+      <group>
+        <MailModel
+          isHovered={hoverMail}
+          scale={0.02}
+          position={[-0.02, 0.04, 0.35]}
+          rotation={[-0.22, 0.13, 45.52]}
+          onPointerEnter={(e) => {
+            e.stopPropagation();
+            setHoverMail(true);
+          }}
+          onPointerLeave={(e) => {
+            e.stopPropagation();
+            setHoverMail(false);
+          }}
+          onClick={(e) => {
+            e.stopPropagation();
+            setSectionClicked("Contact", true);
+          }}
+        />
+        {hoverMail && (
+          <Annotation
+            scale={0.05}
+            position={[-0.017, 0.09, 0.34]}
+            rotation={[-0.29, 0.16, -0.01]}
+          >
+            <span>Contact</span>
+          </Annotation>
+        )}
+      </group>
     </group>
   );
 }

@@ -125,7 +125,7 @@ export default function About() {
       <div className="flex-none w-2/4 mb-20 ">
         <div className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
-          <span className="line-through decoration-3 decoration-[#006be4] font-mono">
+          <span className="line-through decoration-3 decoration-custom-blue font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
@@ -133,7 +133,7 @@ export default function About() {
           applications using React, Typescript, ThreeJs, NextJs. I combine a
           creative perspective with JavaScript tools, leveraging my experience
           in application and video game development to create <br />
-          <span className=" underline decoration-3 decoration-red-500">
+          <span className=" underline decoration-3 decoration-custom-red">
             Unique Web Experiences.
           </span>
         </div>

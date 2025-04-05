@@ -44,7 +44,7 @@ export default function SchoolarshipSection({}: Props) {
               />
             </div>
           </a>
-          <h4 className="text-red-500 opacity-80 font-inter text-xl 2xl:text-2xl font-semibold">
+          <h4 className="text-custom-red opacity-80 font-inter text-xl 2xl:text-2xl font-semibold">
             React Frontend Developer
           </h4>
         </div>

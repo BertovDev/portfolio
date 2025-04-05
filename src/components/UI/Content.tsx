@@ -6,6 +6,7 @@ import { useSectionStore } from "@/utils/Utils";
 import About from "./About";
 import Work from "./Work";
 import Projects from "./Projects";
+import Contact from "./Contact";
 
 type SectionComponent = Record<string, React.FC>;
 
@@ -13,6 +14,7 @@ const SectionComponents: SectionComponent = {
   About,
   Work,
   Projects,
+  Contact,
 };
 
 export default function Content() {
