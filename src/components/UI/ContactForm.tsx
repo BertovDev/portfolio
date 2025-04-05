@@ -41,71 +41,53 @@ export default function ContactForm({}: Props) {
   };
 
   return (
-    <div className=" w-1/2 h-2/3 flex flex-col items-center justify-start p-8 border rounded-md border-custom-red">
-      <h1 className="text-2xl font-bold mb-6 font-inter">Contact me</h1>
+    <div className=" w-1/2 h-2/3 flex flex-col items-center justify-start p-8 d">
       <form
         onSubmit={handleSubmit(onSubmit)}
         id="contactForm"
         className="w-full space-y-4"
       >
+        <div className="text-lg  font-medium mb-5">
+          <span>To: </span>
+          <span className="">bertoBautista03@gmail.com</span>
+        </div>
         <div className="flex flex-col">
           <label htmlFor="name" className="text-sm font-medium mb-1">
-            Name *
+            Your Name *
           </label>
           <input
             type="text"
             id="name"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+            className="p-2  border-gray-300 border-b focus:outline-none focus:ring-0 focus:ring-black "
             {...register("name", { required: true })}
           />
         </div>
         <div className="flex flex-col">
           <label htmlFor="email" className="text-sm font-medium mb-1">
-            Email *
+            Your Email *
           </label>
           <input
             type="email"
             id="email"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+            className="p-2 border-b border-gray-300  focus:outline-none focus:ring-0 focus:ring-black "
             {...register("email", { required: true })}
           />
         </div>
-        <div className="flex flex-col">
-          <label htmlFor="email" className="text-sm font-medium mb-1">
-            Company (Optional)
-          </label>
-          <input
-            type="company"
-            id="company"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
-            {...register("company", { required: false })}
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="subject" className="text-sm font-medium mb-1">
-            Subject *
-          </label>
-          <input
-            type="text"
-            id="subject"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
-            {...register("subject", { required: true })}
-          />
-        </div>
+
         <div className="flex flex-col">
           <label htmlFor="body" className="text-sm font-medium mb-1">
-            Message *
+            Your Message *
           </label>
           <textarea
             id="body"
             rows={5}
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
+            className="p-5 border rounded-md border-gray-300  focus:outline-none focus:ring-0 focus:ring-black "
             {...register("body", { required: true })}
           ></textarea>
         </div>
         <button
           type="submit"
-          className="w-full border border-custom-red text-black  py-2 rounded-md  transition-colors cursor-pointer"
+          className="w-full border rounded-md border-custom-red text-black  py-2   transition-colors cursor-pointer"
         >
           Send Message
         </button>
