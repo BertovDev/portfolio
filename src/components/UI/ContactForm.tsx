@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -41,7 +42,18 @@ export default function ContactForm({}: Props) {
   };
 
   return (
-    <div className=" w-1/2 h-2/3 flex flex-col items-center justify-start p-8 d">
+    <div className=" w-1/2 h-2/3 flex flex-col  justify-start p-8">
+      <div className="flex flex-row items-center gap-x-5">
+        <h1 className="text-3xl font-medium mb-3">So contact me maybe</h1>
+        <Image
+          alt="mail"
+          src={"/images/Contact/Mail.svg"}
+          height={50}
+          width={50}
+          className="mb-3"
+        />
+      </div>
+      <div className="h-full border-b border-gray-300 mb-3"></div>
       <form
         onSubmit={handleSubmit(onSubmit)}
         id="contactForm"
@@ -75,7 +87,7 @@ export default function ContactForm({}: Props) {
         </div>
 
         <div className="flex flex-col">
-          <label htmlFor="body" className="text-sm font-medium mb-1">
+          <label htmlFor="body" className="text-sm font-medium mb-3">
             Your Message *
           </label>
           <textarea
