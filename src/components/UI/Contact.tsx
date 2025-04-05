@@ -11,19 +11,20 @@ import * as THREE from "three";
 import gsap from "gsap";
 import ContactForm from "./ContactForm";
 import { Perf } from "r3f-perf";
+import Image from "next/image";
 
 type Props = {};
 
 const COUNT: number = 30;
 
 export default function Contact({}: Props) {
-  const ref = useRef<HTMLDivElement>(null);
+  const divSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    gsap.to(ref.current, {
+    gsap.to(divSectionRef.current, {
       opacity: 1,
       zIndex: 90, // ending value
-      delay: 1.9,
+      delay: 1.2,
       duration: 0.6, // short duration since it's a discrete change
       ease: "none", // no easing for z-index
     });
@@ -83,10 +84,45 @@ export default function Contact({}: Props) {
         </Suspense>
       </Canvas>
 
-      <div ref={ref} className="-z-100 opacity-0 absolute w-full h-full">
+      <div
+        ref={divSectionRef}
+        className="-z-100 opacity-0 absolute w-full h-full pointer-events-auto"
+      >
         <div className="h-full  w-full flex justify-center items-center">
-          <div className="bg-white w-1/2 h-2/3 flex items-start justify-center">
+          <div className=" w-1/2 flex flex-col items-center justify-center ">
             <ContactForm />
+            <div className="flex flex-row items-center justify-between gap-x-10 mt-10">
+              <a href="https://x.com/tongenjs" target="_blank">
+                <Image
+                  src="/images/Contact/Xlink.svg"
+                  alt="X logo"
+                  width={60}
+                  height={60}
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/bautista-berto/"
+                target="_blank"
+              >
+                <Image
+                  src="/images/Contact/Linkd.svg"
+                  alt="Linkedin logo"
+                  width={60}
+                  height={60}
+                />
+              </a>
+              <a
+                href="https://www.linkedin.com/in/bautista-berto/"
+                target="_blank"
+              >
+                <Image
+                  src="/images/Contact/Github.svg"
+                  alt="Github logo"
+                  width={60}
+                  height={60}
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
