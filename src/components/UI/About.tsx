@@ -125,7 +125,7 @@ export default function About() {
       <div className="flex-none w-2/4 mb-20 ">
         <div className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
-          <span className="line-through decoration-3 decoration-[#006be4] font-mono">
+          <span className="line-through decoration-3 decoration-custom-blue font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of

@@ -41,8 +41,8 @@ export default function ContactForm({}: Props) {
   };
 
   return (
-    <div className=" w-1/2 h-2/3 flex flex-col items-center justify-start p-8">
-      <h1 className="text-2xl font-bold mb-6">Contact me</h1>
+    <div className=" w-1/2 h-2/3 flex flex-col items-center justify-start p-8 border rounded-md border-custom-red">
+      <h1 className="text-2xl font-bold mb-6 font-inter">Contact me</h1>
       <form
         onSubmit={handleSubmit(onSubmit)}
         id="contactForm"
@@ -55,7 +55,7 @@ export default function ContactForm({}: Props) {
           <input
             type="text"
             id="name"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
             {...register("name", { required: true })}
           />
         </div>
@@ -66,7 +66,7 @@ export default function ContactForm({}: Props) {
           <input
             type="email"
             id="email"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
             {...register("email", { required: true })}
           />
         </div>
@@ -77,7 +77,7 @@ export default function ContactForm({}: Props) {
           <input
             type="company"
             id="company"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
             {...register("company", { required: false })}
           />
         </div>
@@ -88,7 +88,7 @@ export default function ContactForm({}: Props) {
           <input
             type="text"
             id="subject"
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
             {...register("subject", { required: true })}
           />
         </div>
@@ -99,13 +99,13 @@ export default function ContactForm({}: Props) {
           <textarea
             id="body"
             rows={5}
-            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-custom-blue"
             {...register("body", { required: true })}
           ></textarea>
         </div>
         <button
           type="submit"
-          className="w-full bg-emerald-600 text-white py-2 rounded-md hover:bg-emerald-700 transition-colors cursor-pointer"
+          className="w-full border border-custom-red text-black  py-2 rounded-md  transition-colors cursor-pointer"
         >
           Send Message
         </button>
