@@ -39,7 +39,7 @@ export default function LambdaSection({}: Props) {
               />
             </div>
           </a>
-          <h4 className="text-red-500 opacity-80 font-inter text-xl 2xl:text-2xl font-semibold">
+          <h4 className="text-custom-red opacity-80 font-inter text-xl 2xl:text-2xl font-semibold">
             Frontend and Game Developer
           </h4>
         </div>

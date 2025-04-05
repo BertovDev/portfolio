@@ -10,7 +10,7 @@ interface AnnotationProps extends Omit<HtmlProps, "children"> {
 export default function Annotation({ children, ...props }: AnnotationProps) {
   return (
     <Html {...props} transform occlude="raycast">
-      <div className="font-inter font-bold text-red-500  text-xs">
+      <div className="font-inter font-bold text-custom-red  text-xs">
         {children}
       </div>
     </Html>

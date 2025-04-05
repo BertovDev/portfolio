@@ -39,7 +39,7 @@ const Section: React.FC<SectionProps> = ({ children }) => {
       {children}
 
       <button
-        className="absolute top-5 right-5 text-3xl text-black font-inter font-semibold text-center  hover:underline hover:cursor-pointer"
+        className="z-100 absolute top-5 right-5 text-3xl text-black font-inter font-semibold text-center  hover:underline hover:cursor-pointer"
         onClick={() => {
           if (ref.current) {
             gsap.to(ref.current, {
