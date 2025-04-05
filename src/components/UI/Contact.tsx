@@ -24,10 +24,11 @@ export default function Contact({}: Props) {
   useEffect(() => {
     tl.to(".contact-p", {
       opacity: 0,
-      duration: 0.4,
-      delay: 1.4,
-      display: "none",
+      duration: 0.2,
+      delay: 1.2,
       zIndex: 0,
+      stagger: 0.2,
+      y: -100,
     });
 
     tl.to("#mainContact", {
@@ -103,9 +104,21 @@ export default function Contact({}: Props) {
       >
         <div className="h-full  w-full flex justify-center items-center">
           <div className=" w-1/2 flex flex-col items-center justify-center ">
-            <p className="contact-p opacity-100 absolute w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
+            {/* <p className="contact-p opacity-100 absolute w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
               I will be really glad of hearing about you!
-            </p>
+            </p> */}
+
+            <div className="absolute w-2/3 text-center ">
+              <span className="contact-p opacity-100  w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
+                I will be {""} <br />
+              </span>
+              <span className="contact-p opacity-100  w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
+                really glad of {""} <br />
+              </span>
+              <span className="contact-p opacity-100  w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
+                hearing about you!
+              </span>
+            </div>
             <div
               className="w-full flex flex-col  items-center justify-center  h-full -z-100 opacity-0"
               ref={divSectionRef}
