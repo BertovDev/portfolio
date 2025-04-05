@@ -7,10 +7,8 @@ import {
 } from "@react-three/rapier";
 import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { MailModel } from "../Mail";
-import * as THREE from "three";
 import gsap from "gsap";
 import ContactForm from "./ContactForm";
-import { Perf } from "r3f-perf";
 import Image from "next/image";
 
 type Props = {};
@@ -147,10 +145,7 @@ export default function Contact({}: Props) {
                     className=" hover:rotate-15 transition-all"
                   />
                 </a>
-                <a
-                  href="https://www.linkedin.com/in/bautista-berto/"
-                  target="_blank"
-                >
+                <a href="https://github.com/BertovDev" target="_blank">
                   <Image
                     src="/images/Contact/Github.svg"
                     alt="Github logo"

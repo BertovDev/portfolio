@@ -7,9 +7,9 @@ export async function POST(req: Request) {
   try {
     const bodyRes = await req.json();
     console.log(bodyRes);
-    const { name, email, subject, company, body } = bodyRes;
+    const { name, email, body } = bodyRes;
 
-    if (!name || !subject || !body || !email) {
+    if (!name || !body || !email) {
       return new Response(
         JSON.stringify({ error: "Required fields are missing" }),
         { status: 400 }
@@ -19,8 +19,8 @@ export async function POST(req: Request) {
     const { data, error } = await resend.emails.send({
       from: "Acme <onboarding@resend.dev>",
       to: ["bautiberto@gmail.com"],
-      subject: subject,
-      react: EmailTemplate({ name, email, company, subject, body }),
+      subject: "Conact email",
+      react: EmailTemplate({ name, email, body }),
     });
 
     if (error) {

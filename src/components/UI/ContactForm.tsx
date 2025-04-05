@@ -8,8 +8,6 @@ type Props = {};
 type Inputs = {
   name: string;
   email: string;
-  subject: string;
-  company: string;
   body: string;
 };
 
@@ -93,7 +91,7 @@ export default function ContactForm({}: Props) {
           <textarea
             id="body"
             rows={5}
-            className="p-5 border rounded-md border-gray-300  focus:outline-none focus:ring-0 focus:ring-black "
+            className="p-2 border rounded-md border-gray-300  focus:outline-none focus:ring-0 focus:ring-black "
             {...register("body", { required: true })}
           ></textarea>
         </div>
