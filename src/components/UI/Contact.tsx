@@ -19,12 +19,25 @@ const COUNT: number = 30;
 
 export default function Contact({}: Props) {
   const divSectionRef = useRef<HTMLDivElement>(null);
+  const tl = gsap.timeline();
 
   useEffect(() => {
+    tl.to(".contact-p", {
+      opacity: 0,
+      duration: 0.4,
+      delay: 1.4,
+      display: "none",
+      zIndex: 0,
+    });
+
+    tl.to("#mainContact", {
+      zIndex: 100,
+    });
+
     gsap.to(divSectionRef.current, {
       opacity: 1,
       zIndex: 90, // ending value
-      delay: 1.2,
+      delay: 1.5,
       duration: 0.6, // short duration since it's a discrete change
       ease: "none", // no easing for z-index
     });
@@ -85,43 +98,52 @@ export default function Contact({}: Props) {
       </Canvas>
 
       <div
-        ref={divSectionRef}
-        className="-z-100 opacity-0 absolute w-full h-full pointer-events-auto"
+        id="mainContact"
+        className="-z-100 opacity-100 absolute w-full h-full pointer-events-auto"
       >
         <div className="h-full  w-full flex justify-center items-center">
           <div className=" w-1/2 flex flex-col items-center justify-center ">
-            <ContactForm />
-            <div className="flex flex-row items-center justify-between gap-x-10 mt-10">
-              <a href="https://x.com/tongenjs" target="_blank">
-                <Image
-                  src="/images/Contact/Xlink.svg"
-                  alt="X logo"
-                  width={60}
-                  height={60}
-                />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/bautista-berto/"
-                target="_blank"
-              >
-                <Image
-                  src="/images/Contact/Linkd.svg"
-                  alt="Linkedin logo"
-                  width={60}
-                  height={60}
-                />
-              </a>
-              <a
-                href="https://www.linkedin.com/in/bautista-berto/"
-                target="_blank"
-              >
-                <Image
-                  src="/images/Contact/Github.svg"
-                  alt="Github logo"
-                  width={60}
-                  height={60}
-                />
-              </a>
+            <p className="contact-p opacity-100 absolute w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
+              I will be really glad of hearing about you!
+            </p>
+            <div
+              className="w-full flex flex-col  items-center justify-center  h-full -z-100 opacity-0"
+              ref={divSectionRef}
+            >
+              <ContactForm />
+
+              <div className="flex flex-row items-center justify-between gap-x-10 mt-10">
+                <a href="https://x.com/tongenjs" target="_blank">
+                  <Image
+                    src="/images/Contact/Xlink.svg"
+                    alt="X logo"
+                    width={60}
+                    height={60}
+                  />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/bautista-berto/"
+                  target="_blank"
+                >
+                  <Image
+                    src="/images/Contact/Linkd.svg"
+                    alt="Linkedin logo"
+                    width={60}
+                    height={60}
+                  />
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/bautista-berto/"
+                  target="_blank"
+                >
+                  <Image
+                    src="/images/Contact/Github.svg"
+                    alt="Github logo"
+                    width={60}
+                    height={60}
+                  />
+                </a>
+              </div>
             </div>
           </div>
         </div>
