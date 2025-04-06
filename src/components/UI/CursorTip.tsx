@@ -13,8 +13,10 @@ export default function CursorTip({ isHovering, textContent }: Props) {
     if (!ref.current) return;
 
     requestAnimationFrame(() => {
-      positionRef.current = { x: ev.clientX, y: ev.clientY };
-      ref.current!.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
+      if (ref.current) {
+        positionRef.current = { x: ev.clientX, y: ev.clientY };
+        ref.current.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
+      }
     });
   }, []);
 

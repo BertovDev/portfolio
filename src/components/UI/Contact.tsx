@@ -23,7 +23,7 @@ export default function Contact({}: Props) {
     tl.to(".contact-p", {
       opacity: 0,
       duration: 0.2,
-      delay: 1.2,
+      delay: 0.9,
       zIndex: 0,
       stagger: 0.2,
       y: -100,
@@ -60,8 +60,7 @@ export default function Contact({}: Props) {
   return (
     <>
       <Canvas
-        shadows
-        dpr={[1, 2]}
+        shadows={false}
         style={{
           position: "fixed",
           top: 0,
@@ -72,14 +71,9 @@ export default function Contact({}: Props) {
         }}
         className="white"
       >
-        <Suspense>
+        <Suspense fallback={null}>
           <ambientLight intensity={1} />
-          <directionalLight
-            position={[1, 2, 3]}
-            intensity={4}
-            castShadow
-            shadow-mapSize={2048}
-          />
+          <directionalLight position={[1, 2, 3]} intensity={4} />
 
           <Physics colliders="cuboid">
             {instances.map((instance, index) => (

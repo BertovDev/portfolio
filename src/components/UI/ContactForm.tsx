@@ -42,7 +42,7 @@ export default function ContactForm({}: Props) {
   return (
     <div className=" w-1/2 h-2/3 flex flex-col  justify-start p-8">
       <div className="flex flex-row items-center gap-x-5">
-        <h1 className="text-3xl font-medium mb-3">So contact me maybe</h1>
+        <h1 className="text-3xl font-medium mb-3">So contact me</h1>
         <Image
           alt="mail"
           src={"/images/Contact/Mail.svg"}
