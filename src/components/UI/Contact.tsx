@@ -60,7 +60,7 @@ export default function Contact({}: Props) {
   return (
     <>
       <Canvas
-        shadows
+        shadows={false}
         dpr={[1, 2]}
         style={{
           position: "fixed",
@@ -74,12 +74,7 @@ export default function Contact({}: Props) {
       >
         <Suspense>
           <ambientLight intensity={1} />
-          <directionalLight
-            position={[1, 2, 3]}
-            intensity={4}
-            castShadow
-            shadow-mapSize={2048}
-          />
+          <directionalLight position={[1, 2, 3]} intensity={4} />
 
           <Physics colliders="cuboid">
             {instances.map((instance, index) => (
