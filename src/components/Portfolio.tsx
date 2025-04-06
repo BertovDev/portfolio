@@ -4,7 +4,7 @@ Command: npx gltfjsx@6.5.3 public/portfolio.glb
 */
 
 import React, { useState } from "react";
-import { Outlines, useGLTF } from "@react-three/drei";
+import { Outlines, useGLTF, useTexture } from "@react-three/drei";
 import { useControls } from "leva";
 import { useCameraStore, useSectionStore } from "@/utils/Utils";
 
@@ -27,6 +27,8 @@ export function PorfolioModel() {
 
   const { setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
+
+  const texture = useTexture("/images/darkside.jpeg");
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -164,7 +166,7 @@ export function PorfolioModel() {
           onPointerLeave={() => setHoverVinyl(false)}
         >
           <planeGeometry args={[0.15, 0.15]} />
-          <meshStandardMaterial color={"black"} side={DoubleSide} />
+          <meshStandardMaterial color={"white"} side={DoubleSide} />
         </mesh>
         {hoverVinyl && (
           <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
@@ -175,7 +177,7 @@ export function PorfolioModel() {
 
       <mesh
         position={[-0.055, 0.079, 0.33]}
-        rotation={[-0.26, 3.14, 0]}
+        rotation={[-0.26, 0, 0]}
         scale={0.99}
         onPointerEnter={() => setHoverVinyl(true)}
         onPointerLeave={() => setHoverVinyl(false)}
@@ -184,9 +186,15 @@ export function PorfolioModel() {
         }}
       >
         <planeGeometry args={[0.15, 0.15]} />
-        <meshStandardMaterial color={"white"} side={DoubleSide} />
+        <meshStandardMaterial map={texture} side={DoubleSide} />
         {hoverVinyl && (
-          <Outlines thickness={0.5} color="#db0000" angle={0} scale={1.02} />
+          <Outlines
+            thickness={0.5}
+            color="#db0000"
+            angle={0}
+            rotation={[0, Math.PI, 0]}
+            scale={1.02}
+          />
         )}
       </mesh>
 
