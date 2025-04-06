@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Props = {};
@@ -18,6 +18,8 @@ export default function ContactForm({}: Props) {
     formState: { errors },
   } = useForm<Inputs>();
 
+  const [send, setSend] = useState<boolean>(false);
+
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     try {
       const res = await fetch("/api/send", {
@@ -33,6 +35,7 @@ export default function ContactForm({}: Props) {
       }
 
       const resinfo = await res.json();
+      setSend(true);
       console.log("Success:", resinfo);
     } catch (err) {
       console.error("Error:", err);
@@ -41,6 +44,11 @@ export default function ContactForm({}: Props) {
 
   return (
     <div className=" w-1/2 h-2/3 flex flex-col  justify-start p-8">
+      {send && (
+        <h1 className="text-2xl mb-5 text-center font-bold">
+          All good! Mail received!
+        </h1>
+      )}
       <div className="flex flex-row items-center gap-x-5">
         <h1 className="text-3xl font-medium mb-3">So contact me</h1>
         <Image
