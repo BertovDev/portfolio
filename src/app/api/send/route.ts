@@ -6,8 +6,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 export async function POST(req: Request) {
   try {
     const bodyRes = await req.json();
-    console.log(bodyRes);
-    const { name, email, body } = bodyRes;
+    const { name, email, body, role, company } = bodyRes;
 
     if (!name || !body || !email) {
       return new Response(
@@ -20,7 +19,7 @@ export async function POST(req: Request) {
       from: "Acme <onboarding@resend.dev>",
       to: ["bautiberto@gmail.com"],
       subject: "Conact email",
-      react: EmailTemplate({ name, email, body }),
+      react: EmailTemplate({ name, email, body, role, company }),
     });
 
     if (error) {
