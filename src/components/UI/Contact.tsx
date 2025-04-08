@@ -39,7 +39,7 @@ export default function Contact() {
       duration: 0.6, // short duration since it's a discrete change
       ease: "none", // no easing for z-index
     });
-  }, []);
+  }, [tl]);
 
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];
@@ -75,7 +75,7 @@ export default function Contact() {
           <directionalLight position={[1, 2, 3]} intensity={4} />
 
           <Physics colliders="cuboid">
-            {instances.map((instance, index) => (
+            {instances.map((instance) => (
               <RigidBody
                 key={instance.key}
                 position={instance.position as [number, number, number]}

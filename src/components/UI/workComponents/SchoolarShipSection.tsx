@@ -1,5 +1,4 @@
-import gsap from "gsap";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import CursorTip from "../CursorTip";
 import Image from "next/image";
 import StackComponent from "./StackComponent";
@@ -11,8 +10,6 @@ type ImageInfoState = {
 };
 
 export default function SchoolarshipSection() {
-  const ref = useRef<HTMLDivElement | null>(null);
-
   const [imageInfoState, setImageInfoState] = useState<ImageInfoState>({
     textContent: "",
     isHovering: false,
