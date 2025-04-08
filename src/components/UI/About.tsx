@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from "react";
 import CursorTip from "./CursorTip";
 import gsap from "gsap";
 import TipBar from "./TipBar";
+import Image from "next/image";
 
 type ImageInfoState = {
   textContent: string;
@@ -42,9 +43,11 @@ export default function About() {
   }, []);
 
   return (
-    <div className="flex items-center h-full cursor-auto">
-      <div id="leftSide" className="flex flex-col items-center flex-auto ">
-        <img
+    <div className="flex items-center h-full cursor-auto ">
+      <div id="leftSide" className="flex flex-col items-center flex-auto  ">
+        <Image
+          width={100}
+          height={100}
           className="relative cursor-pointer md:bottom-40 lg:bottom-35 xl:bottom-25 md:left-15 lg:left-25 w-60"
           src="/images/AboutSection/SmilingFace.svg"
           alt=""
@@ -81,7 +84,9 @@ export default function About() {
           }}
         >
           <div className="relative">
-            <img
+            <Image
+              width={100}
+              height={100}
               className="w-full"
               src="/images/AboutSection/Heart.svg"
               alt=""
@@ -91,7 +96,9 @@ export default function About() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              <img
+              <Image
+                width={100}
+                height={100}
                 ref={turnstileImage}
                 className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 src="/images/AboutSection/TLC.svg"
@@ -101,7 +108,9 @@ export default function About() {
           </div>
         </div>
 
-        <img
+        <Image
+          width={100}
+          height={100}
           ref={sapporoRef}
           className="relative cursor-pointer left-25 top-20 w-38"
           src="/images/AboutSection/sapporo.svg"
@@ -122,7 +131,7 @@ export default function About() {
           }}
         />
       </div>
-      <div className="flex-none w-2/4 mb-20 ">
+      <div className="flex-none  w-2/4 mb-20 pl-10">
         <div className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-3 decoration-custom-blue font-mono">
@@ -157,7 +166,9 @@ export default function About() {
             });
           }}
         >
-          <img
+          <Image
+            width={250}
+            height={250}
             ref={flowerRef}
             className=""
             src="/images/AboutSection/Flower.svg"
@@ -184,7 +195,13 @@ export default function About() {
             });
           }}
         >
-          <img className="" src="/images/AboutSection/Resume.svg" alt="" />
+          <Image
+            width={230}
+            height={220}
+            className=""
+            src="/images/AboutSection/Resume.svg"
+            alt=""
+          />
         </a>
 
         <div
@@ -204,7 +221,9 @@ export default function About() {
             });
           }}
         >
-          <img
+          <Image
+            width={300}
+            height={300}
             className=" cursor-pointer "
             src="/images/AboutSection/turntableImage.svg"
             alt=""
