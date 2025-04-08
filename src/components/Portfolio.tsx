@@ -5,7 +5,6 @@ Command: npx gltfjsx@6.5.3 public/portfolio.glb
 
 import React, { useState } from "react";
 import { Outlines, useGLTF, useTexture } from "@react-three/drei";
-import { useControls } from "leva";
 import { useCameraStore, useSectionStore } from "@/utils/Utils";
 
 import PorfolioGLTF from "@/types/model";
@@ -14,12 +13,11 @@ import Annotation from "./Annotation";
 import { DoubleSide } from "three";
 
 export function PorfolioModel() {
-  const { rota, posa } = useControls({
-    posa: [-0.02, 0.04, 0.35],
-    rota: [-0.22, 0.13, 45.52],
-  });
+  // const { rota, posa } = useControls({
+  //   posa: [-0.02, 0.04, 0.35],
+  //   rota: [-0.22, 0.13, 45.52],
+  // });
 
-  const [hover, setHover] = useState<boolean>(false);
   const [hoverShovel, setHoverShovel] = useState<boolean>(false);
   const [hoverCard, setHoverCard] = useState<boolean>(false);
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
@@ -32,15 +30,12 @@ export function PorfolioModel() {
 
   const hoverBox = () => {
     if (isTransitioning) return;
-    setHover(true);
-
     document.body.style.cursor = "pointer";
     setCameraZoomed(true);
   };
 
   const hoverLeave = () => {
     if (isTransitioning) return;
-    setHover(false);
 
     document.body.style.cursor = "grab";
     setCameraZoomed(false);

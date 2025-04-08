@@ -1,5 +1,3 @@
-import { ThreeElement } from "@react-three/fiber";
-
 type PorfolioGLTF = GLTF & {
   nodes: {
     pPlane3_lambert4_0: THREE.Mesh;

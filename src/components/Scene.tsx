@@ -1,18 +1,13 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense, useContext } from "react";
+import React, { Suspense } from "react";
 import Experience from "./Experience";
 import { Perf } from "r3f-perf";
 
-import { Leva, useControls } from "leva";
+import { Leva } from "leva";
 
 export default function Scene() {
-  const { pos, rot } = useControls({
-    pos: [-0.8, 4.5, 4.0],
-    rot: [0, 0, 0],
-  });
-
   return (
     <Canvas
       shadows
