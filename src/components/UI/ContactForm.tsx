@@ -105,7 +105,7 @@ export default function ContactForm({}: Props) {
         </div>
         <button
           type="submit"
-          className="w-full border rounded-md border-custom-red text-black  py-2   transition-colors cursor-pointer"
+          className="w-full border rounded-md border-custom-red text-black  py-2  transition-colors cursor-pointer"
         >
           Send Message
         </button>

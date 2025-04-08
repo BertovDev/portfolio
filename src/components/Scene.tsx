@@ -22,7 +22,7 @@ export default function Scene() {
     >
       {process.env.NODE_ENV === "development" && <Perf position="top-left" />}
       <Suspense fallback={null}>
-        {/* <Leva hidden /> */}
+        <Leva hidden />
         <Experience />
       </Suspense>
     </Canvas>
