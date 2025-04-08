@@ -1,7 +1,7 @@
 "use client";
 
 import { useSectionStore } from "@/utils/Utils";
-import React, { useEffect, useReducer, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import gsap from "gsap";
 
 type SectionProps = {

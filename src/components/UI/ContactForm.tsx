@@ -10,11 +10,7 @@ type Inputs = {
 };
 
 export default function ContactForm() {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const [send, setSend] = useState<boolean>(false);
 

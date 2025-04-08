@@ -21,11 +21,7 @@ type Inputs = {
 };
 
 export default function NextSection({ setNext, next }: Props) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const [send, setSend] = useState<boolean>(false);
 

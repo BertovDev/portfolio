@@ -5,7 +5,7 @@ import React, { Suspense } from "react";
 import Experience from "./Experience";
 import { Perf } from "r3f-perf";
 
-import { Leva, useControls } from "leva";
+import { Leva } from "leva";
 
 export default function Scene() {
   return (
