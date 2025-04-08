@@ -43,9 +43,7 @@ export default function NextSection({ setNext, next }: Props) {
         throw new Error("Network response was not ok");
       }
 
-      const resinfo = await res.json();
       setSend(true);
-      console.log("Success:", resinfo);
     } catch (err) {
       console.error("Error:", err);
     }
