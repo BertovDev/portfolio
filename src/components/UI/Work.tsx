@@ -3,9 +3,18 @@ import { useSectionStore } from "@/utils/Utils";
 import React, { useState } from "react";
 import LambdaSection from "./workComponents/LambdaSection";
 import SchoolarshipSection from "./workComponents/SchoolarShipSection";
+import NextSection from "./workComponents/NextSection";
+
+type NextType = {
+  role: string;
+  company: string;
+};
 
 export default function Work() {
-  const [next, setNext] = useState<string>("???? Be the next in here :D");
+  const [next, setNext] = useState<NextType>({
+    role: "???? Be the next in here :D",
+    company: "",
+  });
   const [workExperience, setWorkExperience] = useState<string>("Lambda");
 
   return (
@@ -22,7 +31,9 @@ export default function Work() {
               setWorkExperience("Lambda");
             }}
           >
-            <span className="work-title-text">Frontend and Game Developer</span>
+            <span className="work-title-text">
+              Frontend and Game Developer - LambdaClass
+            </span>
             <span className="work-title-vertical-line"></span>
           </li>
           <li
@@ -36,7 +47,7 @@ export default function Work() {
             }}
           >
             <span className="work-title-text">
-              University Scholarship Frontend Developer
+              University Scholarship Frontend Developer - UNLa
             </span>
             <span className="work-title-vertical-line"></span>
           </li>
@@ -50,7 +61,9 @@ export default function Work() {
               setWorkExperience("next");
             }}
           >
-            <span className="work-title-text">{next}</span>
+            <span className="work-title-text">
+              {next.role} - {next.company}
+            </span>
             <span className="work-title-vertical-line"></span>
           </li>
         </ul>
@@ -61,9 +74,7 @@ export default function Work() {
           {workExperience === "Scholarship" && <SchoolarshipSection />}
 
           {workExperience === "next" && (
-            <div className="h-full w-full flex items-center justify-center">
-              <h1>Be the next</h1>
-            </div>
+            <NextSection setNext={setNext} next={next} />
           )}
         </div>
       </div>
