@@ -1,5 +1,4 @@
 import Scene from "@/components/Scene";
-import About from "@/components/UI/About";
 import Aside from "@/components/UI/Aside";
 import AsideInfo from "@/components/UI/AsideInfo";
 import Content from "@/components/UI/Content";

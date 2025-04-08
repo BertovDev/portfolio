@@ -1,18 +1,16 @@
-import gsap from "gsap";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import CursorTip from "../CursorTip";
 import Image from "next/image";
 import StackComponent from "./StackComponent";
 import WorkSection from "./WorkSection";
-
-type Props = {};
+import Link from "next/link";
 
 type ImageInfoState = {
   textContent: string;
   isHovering: boolean;
 };
 
-export default function LambdaSection({}: Props) {
+export default function LambdaSection() {
   const [imageInfoState, setImageInfoState] = useState<ImageInfoState>({
     textContent: "",
     isHovering: false,
@@ -25,7 +23,7 @@ export default function LambdaSection({}: Props) {
         className="font-inter flex flex-row gap-x-4 w-full justify-between "
       >
         <div className="flex flex-col gap-y-2 2xl:gap-y-5 animate-section animate-name-date">
-          <a href="https://lambdaclass.com/" target="_blank">
+          <Link href="https://lambdaclass.com/" target="_blank">
             <div className="flex flex-row items-center gap-x-2">
               <h3 className="text-3xl 2xl:text-4xl font-semibold underline underline-offset-4">
                 LambdaClass
@@ -38,7 +36,7 @@ export default function LambdaSection({}: Props) {
                 className="fill-current w-7 h-7"
               />
             </div>
-          </a>
+          </Link>
           <h4 className="text-custom-red opacity-80 font-inter text-xl 2xl:text-2xl font-semibold">
             Frontend and Game Developer
           </h4>

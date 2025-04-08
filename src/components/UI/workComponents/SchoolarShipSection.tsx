@@ -5,14 +5,12 @@ import Image from "next/image";
 import StackComponent from "./StackComponent";
 import WorkSection from "./WorkSection";
 
-type Props = {};
-
 type ImageInfoState = {
   textContent: string;
   isHovering: boolean;
 };
 
-export default function SchoolarshipSection({}: Props) {
+export default function SchoolarshipSection() {
   const ref = useRef<HTMLDivElement | null>(null);
 
   const [imageInfoState, setImageInfoState] = useState<ImageInfoState>({

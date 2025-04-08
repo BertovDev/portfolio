@@ -1,8 +1,6 @@
 import React from "react";
 
-type Props = {};
-
-export default function AsideInfo({}: Props) {
+export default function AsideInfo() {
   return (
     <div className="absolute z-10 top-5 left-5  text-black font-inter font-semibold text-start">
       <h1 className="text-3xl">Bautista Berto portfolio_</h1>
