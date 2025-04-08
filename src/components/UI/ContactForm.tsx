@@ -3,20 +3,14 @@ import Image from "next/image";
 import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
-type Props = {};
-
 type Inputs = {
   name: string;
   email: string;
   body: string;
 };
 
-export default function ContactForm({}: Props) {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<Inputs>();
+export default function ContactForm() {
+  const { register, handleSubmit } = useForm<Inputs>();
 
   const [send, setSend] = useState<boolean>(false);
 

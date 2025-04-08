@@ -1,5 +1,4 @@
 "use client";
-import { useSectionStore } from "@/utils/Utils";
 import React, { useState } from "react";
 import LambdaSection from "./workComponents/LambdaSection";
 import SchoolarshipSection from "./workComponents/SchoolarShipSection";

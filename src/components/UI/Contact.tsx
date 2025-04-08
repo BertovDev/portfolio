@@ -5,17 +5,16 @@ import {
   Physics,
   RigidBody,
 } from "@react-three/rapier";
-import React, { Suspense, useEffect, useMemo, useRef, useState } from "react";
+import React, { Suspense, useEffect, useMemo, useRef } from "react";
 import { MailModel } from "../Mail";
 import gsap from "gsap";
 import ContactForm from "./ContactForm";
 import Image from "next/image";
-
-type Props = {};
+import Link from "next/link";
 
 const COUNT: number = 30;
 
-export default function Contact({}: Props) {
+export default function Contact() {
   const divSectionRef = useRef<HTMLDivElement>(null);
   const tl = gsap.timeline();
 
@@ -40,7 +39,7 @@ export default function Contact({}: Props) {
       duration: 0.6, // short duration since it's a discrete change
       ease: "none", // no easing for z-index
     });
-  }, []);
+  }, [tl]);
 
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];
@@ -76,7 +75,7 @@ export default function Contact({}: Props) {
           <directionalLight position={[1, 2, 3]} intensity={4} />
 
           <Physics colliders="cuboid">
-            {instances.map((instance, index) => (
+            {instances.map((instance) => (
               <RigidBody
                 key={instance.key}
                 position={instance.position as [number, number, number]}
@@ -118,7 +117,7 @@ export default function Contact({}: Props) {
               <ContactForm />
 
               <div className="flex flex-row items-center justify-between gap-x-10 mt-10">
-                <a href="https://x.com/tongenjs" target="_blank">
+                <Link href="https://x.com/tongenjs" target="_blank">
                   <Image
                     src="/images/Contact/Xlink.svg"
                     alt="X logo"
@@ -126,7 +125,7 @@ export default function Contact({}: Props) {
                     height={60}
                     className=" hover:-rotate-15 transition-all"
                   />
-                </a>
+                </Link>
                 <a
                   href="https://www.linkedin.com/in/bautista-berto/"
                   target="_blank"
@@ -139,7 +138,7 @@ export default function Contact({}: Props) {
                     className=" hover:rotate-15 transition-all"
                   />
                 </a>
-                <a href="https://github.com/BertovDev" target="_blank">
+                <Link href="https://github.com/BertovDev" target="_blank">
                   <Image
                     src="/images/Contact/Github.svg"
                     alt="Github logo"
@@ -147,7 +146,7 @@ export default function Contact({}: Props) {
                     height={60}
                     className=" hover:-rotate-15 transition-all"
                   />
-                </a>
+                </Link>
               </div>
             </div>
           </div>
