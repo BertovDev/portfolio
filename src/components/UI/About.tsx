@@ -51,12 +51,12 @@ export default function About() {
         <Image
           width={100}
           height={100}
-          className="lg:relative cursor-pointer bottom-0 lg:bottom-35 xl:bottom-25 md:left-20 xl:left-25 w-33  md:w-40 lg:w-40  xl:w-50 2xl:w-60"
+          className="lg:relative cursor-pointer bottom-0  lg:bottom-25 xl:bottom-25 md:left-3 xl:left-25 w-33 md:w-40 lg:w-40  xl:w-50 2xl:w-60"
           src="/images/AboutSection/SmilingFace.svg"
           alt=""
         />
         <div
-          className="lg:relative cursor-pointer right-0 w-25 md:w-40 lg:w-40 xl:w-50 2xl:w-60 xl:right-5 2xl:right-15"
+          className="lg:relative cursor-pointer right-0 w-25 md:w-40 lg:w-40 xl:w-50 2xl:w-60 lg:right-5 xl:right-5 2xl:right-15"
           onMouseOver={(e) => {
             e.stopPropagation();
             const anim = gsap.to(turnstileImage.current, {
@@ -135,16 +135,16 @@ export default function About() {
         />
       </div>
       <div className="flex-none  w-full lg:w-2/4 mb-0 lg:mb-20 px-5 md:px-10 lg:px-0">
-        <div className="text-black font-inter font-medium text-center text-lg/5.5 md:text-2xl lg:text-3xl xl:text-4xl 2xl:text-5xl/13">
+        <div className="text-black font-inter font-medium text-center text-lg/5.5 md:text-2xl lg:text-2xl xl:text-4xl 2xl:text-5xl/13">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-3 decoration-custom-blue font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
           expertise I thrive on turning ideas into fully functional, stunning
-          applications using React, Typescript, ThreeJs, NextJs. I combine a
-          creative perspective with JavaScript tools, leveraging my experience
-          in application and video game development to create <br />
+          applications using React, Typescript, ThreeJs. I combine a creative
+          perspective with JavaScript tools, leveraging my experience in
+          application and video game development to create <br />
           <span className=" underline decoration-3 decoration-custom-red">
             Unique Web Experiences.
           </span>
