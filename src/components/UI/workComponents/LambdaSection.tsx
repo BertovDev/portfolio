@@ -20,7 +20,7 @@ export default function LambdaSection() {
     <WorkSection>
       <div
         id="nameAndDate"
-        className="font-inter flex flex-row gap-x-4 w-full justify-between "
+        className="font-inter flex flex-row gap-x-4 w-full justify-between  "
       >
         <div className="flex flex-col gap-y-2 2xl:gap-y-5 animate-section animate-name-date">
           <Link href="https://lambdaclass.com/" target="_blank">
@@ -60,7 +60,7 @@ export default function LambdaSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl section-title">
               About
             </h2>
-            <p className="font-light font-inter text-lg 2xl:text-xl">
+            <p className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl">
               Led the frontend development of a multiplayer mobile game and
               multiples websites, collaborating with international teams (US &
               Europe) to build a high-performance, interactive experience.
@@ -70,7 +70,7 @@ export default function LambdaSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl">
               Achievements and Responsibilities:
             </h2>
-            <ul className="font-light font-inter text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
+            <ul className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
               <li className="animate-section animate-list-item">
                 <span className="font-semibold">Feature Development:</span>{" "}
                 Implemented multiple key features, including character creation,
