@@ -68,7 +68,7 @@ export default function SchoolarshipSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl section-title">
               About
             </h2>
-            <p className="font-light font-inter text-lg 2xl:text-xl">
+            <p className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl">
               I was invited to be part of the development and investigation team
               of my university. Specializing in React.js, developed a monitoring
               and visualization website for climatologist stations in Buenos
@@ -79,7 +79,7 @@ export default function SchoolarshipSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl">
               Achievements and Responsibilities:
             </h2>
-            <ul className="font-light font-inter text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
+            <ul className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
               <li className="animate-section animate-list-item">
                 <span className="font-semibold">
                   {" "}
