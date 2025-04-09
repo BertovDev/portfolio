@@ -15,7 +15,7 @@ const Section: React.FC<SectionProps> = ({ children }) => {
 
   useEffect(() => {
     if (ref.current && isSectionClicked.name !== null) {
-      gsap.fromTo(
+      const anim: gsap.core.Tween = gsap.fromTo(
         ref.current,
         {
           y: -100,
@@ -26,6 +26,9 @@ const Section: React.FC<SectionProps> = ({ children }) => {
           y: 0,
           opacity: 1,
           duration: 0.7,
+          onComplete: () => {
+            anim.kill();
+          },
         }
       );
     }
@@ -34,7 +37,7 @@ const Section: React.FC<SectionProps> = ({ children }) => {
   return (
     <div
       ref={ref}
-      className="z-100 opacity-0 absolute h-screen w-screen bg-white overflow-hidden"
+      className="z-100 opacity-100 absolute h-screen w-screen bg-white overflow-hidden"
     >
       {children}
 
@@ -42,13 +45,14 @@ const Section: React.FC<SectionProps> = ({ children }) => {
         className="z-100 absolute top-5 right-5 text-3xl text-black font-inter font-semibold text-center  hover:underline hover:cursor-pointer"
         onClick={() => {
           if (ref.current) {
-            gsap.to(ref.current, {
+            const anim: gsap.core.Tween = gsap.to(ref.current, {
               y: -100,
               opacity: 0,
               duration: 0.5,
               onComplete: () => {
                 if (isSectionClicked.name !== null) {
                   setSectionClicked(null, false);
+                  anim.kill();
                 }
               },
             });
