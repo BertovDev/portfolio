@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo, useMemo } from "react";
 import Section from "./Section";
 import { useSectionStore } from "@/utils/Utils";
 import About from "./About";
@@ -10,28 +10,41 @@ import Contact from "./Contact";
 
 type SectionComponent = Record<string, React.FC>;
 
+// Memoize section components
+const MemoizedAbout = memo(About);
+const MemoizedWork = memo(Work);
+const MemoizedProjects = memo(Projects);
+const MemoizedContact = memo(Contact);
+
+// Memoize the components mapping
 const SectionComponents: SectionComponent = {
-  About,
-  Work,
-  Projects,
-  Contact,
+  About: MemoizedAbout,
+  Work: MemoizedWork,
+  Projects: MemoizedProjects,
+  Contact: MemoizedContact,
 };
 
-export default function Content() {
+const Content: React.FC = memo(() => {
   const { isSectionClicked } = useSectionStore();
 
-  if (isSectionClicked.name === null && !isSectionClicked.isClicked) {
-    return;
+  // Memoize the section component to render
+  const SectionToRender = useMemo(
+    () => SectionComponents[isSectionClicked.name as keyof SectionComponent],
+    [isSectionClicked.name]
+  );
+
+ if (!isSectionClicked.isClicked || !isSectionClicked.name) {
+    return null;
   }
 
-  if (isSectionClicked.name && isSectionClicked.isClicked) {
-    const SectionToRender: React.FC =
-      SectionComponents[isSectionClicked.name as keyof SectionComponent];
+  return (
+    <div>
+      <Section>
+        <SectionToRender />
+      </Section>
+    </div>
+  );
+});
 
-    return (
-      <div>
-        <Section>{isSectionClicked.isClicked && <SectionToRender />}</Section>
-      </div>
-    );
-  }
-}
+Content.displayName = 'Content';
+export default Content;

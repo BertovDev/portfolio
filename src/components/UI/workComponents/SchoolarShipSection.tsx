@@ -26,7 +26,7 @@ export default function SchoolarshipSection() {
             href="https://github.com/unla-investigacion-desarrollo"
             target="_blank"
           >
-            <div className="flex flex-row items-center gap-x-2">
+            <div className="flex flex-row items-center   gap-x-2">
               <h3 className="text-3xl 2xl:text-4xl font-semibold underline underline-offset-4">
                 Universidad Nacional de Lanús Research Team
               </h3>
@@ -43,7 +43,7 @@ export default function SchoolarshipSection() {
             React Frontend Developer
           </h4>
         </div>
-        <span className="text-2xl 2xl:text-2xl animate-section animate-name-date mt-2">
+        <span className="text-lg lg:text-lg 2xl:text-2xl animate-section animate-name-date mt-2">
           Nov 2022 - Aug 2024
         </span>
       </div>
@@ -79,7 +79,7 @@ export default function SchoolarshipSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl">
               Achievements and Responsibilities:
             </h2>
-            <ul className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
+            <ul className="font-light font-inter text-sm/6 xl:text-base 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
               <li className="animate-section animate-list-item">
                 <span className="font-semibold">
                   {" "}
