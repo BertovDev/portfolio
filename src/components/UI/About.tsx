@@ -51,7 +51,7 @@ export default function About() {
         <Image
           width={100}
           height={100}
-          className="lg:relative cursor-pointer bottom-0  lg:bottom-25 xl:bottom-25 md:left-3 xl:left-25 w-33 md:w-40 lg:w-40  xl:w-50 2xl:w-60"
+          className="lg:relative cursor-pointer bottom-0  lg:bottom-20 xl:bottom-15 2xl:bottom-28 md:left-3 xl:left-10 w-33 md:w-40 lg:w-40  xl:w-50 2xl:w-60"
           src="/images/AboutSection/SmilingFace.svg"
           alt=""
         />
@@ -163,7 +163,7 @@ export default function About() {
         className="flex flex-row lg:flex-col items-center justify-between px-5 lg:px-0 mb-10 lg:mb-0 flex-auto  w-full "
       >
         <div
-          className="lg:relative cursor-pointer md:bottom-20 xl:bottom-30 2xl:bottom-30  xl:right-10 w-35 md:w-40 xl:w-50 2xl:w-60"
+          className="lg:relative cursor-pointer md:bottom-20 xl:bottom-20 2xl:bottom-30  xl:right-10 w-35 md:w-40 xl:w-50 2xl:w-60"
           onMouseEnter={(e) => {
             e.stopPropagation();
             gsap.to(flowerRef.current, {
@@ -211,7 +211,7 @@ export default function About() {
         </a>
 
         <div
-          className="lg:relative md:top-30 lg:top-30 xl:top-30 2xl:top-25 md:right-20 w-45 md:w-50 lg:w-55 xl:w-60 2xl:w-70 "
+          className="lg:relative md:top-30 lg:top-30 xl:top-20 2xl:top-25 md:right-20 w-45 md:w-50 lg:w-55 xl:w-60 2xl:w-90 "
           onMouseOver={(e) => {
             e.stopPropagation();
             setImageInfoState({
