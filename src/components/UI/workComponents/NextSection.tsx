@@ -52,7 +52,7 @@ export default function NextSection({ setNext, next }: Props) {
           All good! Mail received!
         </h1>
       )}
-      <div className="w-1/2 text-2xl px-10">
+      <div className="w-1/2  text-2xl ">
         <form
           onSubmit={handleSubmit(onSubmit)}
           id="contactForm"
