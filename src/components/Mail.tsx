@@ -10,7 +10,7 @@ Title: low-poly-mail-letter
 import React, { ComponentProps } from "react";
 import { useGLTF } from "@react-three/drei";
 import MailGltfResult from "@/types/model";
-import { Outlines } from "@react-three/drei";
+import { Outlines, Instance } from "@react-three/drei";
 
 interface MailModelProps extends ComponentProps<"group"> {
   isHovered?: boolean;

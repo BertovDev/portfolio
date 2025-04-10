@@ -1,5 +1,6 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
+import { Preload, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
 import {
   InstancedRigidBodyProps,
   Physics,
@@ -60,6 +61,8 @@ export default function Contact() {
     <>
       <Canvas
         shadows={false}
+        dpr={[1, 2]}
+        performance={{ min: 0.5 }}
         style={{
           position: "fixed",
           top: 0,
@@ -69,37 +72,39 @@ export default function Contact() {
           zIndex: 80,
         }}
         className="white"
+        frameloop="demand"
       >
         <Suspense fallback={null}>
           <ambientLight intensity={1} />
           <directionalLight position={[1, 2, 3]} intensity={4} />
 
-          <Physics colliders="cuboid">
+          {/* <Physics colliders="cuboid" timeStep="vary">
             {instances.map((instance) => (
               <RigidBody
                 key={instance.key}
                 position={instance.position as [number, number, number]}
                 rotation={instance.rotation as [number, number, number]}
                 scale={instance.scale as [number, number, number]}
+                linearDamping={0.95}
+                angularDamping={0.95}
               >
                 <MailModel />
               </RigidBody>
             ))}
-          </Physics>
+          </Physics> */}
+          <Preload all />
+          <AdaptiveDpr pixelated />
+          <AdaptiveEvents />
         </Suspense>
       </Canvas>
 
       <div
         id="mainContact"
-        className="-z-100 opacity-100 absolute w-full h-full pointer-events-auto"
+        className="-z-100 opacity-100  absolute w-full h-full pointer-events-auto"
       >
         <div className="h-full  w-full flex justify-center items-center">
-          <div className=" w-1/2 flex flex-col items-center justify-center ">
-            {/* <p className="contact-p opacity-100 absolute w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
-              I will be really glad of hearing about you!
-            </p> */}
-
-            <div className="absolute w-2/3 text-center ">
+          <div className=" w-1/2   flex flex-col items-center justify-center ">
+            <div className="absolute w-2/3  text-center ">
               <span className="contact-p opacity-100  w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
                 I will be {""} <br />
               </span>
