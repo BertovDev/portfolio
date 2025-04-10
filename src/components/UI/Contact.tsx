@@ -78,7 +78,7 @@ export default function Contact() {
           <ambientLight intensity={1} />
           <directionalLight position={[1, 2, 3]} intensity={4} />
 
-          {/* <Physics colliders="cuboid" timeStep="vary">
+          <Physics colliders="cuboid" gravity={[0, -14, 0]} timeStep="vary">
             {instances.map((instance) => (
               <RigidBody
                 key={instance.key}
@@ -91,7 +91,7 @@ export default function Contact() {
                 <MailModel />
               </RigidBody>
             ))}
-          </Physics> */}
+          </Physics>
           <Preload all />
           <AdaptiveDpr pixelated />
           <AdaptiveEvents />
