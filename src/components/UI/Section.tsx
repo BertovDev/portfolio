@@ -18,31 +18,31 @@ const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
   const animConfig = useMemo(
     () => ({
       enter: {
-        from: { 
+        from: {
           y: -50,
           opacity: 0,
           scale: 0.98,
-          filter: 'blur(4px)',
+          filter: "blur(5px)",
         },
-        to: { 
+        to: {
           y: 0,
           opacity: 1,
           scale: 1,
-          filter: 'blur(0px)',
-          ease: 'expo.out',
+          filter: "blur(0px)",
+          ease: "expo.out",
           duration: 0.8,
-          transformOrigin: '50% 50%',
+          transformOrigin: "50% 50%",
         },
       },
       exit: {
-        to: { 
+        to: {
           y: -30,
           opacity: 0,
           scale: 0.95,
-          filter: 'blur(4px)',
-          ease: 'power2.inOut',
+          filter: "blur(4px)",
+          ease: "power2.inOut",
           duration: 0.6,
-          transformOrigin: '50% 50%',
+          transformOrigin: "50% 50%",
         },
       },
     }),
@@ -61,12 +61,8 @@ const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
     if (ref.current && isSectionClicked.name !== null) {
       cleanupAnimation();
       const { from, to } = animConfig.enter;
-      
-      animRef.current = gsap.fromTo(
-        ref.current,
-        from,
-        to
-      );
+
+      animRef.current = gsap.fromTo(ref.current, from, to);
     }
 
     return cleanupAnimation;
@@ -106,5 +102,5 @@ const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
   );
 });
 
-Section.displayName = 'Section';
+Section.displayName = "Section";
 export default Section;
