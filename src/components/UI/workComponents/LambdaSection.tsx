@@ -70,7 +70,7 @@ export default function LambdaSection() {
             <h2 className="font-inter font-semibold underline text-xl 2xl:text-2xl">
               Achievements and Responsibilities:
             </h2>
-            <ul className="font-light font-inter text-sm/6 xl:text-lg 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
+            <ul className="font-light font-inter text-sm/6  xl:text-base 2xl:text-xl flex flex-col gap-y-2 2xl:gap-y-8">
               <li className="animate-section animate-list-item">
                 <span className="font-semibold">Feature Development:</span>{" "}
                 Implemented multiple key features, including character creation,

@@ -35,7 +35,7 @@ export default function ContactForm() {
   };
 
   return (
-    <div className=" w-1/2 h-2/3 flex flex-col  justify-start p-8">
+    <div className="w-full lg:w-3/4  2xl:w-1/2 h-2/3 flex flex-col  justify-start p-8">
       {send && (
         <h1 className="text-2xl mb-5 text-center font-bold">
           All good! Mail received!
