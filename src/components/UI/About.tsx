@@ -43,17 +43,20 @@ export default function About() {
   }, []);
 
   return (
-    <div className="flex items-center h-full cursor-auto ">
-      <div id="leftSide" className="flex flex-col items-center flex-auto  ">
+    <div className="flex items-center flex-col lg:flex-row h-full cursor-auto ">
+      <div
+        id="leftSide"
+        className="flex md:flex-row lg:flex-col items-center justify-between flex-auto w-full mt-5 lg:mt-0  px-5 lg:px-0 "
+      >
         <Image
           width={100}
           height={100}
-          className="relative cursor-pointer md:bottom-40 lg:bottom-35 xl:bottom-25 md:left-15 lg:left-25 w-60"
+          className="lg:relative cursor-pointer bottom-0  lg:bottom-25 xl:bottom-25 md:left-3 xl:left-25 w-33 md:w-40 lg:w-40  xl:w-50 2xl:w-60"
           src="/images/AboutSection/SmilingFace.svg"
           alt=""
         />
         <div
-          className="relative cursor-pointer md:w-40 lg:w-40 xl:w-60 xl:right-5 2xl:right-15"
+          className="lg:relative cursor-pointer right-0 w-25 md:w-40 lg:w-40 xl:w-50 2xl:w-60 lg:right-5 xl:right-5 2xl:right-15"
           onMouseOver={(e) => {
             e.stopPropagation();
             const anim = gsap.to(turnstileImage.current, {
@@ -100,7 +103,7 @@ export default function About() {
                 width={100}
                 height={100}
                 ref={turnstileImage}
-                className="opacity-0 absolute top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+                className="opacity-0 absolute  w-15 lg:w-30 top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
                 src="/images/AboutSection/TLC.svg"
                 alt="TLC"
               />
@@ -112,7 +115,7 @@ export default function About() {
           width={100}
           height={100}
           ref={sapporoRef}
-          className="relative cursor-pointer left-25 top-20 w-38"
+          className="lg:relative cursor-pointer md:left-20 xl:left-25 md:top-30 xl:top-20 w-23 md:w-30 xl:w-33 2xl:w-40"
           src="/images/AboutSection/sapporo.svg"
           alt=""
           onMouseOver={(e) => {
@@ -131,17 +134,17 @@ export default function About() {
           }}
         />
       </div>
-      <div className="flex-none  w-2/4 mb-20 pl-10">
-        <div className="text-black font-inter font-medium text-center text-3xl xl:text-4xl  2xl:text-5xl/13">
+      <div className="flex-none  w-full lg:w-2/4 mb-0 lg:mb-20 px-5 md:px-10 lg:px-0">
+        <div className="text-black font-inter font-medium text-center text-lg/5.5 md:text-2xl lg:text-2xl xl:text-4xl 2xl:text-5xl/13">
           I´m Bautista Berto{" "}
           <span className="line-through decoration-3 decoration-custom-blue font-mono">
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
           expertise I thrive on turning ideas into fully functional, stunning
-          applications using React, Typescript, ThreeJs, NextJs. I combine a
-          creative perspective with JavaScript tools, leveraging my experience
-          in application and video game development to create <br />
+          applications using React, Typescript, ThreeJs. I combine a creative
+          perspective with JavaScript tools, leveraging my experience in
+          application and video game development to create <br />
           <span className=" underline decoration-3 decoration-custom-red">
             Unique Web Experiences.
           </span>
@@ -155,9 +158,12 @@ export default function About() {
         />
       </div>
 
-      <div id="rightSide" className="flex flex-col items-center flex-auto ">
+      <div
+        id="rightSide"
+        className="flex flex-row lg:flex-col items-center justify-between px-5 lg:px-0 mb-10 lg:mb-0 flex-auto  w-full "
+      >
         <div
-          className="relative cursor-pointer bottom-30"
+          className="lg:relative cursor-pointer md:bottom-20 xl:bottom-30 2xl:bottom-30  xl:right-10 w-35 md:w-40 xl:w-50 2xl:w-60"
           onMouseEnter={(e) => {
             e.stopPropagation();
             gsap.to(flowerRef.current, {
@@ -177,7 +183,7 @@ export default function About() {
         </div>
 
         <a
-          className="relative cursor-pointer top-0 xl:left-0 2xl:left-25"
+          className="lg:relative cursor-pointer top-0  xl:left-0 2xl:left-25 w-34 md:w-40 lg:w-45 xl:w-50 2xl:w-60"
           href="/BautistaBertoResume.pdf"
           target="_blank"
           onMouseOver={(e) => {
@@ -205,7 +211,7 @@ export default function About() {
         </a>
 
         <div
-          className="relative md:top-30 lg:top-30 xl:top-30 2xl:top-25 md:right-40"
+          className="lg:relative md:top-30 lg:top-30 xl:top-30 2xl:top-25 md:right-20 w-45 md:w-50 lg:w-55 xl:w-60 2xl:w-70 "
           onMouseOver={(e) => {
             e.stopPropagation();
             setImageInfoState({

@@ -17,8 +17,8 @@ export default function Work() {
   const [workExperience, setWorkExperience] = useState<string>("Lambda");
 
   return (
-    <div className="text-black text-5xl h-full bg-white flex flex-row">
-      <div className="ml-2">
+    <div className="text-black text-5xl h-full bg-white flex flex-row ">
+      <div className="ml-2 ">
         <ul className=" flex flex-row items-start  text-custom-red gap-x-0.5">
           <li
             className={`work-title-li ${
@@ -68,7 +68,7 @@ export default function Work() {
         </ul>
       </div>
       <div className="flex-1 flex items-center justify-center h-full ">
-        <div className="flex  items-center w-3/5 h-full ">
+        <div className="flex  items-center w-full mx-10 xl:mx-0 xl:w-3/5  h-full ">
           {workExperience === "Lambda" && <LambdaSection />}
           {workExperience === "Scholarship" && <SchoolarshipSection />}
 
