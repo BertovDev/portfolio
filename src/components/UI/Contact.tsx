@@ -1,23 +1,29 @@
 "use client";
 import { Canvas } from "@react-three/fiber";
-import { Preload, AdaptiveDpr, AdaptiveEvents } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import {
+  InstancedRigidBodies,
   InstancedRigidBodyProps,
   Physics,
-  RigidBody,
 } from "@react-three/rapier";
-import React, { Suspense, useEffect, useMemo, useRef } from "react";
-import { MailModel } from "../Mail";
+import React, { useEffect, useMemo, useRef } from "react";
 import gsap from "gsap";
 import ContactForm from "./ContactForm";
 import Image from "next/image";
 import Link from "next/link";
+import { Addition, Base, Geometry } from "@react-three/csg";
+import MailGltfResult from "@/types/model";
+import { Perf } from "r3f-perf";
 
 const COUNT: number = 30;
 
 export default function Contact() {
   const divSectionRef = useRef<HTMLDivElement>(null);
   const tl = gsap.timeline();
+
+  const { nodes, materials } = useGLTF(
+    "/mail.glb"
+  ) as unknown as MailGltfResult;
 
   useEffect(() => {
     tl.to(".contact-p", {
@@ -49,8 +55,8 @@ export default function Contact() {
       instances.push({
         key: "instance_" + Math.random(),
         position: [4.5 - Math.random() * 10, 6, 1 - Math.random() * 2],
-        rotation: [Math.random(), 1 - Math.random() * 3, Math.random() * 2],
-        scale: [0.5, 0.5, 0.5],
+        rotation: [Math.random(), Math.random() * 3, Math.random() * 1],
+        scale: [0.01, 0.01, 0.01],
       });
     }
 
@@ -62,7 +68,7 @@ export default function Contact() {
       <Canvas
         shadows={false}
         dpr={[1, 2]}
-        performance={{ min: 0.5 }}
+        // performance={{ min: 0.5 }}
         style={{
           position: "fixed",
           top: 0,
@@ -71,31 +77,30 @@ export default function Contact() {
           bottom: 0,
           zIndex: 80,
         }}
-        className="white"
-        frameloop="demand"
+        // frameloop="demand"
       >
-        <Suspense fallback={null}>
-          <ambientLight intensity={1} />
-          <directionalLight position={[1, 2, 3]} intensity={4} />
-
-          <Physics colliders="cuboid" gravity={[0, -14, 0]} timeStep="vary">
-            {instances.map((instance) => (
-              <RigidBody
-                key={instance.key}
-                position={instance.position as [number, number, number]}
-                rotation={instance.rotation as [number, number, number]}
-                scale={instance.scale as [number, number, number]}
-                linearDamping={0.95}
-                angularDamping={0.95}
-              >
-                <MailModel />
-              </RigidBody>
-            ))}
-          </Physics>
-          <Preload all />
-          <AdaptiveDpr pixelated />
-          <AdaptiveEvents />
-        </Suspense>
+        <ambientLight intensity={1} />
+        <directionalLight position={[1, 2, 3]} intensity={4} />
+        <Physics>
+          <InstancedRigidBodies instances={instances} colliders="hull">
+            <instancedMesh args={[undefined, undefined, 30]} dispose={null}>
+              <Geometry useGroups>
+                <Base
+                  geometry={nodes["Letter_02_-_Default_0"].geometry}
+                  material={materials["02_-_Default"]}
+                />
+                <Addition
+                  geometry={nodes["Letter_01_-_Default_0"].geometry}
+                  material={materials["01_-_Default"]}
+                />
+              </Geometry>
+            </instancedMesh>
+          </InstancedRigidBodies>
+        </Physics>
+        {/* <Preload all />
+        <AdaptiveDpr pixelated />
+        <AdaptiveEvents /> */}
+        <Perf position="top-left" />
       </Canvas>
 
       <div
@@ -104,7 +109,7 @@ export default function Contact() {
       >
         <div className="h-full  w-full flex justify-center items-center">
           <div className=" w-1/2   flex flex-col items-center justify-center ">
-            <div className="absolute w-2/3  text-center ">
+            <div className="absolute w-2/3   text-center ">
               <span className="contact-p opacity-100  w-1/2 text-center text-9xl uppercase font-inter font-extrabold">
                 I will be {""} <br />
               </span>
