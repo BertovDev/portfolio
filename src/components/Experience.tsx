@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { OrbitControls } from "@react-three/drei";
+import { BakeShadows, OrbitControls } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
@@ -104,6 +104,7 @@ export default function Experience() {
         shadow-mapSize={2048}
         // shadow-bias={-0.001}
       />
+
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, -0.01, 0]}
@@ -115,6 +116,7 @@ export default function Experience() {
       </mesh>
       <PorfolioModel />
       <AboutModel />
+      <BakeShadows />
     </group>
   );
 }
