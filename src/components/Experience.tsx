@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { BakeShadows, OrbitControls } from "@react-three/drei";
+import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
@@ -117,6 +117,7 @@ export default function Experience() {
       <PorfolioModel />
       <AboutModel />
       <BakeShadows />
+      <SoftShadows size={25} samples={20} focus={0} />
     </group>
   );
 }
