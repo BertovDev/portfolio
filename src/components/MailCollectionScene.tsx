@@ -1,4 +1,3 @@
-import { Canvas, useThree } from "@react-three/fiber";
 import {
   InstancedRigidBodyProps,
   Physics,
@@ -7,9 +6,7 @@ import {
 import React, { useMemo } from "react";
 import { MailModel } from "./Mail";
 
-type Props = {};
-
-export default function MailCollectionScene({}: Props) {
+export default function MailCollectionScene() {
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];
 
