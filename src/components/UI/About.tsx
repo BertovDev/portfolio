@@ -141,10 +141,9 @@ export default function About() {
             Creative
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
-          expertise I thrive on turning ideas into fully functional, stunning
-          applications using React, Typescript, ThreeJs. I combine a creative
+          expertise using React, Typescript and ThreeJs. I combine a creative
           perspective with JavaScript tools, leveraging my experience in
-          application and video game development to create <br />
+          application and game development to create <br />
           <span className=" underline decoration-3 decoration-custom-red">
             Unique Web Experiences.
           </span>
