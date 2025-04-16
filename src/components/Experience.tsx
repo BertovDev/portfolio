@@ -87,7 +87,7 @@ export default function Experience() {
 
   return (
     <group>
-      {process.env.NODE_ENV === "development" && <OrbitControls />}
+      <OrbitControls />
 
       <OrthographicCamera
         ref={refCamera}
