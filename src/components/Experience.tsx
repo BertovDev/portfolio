@@ -20,10 +20,11 @@ type CameraPositions = {
 };
 
 export default function Experience() {
-  const { position, rotation, zoom } = useControls({
+  const { position, rotation, zoom, lightPos } = useControls({
     position: [-1.1, 3.9, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
+    lightPos: [0.4, 2.2, 3],
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
@@ -86,7 +87,8 @@ export default function Experience() {
 
   return (
     <group>
-      <OrbitControls />
+      {process.env.NODE_ENV === "development" && <OrbitControls />}
+
       <OrthographicCamera
         ref={refCamera}
         makeDefault // Make this the main camera
@@ -96,13 +98,14 @@ export default function Experience() {
         far={20}
         zoom={zoom} // Adjust zoom to frame the scene correctly
       />
+
       <ambientLight intensity={1} />
       <directionalLight
-        position={[1, 2, 3]}
-        intensity={4}
+        position={lightPos}
+        intensity={4.5}
         castShadow
-        shadow-mapSize={2048}
-        // shadow-bias={-0.001}
+        shadow-mapSize={1024}
+        shadow-bias={0}
       />
 
       <mesh
@@ -110,14 +113,20 @@ export default function Experience() {
         position={[0, -0.01, 0]}
         receiveShadow
       >
+        <planeGeometry args={[100, 100]} />
+
+        <shadowMaterial opacity={0.45} />
+      </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={10}>
         <planeGeometry args={[10, 10]} />
 
-        <shadowMaterial opacity={0.4} />
+        <meshBasicMaterial color={"white"} />
       </mesh>
+
       <PorfolioModel />
       <AboutModel />
       <BakeShadows />
-      <SoftShadows size={25} samples={20} focus={0} />
+      <SoftShadows size={25} samples={25} focus={0} />
     </group>
   );
 }

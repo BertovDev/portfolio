@@ -23,22 +23,25 @@ export function PorfolioModel() {
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
   const [hoverMail, setHoverMail] = useState<boolean>(false);
 
-  const { setCameraZoomed, isTransitioning } = useCameraStore();
+  const { cameraZoomed, setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
 
   const texture = useTexture("/images/darkside.jpeg");
 
   const hoverBox = () => {
     if (isTransitioning) return;
-    document.body.style.cursor = "pointer";
-    setCameraZoomed(true);
+    if (!cameraZoomed) {
+      document.body.style.cursor = "pointer";
+      setCameraZoomed(true);
+    }
   };
 
   const hoverLeave = () => {
     if (isTransitioning) return;
-
-    document.body.style.cursor = "grab";
-    setCameraZoomed(false);
+    if (cameraZoomed) {
+      document.body.style.cursor = "grab";
+      setCameraZoomed(false);
+    }
   };
 
   const { nodes, materials } = useGLTF(
@@ -71,7 +74,9 @@ export function PorfolioModel() {
             rotation={[1.231, 0.197, 0.237]}
             scale={[1, 1, 1.044]}
           >
-            {hoverCard && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverCard && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
         </group>
       </group>
@@ -88,50 +93,66 @@ export function PorfolioModel() {
             geometry={nodes.Object_10.geometry}
             material={materials.VoxMaterial_250}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_11.geometry}
             material={materials.VoxMaterial_251}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_12.geometry}
             material={materials.VoxMaterial_252}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
 
           <mesh
             geometry={nodes.Object_5.geometry}
             material={materials.VoxMaterial_225}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_6.geometry}
             material={materials.VoxMaterial_227}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_7.geometry}
             material={materials.VoxMaterial_229}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_8.geometry}
             material={materials.VoxMaterial_231}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           <mesh
             geometry={nodes.Object_9.geometry}
             material={materials.VoxMaterial_249}
           >
-            {hoverShovel && <Outlines thickness={1.1} color="#db0000" />}
+            {hoverShovel && (
+              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+            )}
           </mesh>
           {hoverShovel && (
             <Annotation
@@ -169,7 +190,6 @@ export function PorfolioModel() {
           </Annotation>
         )}
       </group>
-
       <mesh
         position={[-0.055, 0.079, 0.33]}
         rotation={[-0.26, 0, 0]}
@@ -184,6 +204,7 @@ export function PorfolioModel() {
         <meshStandardMaterial map={texture} side={DoubleSide} />
         {hoverVinyl && (
           <Outlines
+            castShadow={false}
             thickness={0.5}
             color="#db0000"
             angle={0}
@@ -192,7 +213,6 @@ export function PorfolioModel() {
           />
         )}
       </mesh>
-
       <group>
         <MailModel
           isHovered={hoverMail}
