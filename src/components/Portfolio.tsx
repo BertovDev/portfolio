@@ -26,7 +26,7 @@ export function PorfolioModel() {
   const { cameraZoomed, setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
 
-  const [darkside] = useTexture(["/images/darkside.jpeg"]);
+  const [toolTexture] = useTexture(["/images/tool3.png"]);
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -75,7 +75,7 @@ export function PorfolioModel() {
             scale={[1, 1, 1.044]}
           >
             {hoverCard && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
         </group>
@@ -94,7 +94,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_250}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -102,7 +102,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_251}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -110,7 +110,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_252}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
 
@@ -119,7 +119,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_225}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -127,7 +127,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_227}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -135,7 +135,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_229}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -143,7 +143,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_231}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           <mesh
@@ -151,7 +151,7 @@ export function PorfolioModel() {
             material={materials.VoxMaterial_249}
           >
             {hoverShovel && (
-              <Outlines castShadow={false} thickness={1.1} color="#db0000" />
+              <Outlines castShadow={false} thickness={1.1} color="white" />
             )}
           </mesh>
           {hoverShovel && (
@@ -182,7 +182,7 @@ export function PorfolioModel() {
           onPointerLeave={() => setHoverVinyl(false)}
         >
           <planeGeometry args={[0.15, 0.15]} />
-          <meshStandardMaterial color={"tomato"} side={DoubleSide} />
+          <meshStandardMaterial color={"black"} side={DoubleSide} />
         </mesh>
         {hoverVinyl && (
           <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
@@ -201,12 +201,12 @@ export function PorfolioModel() {
         }}
       >
         <planeGeometry args={[0.15, 0.15]} />
-        <meshStandardMaterial map={darkside} side={DoubleSide} />
+        <meshStandardMaterial map={toolTexture} side={DoubleSide} />
         {hoverVinyl && (
           <Outlines
             castShadow={false}
             thickness={0.5}
-            color="#db0000"
+            color="white"
             angle={0}
             rotation={[0, Math.PI, 0]}
             scale={1.02}

@@ -43,11 +43,11 @@ export function AboutModel() {
         position={[0, 0, 0]}
         castShadow
       >
-        {hover && <Outlines thickness={1.1} color="red" />}
+        {hover && <Outlines thickness={1.1} color="white" />}
       </mesh>
       {hover && (
         <Annotation position={[0, 1.2, 0]} rotation={[-0.2, -0.2, -0.3]}>
-          <span>About me</span>
+          <span className="text-shadow-2xl">About me</span>
         </Annotation>
       )}
     </group>
