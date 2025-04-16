@@ -24,7 +24,7 @@ export default function Experience() {
     position: [-1.1, 3.9, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
-    lightPos: [0.4, 2.2, 3],
+    lightPos: [0.3, 2.5, 3],
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
@@ -99,10 +99,10 @@ export default function Experience() {
         zoom={zoom} // Adjust zoom to frame the scene correctly
       />
 
-      <ambientLight intensity={1} />
+      <ambientLight intensity={0.7} />
       <directionalLight
         position={lightPos}
-        intensity={4.5}
+        intensity={4.7}
         castShadow
         shadow-mapSize={1024}
         shadow-bias={0}
@@ -113,7 +113,7 @@ export default function Experience() {
         position={[0, -0.01, 0]}
         receiveShadow
       >
-        <planeGeometry args={[100, 100]} />
+        <planeGeometry args={[10, 10]} />
 
         <shadowMaterial opacity={0.45} />
       </mesh>

@@ -26,7 +26,7 @@ export function PorfolioModel() {
   const { cameraZoomed, setCameraZoomed, isTransitioning } = useCameraStore();
   const { setSectionClicked } = useSectionStore();
 
-  const texture = useTexture("/images/darkside.jpeg");
+  const [darkside] = useTexture(["/images/darkside.jpeg"]);
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -182,7 +182,7 @@ export function PorfolioModel() {
           onPointerLeave={() => setHoverVinyl(false)}
         >
           <planeGeometry args={[0.15, 0.15]} />
-          <meshStandardMaterial color={"white"} side={DoubleSide} />
+          <meshStandardMaterial color={"tomato"} side={DoubleSide} />
         </mesh>
         {hoverVinyl && (
           <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
@@ -201,7 +201,7 @@ export function PorfolioModel() {
         }}
       >
         <planeGeometry args={[0.15, 0.15]} />
-        <meshStandardMaterial map={texture} side={DoubleSide} />
+        <meshStandardMaterial map={darkside} side={DoubleSide} />
         {hoverVinyl && (
           <Outlines
             castShadow={false}
