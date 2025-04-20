@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
+import {
+  BakeShadows,
+  OrbitControls,
+  SoftShadows,
+  useTexture,
+} from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
@@ -28,6 +33,11 @@ export default function Experience() {
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
+
+  const [schisimTexture, darkSide] = useTexture([
+    "/images/tool.jpeg",
+    "/images/darkside.jpeg",
+  ]);
 
   const cameraPositions: CameraPositions = {
     initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
@@ -129,6 +139,23 @@ export default function Experience() {
         <planeGeometry args={[10, 10]} />
 
         <meshBasicMaterial color={"white"} />
+      </mesh>
+
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 4]} scale={0.9}>
+        <planeGeometry args={[2, 2]} />
+
+        <meshBasicMaterial map={schisimTexture} />
+      </mesh>
+
+      <mesh
+        rotation={[-Math.PI / 2, 0, Math.PI / 10]}
+        position={[-1, 0.01, 4]}
+        scale={0.9}
+        castShadow
+      >
+        <planeGeometry args={[2, 2]} />
+
+        <meshBasicMaterial map={darkSide} />
       </mesh>
 
       <PorfolioModel />
