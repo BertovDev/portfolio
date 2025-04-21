@@ -1,5 +1,7 @@
-import React, { useCallback, useEffect, useState } from "react";
+"use client";
+import React, { useEffect, useState, useRef } from "react";
 import CursorTip from "./CursorTip";
+import gsap from "gsap";
 
 type Project = {
   id: number;
@@ -112,8 +114,10 @@ const proejcts: Project[] = [
 ];
 
 function ProjectItem({ ...props }: ProjectProps) {
+  const ref: React.RefObject<HTMLLIElement | null> = React.createRef();
+
   return (
-    <li className="flex flex-row gap-2  ">
+    <li className="flex flex-row gap-2 item" ref={ref}>
       <div
         onPointerEnter={() =>
           props.setHoverProject({ demo: props.project.demo, state: true })
@@ -165,6 +169,7 @@ export default function Projects() {
   });
 
   const [currentDemo, setCurrentDemo] = useState<string | null>("");
+  const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
     if (hoverProject.demo !== null) {
@@ -172,13 +177,42 @@ export default function Projects() {
     }
   }, [hoverProject.state]);
 
+  useEffect(() => {
+    if (listRef.current) {
+      const items: HTMLLIElement[] = gsap.utils.toArray(
+        listRef.current.children
+      );
+      items.forEach((item, index) => {
+        console.log(item);
+
+        gsap.set(item, {
+          opacity: 0,
+          x: index > 2 ? 50 : -50,
+          y: -20,
+        });
+
+        gsap.to(item, {
+          opacity: 1,
+          x: 0,
+          y: 0,
+          stagger: 0.2,
+          duration: 0.5,
+          delay: index * 0.1,
+        });
+      });
+    }
+  }, []);
+
   return (
-    <div className="cursor-auto w-full h-full 0 font-inter  flex justify-start flex-col">
-      <h1 className="text-3xl  font-bold mt-5 ml-5">
+    <div className="cursor-auto w-full h-full 0 font-inter flex justify-start flex-col">
+      <h1 className="text-3xl font-bold mt-5 ml-5">
         Projects and Experiments Archive_
       </h1>
-      <div className="flex justify-center h-full items-center mb-10 ">
-        <ul className="flex text-center items-center justify-center flex-col gap-4 text-5xl font-semibold">
+      <div className="flex justify-center h-full items-center mb-10">
+        <ul
+          ref={listRef}
+          className="flex text-center items-center justify-center flex-col gap-4 text-5xl font-semibold"
+        >
           {proejcts.map((project, index) => {
             return (
               <ProjectItem
