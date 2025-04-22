@@ -1,9 +1,11 @@
+
 import gsap from "gsap";
 import React, { useCallback, useEffect, useRef } from "react";
 
 type Props = {
   isHovering: boolean;
   textContent: string;
+
   imageContent?: string | null;
 };
 
@@ -17,6 +19,7 @@ export default function CursorTip({
   const positionRef = useRef({ x: 0, y: 0 });
   const currentLoadId = useRef(0);
   const hoverTimeout = useRef<number | null>(null);
+
 
   const updateMousePosition = useCallback((ev: MouseEvent) => {
     if (!ref.current) return;
@@ -35,6 +38,7 @@ export default function CursorTip({
     });
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, [isHovering, updateMousePosition]);
+
 
   const fadeTween = useRef<gsap.core.Tween | null>(null);
 
@@ -116,6 +120,7 @@ export default function CursorTip({
           Your browser does not support the video tag.
         </video>
       )}
+
     </div>
   );
 }

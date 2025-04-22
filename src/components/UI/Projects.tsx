@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import CursorTip from "./CursorTip";
@@ -232,4 +233,5 @@ export default function Projects() {
       />
     </div>
   );
+
 }

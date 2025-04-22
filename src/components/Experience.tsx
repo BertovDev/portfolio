@@ -134,6 +134,7 @@ export default function Experience() {
         <planeGeometry args={[10, 10]} />
 
         <shadowMaterial opacity={0.45} />
+
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={10}>
         <planeGeometry args={[10, 10]} />
@@ -156,6 +157,7 @@ export default function Experience() {
         <planeGeometry args={[2, 2]} />
 
         <meshBasicMaterial map={darkSide} />
+
       </mesh>
 
       <PorfolioModel />
