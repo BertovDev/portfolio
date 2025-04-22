@@ -2,6 +2,7 @@
 import React, { useEffect, useState, useRef } from "react";
 import CursorTip from "./CursorTip";
 import gsap from "gsap";
+import Link from "next/link";
 
 type Project = {
   id: number;
@@ -131,31 +132,31 @@ function ProjectItem({ ...props }: ProjectProps) {
       </div>{" "}
       <div className="font-normal text-gray-600">
         {props.project.link.github && (
-          <a
+          <Link
             href={props.project.link.github}
             target="_blank"
             className=" underline hover:text-custom-red"
           >
             GitHub
-          </a>
+          </Link>
         )}{" "}
         {props.project.link.website && (
-          <a
+          <Link
             href={props.project.link.website}
             target="_blank"
             className=" underline  hover:text-custom-red"
           >
             Website
-          </a>
+          </Link>
         )}{" "}
         {props.project.link.post && (
-          <a
+          <Link
             href={props.project.link.post}
             target="_blank"
             className=" underline hover:text-custom-red"
           >
             Post
-          </a>
+          </Link>
         )}
       </div>
     </li>
