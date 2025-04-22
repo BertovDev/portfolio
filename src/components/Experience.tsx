@@ -1,5 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { OrbitControls } from "@react-three/drei";
+import {
+  BakeShadows,
+  OrbitControls,
+  SoftShadows,
+  useTexture,
+} from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
@@ -20,13 +25,19 @@ type CameraPositions = {
 };
 
 export default function Experience() {
-  const { position, rotation, zoom } = useControls({
+  const { position, rotation, zoom, lightPos } = useControls({
     position: [-1.1, 3.9, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
+    lightPos: [-1.8, 2.5, 3],
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
+
+  const [schisimTexture, darkSide] = useTexture([
+    "/images/tool.jpeg",
+    "/images/darkside.jpeg",
+  ]);
 
   const cameraPositions: CameraPositions = {
     initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
@@ -87,6 +98,7 @@ export default function Experience() {
   return (
     <group>
       <OrbitControls />
+
       <OrthographicCamera
         ref={refCamera}
         makeDefault // Make this the main camera
@@ -96,14 +108,24 @@ export default function Experience() {
         far={20}
         zoom={zoom} // Adjust zoom to frame the scene correctly
       />
-      <ambientLight intensity={1} />
+
+      <ambientLight intensity={0.7} />
       <directionalLight
-        position={[1, 2, 3]}
-        intensity={4}
+        position={lightPos}
+        intensity={3.8}
         castShadow
-        shadow-mapSize={2048}
-        // shadow-bias={-0.001}
+        shadow-mapSize={1024}
+        shadow-bias={0}
       />
+      <directionalLight
+        position={[0.3, 2, 3]}
+        intensity={1.2}
+        castShadow
+        shadow-mapSize={1024}
+        shadow-bias={0.0001}
+        color={"#7195eb"}
+      />
+
       <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, -0.01, 0]}
@@ -111,10 +133,37 @@ export default function Experience() {
       >
         <planeGeometry args={[10, 10]} />
 
-        <shadowMaterial opacity={0.4} />
+        <shadowMaterial opacity={0.45} />
+
       </mesh>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={10}>
+        <planeGeometry args={[10, 10]} />
+
+        <meshBasicMaterial color={"white"} />
+      </mesh>
+
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 4]} scale={0.9}>
+        <planeGeometry args={[2, 2]} />
+
+        <meshBasicMaterial map={schisimTexture} />
+      </mesh>
+
+      <mesh
+        rotation={[-Math.PI / 2, 0, Math.PI / 10]}
+        position={[-1, 0.01, 4]}
+        scale={0.9}
+        castShadow
+      >
+        <planeGeometry args={[2, 2]} />
+
+        <meshBasicMaterial map={darkSide} />
+
+      </mesh>
+
       <PorfolioModel />
       <AboutModel />
+      <BakeShadows />
+      <SoftShadows size={25} samples={25} focus={0} />
     </group>
   );
 }

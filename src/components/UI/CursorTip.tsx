@@ -1,13 +1,25 @@
+
+import gsap from "gsap";
 import React, { useCallback, useEffect, useRef } from "react";
 
 type Props = {
   isHovering: boolean;
   textContent: string;
+
+  imageContent?: string | null;
 };
 
-export default function CursorTip({ isHovering, textContent }: Props) {
+export default function CursorTip({
+  isHovering,
+  textContent,
+  imageContent,
+}: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const positionRef = useRef({ x: 0, y: 0 });
+  const currentLoadId = useRef(0);
+  const hoverTimeout = useRef<number | null>(null);
+
 
   const updateMousePosition = useCallback((ev: MouseEvent) => {
     if (!ref.current) return;
@@ -27,6 +39,65 @@ export default function CursorTip({ isHovering, textContent }: Props) {
     return () => window.removeEventListener("mousemove", updateMousePosition);
   }, [isHovering, updateMousePosition]);
 
+
+  const fadeTween = useRef<gsap.core.Tween | null>(null);
+
+  const fadeOut = () => {
+    fadeTween.current?.kill(); // cancel any current animation
+    fadeTween.current = gsap.to(videoRef.current, {
+      opacity: 0,
+      duration: 0.4,
+      ease: "power2.out",
+    });
+    return fadeTween.current;
+  };
+
+  const fadeIn = () => {
+    fadeTween.current?.kill();
+    fadeTween.current = gsap.to(videoRef.current, {
+      opacity: 1,
+      duration: 0.3,
+      ease: "power2.in",
+    });
+    return fadeTween.current;
+  };
+
+  useEffect(() => {
+    hoverTimeout.current = window.setTimeout(() => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const currentId = ++currentLoadId.current;
+
+      const loadAndPlayVideo = async () => {
+        try {
+          await fadeOut().then(async () => {
+            video.pause();
+            video.src = imageContent || "";
+            video.load();
+
+            await new Promise<void>((resolve) => {
+              const onCanPlay = () => {
+                video.removeEventListener("canplay", onCanPlay);
+                resolve();
+              };
+              video.addEventListener("canplay", onCanPlay);
+            });
+
+            if (currentId === currentLoadId.current) {
+              console.log("Playing video");
+              await video.play();
+              fadeIn();
+            }
+          });
+        } catch (error) {
+          console.error("Error pausing video:", error);
+        }
+      };
+      loadAndPlayVideo();
+    }, 100);
+  }, [imageContent]);
+
   return (
     <div
       ref={ref}
@@ -34,6 +105,22 @@ export default function CursorTip({ isHovering, textContent }: Props) {
       style={{ opacity: isHovering ? 1 : 0 }}
     >
       {textContent}
+      {imageContent && (
+        <video
+          width={500}
+          height={500}
+          // autoPlay
+          loop
+          playsInline
+          muted
+          ref={videoRef}
+          className="pointer-events-none rounded-md drop-shadow-2xl opacity-0"
+        >
+          <source src={imageContent} type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+      )}
+
     </div>
   );
 }

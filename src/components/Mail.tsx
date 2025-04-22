@@ -38,8 +38,9 @@ export function MailModel({ isHovered = false, ...props }: MailModelProps) {
           >
             {isHovered && (
               <Outlines
+                castShadow={false}
                 thickness={0.6}
-                color="#db0000"
+                color="white"
                 angle={0}
                 scale={1.02}
               />
