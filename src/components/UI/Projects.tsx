@@ -1,4 +1,3 @@
-
 "use client";
 import React, { useEffect, useState, useRef } from "react";
 import CursorTip from "./CursorTip";
@@ -33,7 +32,7 @@ const proejcts: Project[] = [
     id: 1,
     title: "Viniltify",
     description: "",
-    demo: "/videos/viniltify.mp4",
+    demo: "/videos/vinil2.mkv",
     type: "3D Web experience ",
     link: {
       github: "https://github.com/BertovDev/viniltify_app",
@@ -45,7 +44,7 @@ const proejcts: Project[] = [
     id: 2,
     title: "My Daily Bliss Blog",
     description: "",
-    demo: "/videos/blog.mp4",
+    demo: "/videos/blog.mkv",
     type: "Blog",
     link: {
       github: "https://github.com/BertovDev/myDailyBlissBlog",
@@ -55,21 +54,22 @@ const proejcts: Project[] = [
   },
   {
     id: 3,
-    title: "Canvas Camera Shader",
+    title: "3D Connect Four",
     description: "",
-    demo: "/videos/cameraShader.mp4",
-    type: "Shader",
+    demo: "/videos/connect.mkv",
+    type: "3D Web experience ",
     link: {
-      github: "",
-      website: "",
-      post: "https://x.com/tongenjs/status/1892994665084854467",
+      github: "https://github.com/BertovDev/3D-Connect-Four",
+      website: "https://connectfour3d.netlify.app/",
+      post: "https://x.com/tongenjs/status/1516384493262802944",
     },
   },
+
   {
     id: 4,
     title: "Canvas Hologram Camera",
     description: "",
-    demo: "/videos/holograme.mp4",
+    demo: "/videos/holograme.mkv",
     type: "Shader ",
     link: {
       github: "",
@@ -91,6 +91,18 @@ const proejcts: Project[] = [
   },
   {
     id: 6,
+    title: "Canvas Camera Shader",
+    description: "",
+    demo: "/videos/camshader.mkv",
+    type: "Shader",
+    link: {
+      github: "",
+      website: "",
+      post: "https://x.com/tongenjs/status/1892994665084854467",
+    },
+  },
+  {
+    id: 7,
     title: "Isavet",
     description: "",
     demo: "/videos/isavet.mkv",
@@ -99,18 +111,6 @@ const proejcts: Project[] = [
       github: "https://github.com/BertovDev/IsaVet",
       website: "https://isavet.netlify.app/",
       post: "",
-    },
-  },
-  {
-    id: 7,
-    title: "3D Connect Four",
-    description: "",
-    demo: "/videos/connect.mkv",
-    type: "3D Web experience ",
-    link: {
-      github: "https://github.com/BertovDev/3D-Connect-Four",
-      website: "https://connectfour3d.netlify.app/",
-      post: "https://x.com/tongenjs/status/1516384493262802944",
     },
   },
 ];
@@ -233,5 +233,4 @@ export default function Projects() {
       />
     </div>
   );
-
 }
