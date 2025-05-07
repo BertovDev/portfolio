@@ -14,8 +14,8 @@ import { DoubleSide } from "three";
 
 export function PorfolioModel() {
   // const { rota, posa } = useControls({
-  //   posa: [-0.02, 0.04, 0.35],
-  //   rota: [-0.22, 0.13, 45.52],
+  //   posa: [22.4, 18, 9.3],
+  //   rota: [0, 5, 0],
   // });
 
   const [hoverShovel, setHoverShovel] = useState<boolean>(false);
@@ -56,7 +56,7 @@ export function PorfolioModel() {
       onPointerOver={() => hoverBox()}
       onPointerMissed={() => hoverLeave()}
     >
-      <group
+      {/* <group
         position={[-0.02, 0.018, 0.471]}
         rotation={[-Math.PI, 0, 0]}
         scale={0.0038}
@@ -79,10 +79,10 @@ export function PorfolioModel() {
             )}
           </mesh>
         </group>
-      </group>
+      </group> */}
       <group
-        position={[0.06, -0.117, 0.51]}
-        rotation={[-3.135, 0.523, 3.132]}
+        position={[-0.09, -0.11, 0.59]}
+        rotation={[-3.17, 1.5, 3.13]}
         scale={0.008}
         onPointerEnter={() => setHoverShovel(true)}
         onPointerLeave={() => setHoverShovel(false)}
@@ -156,8 +156,8 @@ export function PorfolioModel() {
           </mesh>
           {hoverShovel && (
             <Annotation
-              position={[22, 18, 11.5]}
-              rotation={[0, 173.6, 0]}
+              position={[22.4, 18, 9.3]}
+              rotation={[0, 5, 0]}
               scale={10}
             >
               <span>Work</span>

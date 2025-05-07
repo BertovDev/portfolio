@@ -119,7 +119,7 @@ function ProjectItem({ ...props }: ProjectProps) {
   const ref: React.RefObject<HTMLLIElement | null> = React.createRef();
 
   return (
-    <li className="flex flex-row gap-2 item" ref={ref}>
+    <li className="flex flex-col lg:flex-row gap-2 item" ref={ref}>
       <div
         onPointerEnter={() =>
           props.setHoverProject({ demo: props.project.demo, state: true })
@@ -207,13 +207,13 @@ export default function Projects() {
 
   return (
     <div className="cursor-auto w-full h-full 0 font-inter flex justify-start flex-col">
-      <h1 className="text-3xl font-bold mt-5 ml-5">
+      <h1 className="text-lg lg:text-3xl font-bold mt-5 ml-5">
         Projects and Experiments Archive_
       </h1>
       <div className="flex justify-center h-full items-center mb-10">
         <ul
           ref={listRef}
-          className="flex text-center items-center justify-center flex-col gap-4 text-3xl lg:text-4xl 2xl:text-5xl font-semibold"
+          className="flex text-center items-center justify-center flex-col px-2 lg:px-0 gap-y-2  gap-0 lg:gap-4 text-xl md:text-3xl lg:text-4xl 2xl:text-5xl font-semibold"
         >
           {proejcts.map((project, index) => {
             return (
