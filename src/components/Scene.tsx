@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense } from "react";
+import React from "react";
 import Experience from "./Experience";
 import { Perf } from "r3f-perf";
 
@@ -16,10 +16,8 @@ export default function Scene() {
       className="bg-white"
     >
       {process.env.NODE_ENV === "development" && <Perf position="top-left" />}
-      <Suspense fallback={null}>
-        <Leva hidden />
-        <Experience />
-      </Suspense>
+      <Leva hidden />
+      <Experience />
     </Canvas>
   );
 }

@@ -26,7 +26,7 @@ type CameraPositions = {
 
 export default function Experience() {
   const { position, rotation, zoom, lightPos } = useControls({
-    position: [-1.1, 3.9, 5],
+    position: [-1.1, 3.3, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
     lightPos: [-1.8, 2.5, 3],
@@ -40,8 +40,8 @@ export default function Experience() {
   ]);
 
   const cameraPositions: CameraPositions = {
-    initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
-    zoomedPos: { position: [-3, 5, 5], zoom: 180 },
+    initialPos: { position: [-1.1, 3.3, 5], zoom: 120 },
+    zoomedPos: { position: [-3, 5, 5], zoom: 170 },
   };
 
   useEffect(() => {
@@ -134,15 +134,14 @@ export default function Experience() {
         <planeGeometry args={[10, 10]} />
 
         <shadowMaterial opacity={0.45} />
-
       </mesh>
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={10}>
-        <planeGeometry args={[10, 10]} />
+        <planeGeometry args={[20, 20]} />
 
         <meshBasicMaterial color={"white"} />
       </mesh>
 
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, 0, 4]} scale={0.9}>
+      <mesh rotation={[-Math.PI / 2, 0, 0.2]} position={[1, 0, 4]} scale={0.9}>
         <planeGeometry args={[2, 2]} />
 
         <meshBasicMaterial map={schisimTexture} />
@@ -150,16 +149,14 @@ export default function Experience() {
 
       <mesh
         rotation={[-Math.PI / 2, 0, Math.PI / 10]}
-        position={[-1, 0.01, 4]}
+        position={[0, 0.01, 4]}
         scale={0.9}
         castShadow
       >
         <planeGeometry args={[2, 2]} />
 
         <meshBasicMaterial map={darkSide} />
-
       </mesh>
-
       <PorfolioModel />
       <AboutModel />
       <BakeShadows />

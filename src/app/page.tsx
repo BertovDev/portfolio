@@ -4,9 +4,11 @@ import AsideInfo from "@/components/UI/AsideInfo";
 import Content from "@/components/UI/Content";
 import TipBar from "@/components/UI/TipBar";
 
+import LoadingScreen from "@/components/UI/LoadingScreen";
+
 export default function Home() {
   return (
-    <main className="absolute h-full w-full">
+    <main className="absolute min-w-full ">
       <AsideInfo />
       <Scene />
       <TipBar
@@ -17,6 +19,7 @@ export default function Home() {
       />
       <Aside />
       <Content />
+      <LoadingScreen />
     </main>
   );
 }
