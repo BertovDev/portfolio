@@ -26,7 +26,7 @@ type CameraPositions = {
 
 export default function Experience() {
   const { position, rotation, zoom, lightPos } = useControls({
-    position: [-1.1, 3.9, 5],
+    position: [-1.1, 3.3, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
     lightPos: [-1.8, 2.5, 3],
@@ -40,7 +40,7 @@ export default function Experience() {
   ]);
 
   const cameraPositions: CameraPositions = {
-    initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
+    initialPos: { position: [-1.1, 3.3, 5], zoom: 120 },
     zoomedPos: { position: [-3, 5, 5], zoom: 170 },
   };
 

@@ -16,6 +16,14 @@ export default function LoadingScreen() {
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  const [mobileWarning, setMobileWarning] = useState<boolean>(false);
+
+  const detectMobile = () => {
+    if (window.innerWidth < 900) {
+      setMobileWarning(true);
+    }
+  };
+
   const animateText = () => {
     if (!loadingTextRef.current) return;
 
@@ -154,9 +162,9 @@ export default function LoadingScreen() {
   useEffect(() => {
     if (progress === 0) {
       animateText();
+      detectMobile();
     }
     if (progress === 100) {
-      console.log("ALL done!");
       setIsLoading(false);
     }
   }, [progress]);
@@ -195,10 +203,10 @@ export default function LoadingScreen() {
           {progress === 100 && (
             <div className="flex flex-col justify-center items-center">
               <div className="">
-                <h2 className="welcome text-[300px] font-inter font-bold uppercase">
+                <h2 className="welcome text-[80px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
                   Welcome
                 </h2>
-                <div className="underline-bar w-0 relative bottom-20 h-1 bg-black"></div>
+                <div className="underline-bar w-0 relative bottom-5 2xl:bottom-20 h-1 bg-black"></div>
               </div>
               <button
                 className="start-button border cursor-pointer rounded-lg py-1 text-lg font-intter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
@@ -207,6 +215,12 @@ export default function LoadingScreen() {
               >
                 Start
               </button>
+
+              {mobileWarning && (
+                <div className="text-yellow-500 absolute bottom-0">
+                  Warning: This experience is not fully suported on mobile{" "}
+                </div>
+              )}
             </div>
           )}
         </div>
