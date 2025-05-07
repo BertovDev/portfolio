@@ -193,7 +193,7 @@ export default function LoadingScreen() {
         <div className="flex flex-col justify-center items-center  min-h-screen">
           <div
             ref={loadingTextRef}
-            className="text-[80px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-1"
+            className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-1"
           >
             <p>LOADING</p>
           </div>
@@ -203,10 +203,10 @@ export default function LoadingScreen() {
           {progress === 100 && (
             <div className="flex flex-col justify-center items-center">
               <div className="">
-                <h2 className="welcome text-[80px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
+                <h2 className="welcome text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
                   Welcome
                 </h2>
-                <div className="underline-bar w-0 relative bottom-5 2xl:bottom-20 h-1 bg-black"></div>
+                <div className="underline-bar w-0 relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
               </div>
               <button
                 className="start-button border cursor-pointer rounded-lg py-1 text-lg font-intter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
@@ -217,7 +217,7 @@ export default function LoadingScreen() {
               </button>
 
               {mobileWarning && (
-                <div className="text-yellow-500 absolute bottom-0">
+                <div className="text-yellow-500 text-center flex items-center absolute bottom-0">
                   Warning: This experience is not fully suported on mobile{" "}
                 </div>
               )}
