@@ -213,7 +213,7 @@ export default function Projects() {
       <div className="flex justify-center h-full items-center mb-10">
         <ul
           ref={listRef}
-          className="flex text-center items-center justify-center flex-col gap-4 text-5xl font-semibold"
+          className="flex text-center items-center justify-center flex-col gap-4 text-3xl lg:text-4xl 2xl:text-5xl font-semibold"
         >
           {proejcts.map((project, index) => {
             return (

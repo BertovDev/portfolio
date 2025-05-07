@@ -11,13 +11,13 @@ type NextType = {
 
 export default function Work() {
   const [next, setNext] = useState<NextType>({
-    role: "???? Be the next in here :D",
+    role: "Be the next ",
     company: "",
   });
   const [workExperience, setWorkExperience] = useState<string>("Lambda");
 
   return (
-    <div className="text-black text-5xl h-full bg-white flex flex-row ">
+    <div className="text-black text-5xl h-full bg-white flex flex-row overflow-auto">
       <div className="ml-2 ">
         <ul className=" flex flex-row items-start  text-custom-red gap-x-0.5">
           <li
@@ -38,8 +38,8 @@ export default function Work() {
           <li
             className={`work-title-li ${
               workExperience === "Scholarship"
-                ? "opacity-100"
-                : "opacity-50 hover:opacity-80 hover:transition-opacity duration-300"
+                ? "opacity-100 "
+                : "opacity-50  hover:opacity-80 hover:transition-opacity duration-300"
             }`}
             onClick={() => {
               setWorkExperience("Scholarship");

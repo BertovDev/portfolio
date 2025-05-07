@@ -193,7 +193,7 @@ export default function LoadingScreen() {
         <div className="flex flex-col justify-center items-center  min-h-screen">
           <div
             ref={loadingTextRef}
-            className="text-[300px] font-bold loading-text bg-black text-white w-1"
+            className="text-[80px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-1"
           >
             <p>LOADING</p>
           </div>
