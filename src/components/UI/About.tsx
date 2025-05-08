@@ -40,7 +40,7 @@ export default function About() {
     gsap.from(split.lines, {
       yPercent: 100,
       opacity: 0,
-      duration: 1,
+      duration: 0.6,
       ease: "power2",
       stagger: 0.1,
     });
