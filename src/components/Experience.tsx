@@ -122,7 +122,7 @@ export default function Experience() {
         zoom={zoom} // Adjust zoom to frame the scene correctly
       />
 
-      {/* <ambientLight intensity={0.1} /> */}
+      <ambientLight intensity={0.1} />
 
       <Lights />
 
@@ -130,7 +130,7 @@ export default function Experience() {
 
       <directionalLight
         position={lightPos}
-        intensity={3.5}
+        intensity={3.8}
         castShadow
         shadow-mapSize={1024}
         shadow-bias={0}

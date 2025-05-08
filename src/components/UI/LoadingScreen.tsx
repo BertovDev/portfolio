@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
+import Image from "next/image";
 
 gsap.registerPlugin(SplitText);
 
@@ -27,13 +28,13 @@ export default function LoadingScreen() {
   const animateText = () => {
     if (!loadingTextRef.current) return;
 
-    gsap.to(loadingTextRef.current, {
-      width: "100%",
-      duration: 2,
-      yoyo: true,
-      repeat: -1,
-      ease: "power2",
-    });
+    // gsap.to(loadingTextRef.current, {
+    //   width: "0%",
+    //   duration: 2,
+    //   // yoyo: true,
+    //   // repeat: -1,
+    //   ease: "power2",
+    // });
 
     // // Kill previous split
     // const split = new SplitText(loadingTextRef.current.children[0], {
@@ -160,6 +161,16 @@ export default function LoadingScreen() {
   };
 
   useEffect(() => {
+    if (!loadingTextRef.current) return;
+    const current: number = 500 - (progress * 500) / 100;
+    gsap.to(loadingTextRef.current, {
+      width: `${current}`,
+      duration: 2,
+      // yoyo: true,
+      // repeat: -1,
+      ease: "power2",
+    });
+
     if (progress === 0) {
       animateText();
       detectMobile();
@@ -191,12 +202,15 @@ export default function LoadingScreen() {
     >
       <div className="flex flex-col justify-around items-center min-h-full">
         <div className="flex flex-col justify-center items-center  min-h-screen">
+          <div className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-full">
+            {/* <p>LOADING</p> */}
+            <Image src={"/benjiDor.png"} width={500} height={500} alt="benji" />
+          </div>
           <div
             ref={loadingTextRef}
-            className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-1"
-          >
-            <p>LOADING</p>
-          </div>
+            className="bg-white h-125 w-125 absolute"
+          ></div>
+          <h2 className="mt-5 font-inter font-bold text-3xl">Loading...</h2>
         </div>
 
         <div className="flex flex-col gap-y-1 my-auto justify-center items-center ">
