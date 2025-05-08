@@ -5,6 +5,9 @@ import CursorTip from "./CursorTip";
 import gsap from "gsap";
 import TipBar from "./TipBar";
 import Image from "next/image";
+import { SplitText } from "gsap/SplitText";
+
+gsap.registerPlugin(SplitText);
 
 type ImageInfoState = {
   textContent: string;
@@ -27,6 +30,21 @@ export default function About() {
     useRef<HTMLImageElement>(null);
 
   useEffect(() => {
+    gsap.set(".about-text", { opacity: 1 });
+
+    const split: SplitText = SplitText.create(".about-text", {
+      type: "lines, words",
+      mask: "lines",
+    });
+
+    gsap.from(split.lines, {
+      yPercent: 100,
+      opacity: 0,
+      duration: 1,
+      ease: "power2",
+      stagger: 0.1,
+    });
+
     gsap.to(sapporoRef.current, {
       scale: 1.1,
       duration: 0.9,
@@ -135,18 +153,18 @@ export default function About() {
         />
       </div>
       <div className="flex-none  w-full lg:w-2/4 mb-0 lg:mb-20 px-5 md:px-10 lg:px-0">
-        <div className="text-black font-inter font-medium text-center text-lg/5.5 md:text-2xl lg:text-2xl xl:text-4xl 2xl:text-5xl/13">
+        <div className="about-text text-black font-inter font-medium text-center text-lg/5.5 md:text-2xl lg:text-2xl xl:text-4xl 2xl:text-5xl/13">
           I´m Bautista Berto{" "}
-          <span className="line-through decoration-3 decoration-custom-blue font-mono">
-            Creative
+          <span className="relative after:absolute after:left-0 after:bottom-1/2 after:top-1/2 after:h-[3px] after:w-full after:bg-custom-blue">
+            <span className="text-black">Creative</span>
           </span>{" "}
           Frontend Developer from Buenos Aires, Argentina. With 3+ years of
           expertise using React, Typescript and ThreeJs. I combine a creative
           perspective with JavaScript tools, leveraging my experience in
           application and game development to create <br />
-          <span className=" underline decoration-3 decoration-custom-red">
-            Unique Web Experiences.
-          </span>
+          <span className="relative after:absolute after:left-0 after:bottom-0  after:h-[5px] after:w-full after:bg-custom-red">
+            <span className="text-black">Unique Web Experiences</span>
+          </span>{" "}
         </div>
 
         <TipBar
