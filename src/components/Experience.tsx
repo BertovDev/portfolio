@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BakeShadows,
   OrbitControls,
   SoftShadows,
+  SpotLight,
   useTexture,
 } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
@@ -13,9 +14,17 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
 import { AboutModel } from "./AboutModel";
+import Lights from "./Lights";
+
+import {
+  Vignette,
+  EffectComposer,
+  Bloom,
+  TiltShift2,
+} from "@react-three/postprocessing";
 
 type CameraProp = {
-  position: [number, number, number];
+  position: THREE.Vector3;
   zoom: number;
 };
 
@@ -25,11 +34,13 @@ type CameraPositions = {
 };
 
 export default function Experience() {
-  const { position, rotation, zoom, lightPos } = useControls({
+  const { position, rotation, zoom, lightPos, darkness, offset } = useControls({
     position: [-1.1, 3.9, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
     lightPos: [-1.8, 2.5, 3],
+    darkness: 0.7,
+    offset: 0.3,
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
@@ -40,16 +51,16 @@ export default function Experience() {
   ]);
 
   const cameraPositions: CameraPositions = {
-    initialPos: { position: [-1.1, 3.9, 5], zoom: 120 },
-    zoomedPos: { position: [-3, 5, 5], zoom: 170 },
+    initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
+    zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
   };
 
   useEffect(() => {
     if (cameraZoomed && refCamera.current) {
       gsap.to(refCamera.current.position, {
-        x: cameraPositions.zoomedPos.position[0],
-        y: cameraPositions.zoomedPos.position[1],
-        z: cameraPositions.zoomedPos.position[2],
+        x: cameraPositions.zoomedPos.position.x,
+        y: cameraPositions.zoomedPos.position.y,
+        z: cameraPositions.zoomedPos.position.z,
         duration: 1,
         ease: "power3.inOut",
         onUpdate: () => {
@@ -71,9 +82,9 @@ export default function Experience() {
     } else if (!cameraZoomed && refCamera.current) {
       //Zoomout anim
       gsap.to(refCamera.current.position, {
-        x: cameraPositions.initialPos.position[0],
-        y: cameraPositions.initialPos.position[1],
-        z: cameraPositions.initialPos.position[2],
+        x: cameraPositions.initialPos.position.x,
+        y: cameraPositions.initialPos.position.y,
+        z: cameraPositions.initialPos.position.z,
         duration: 1,
         ease: "power3.inOut",
         onUpdate: () => {
@@ -98,6 +109,8 @@ export default function Experience() {
   return (
     <group>
       <OrbitControls />
+      <color attach="background" args={["#f0f0f0"]} />
+      <fog attach="fog" args={["#f0f0f0", 0, 20]} />
 
       <OrthographicCamera
         ref={refCamera}
@@ -109,10 +122,15 @@ export default function Experience() {
         zoom={zoom} // Adjust zoom to frame the scene correctly
       />
 
-      <ambientLight intensity={0.7} />
+      {/* <ambientLight intensity={0.1} /> */}
+
+      <Lights />
+
+      {/* <pointLight color={"white"} position={[-1, 6, 0]} intensity={2} /> */}
+
       <directionalLight
         position={lightPos}
-        intensity={3.8}
+        intensity={3.5}
         castShadow
         shadow-mapSize={1024}
         shadow-bias={0}
@@ -131,17 +149,21 @@ export default function Experience() {
         position={[0, -0.01, 0]}
         receiveShadow
       >
-        <planeGeometry args={[10, 10]} />
+        <planeGeometry args={[10, 10, 1, 1]} />
 
-        <shadowMaterial opacity={0.45} />
+        <shadowMaterial opacity={0.65} transparent />
       </mesh>
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.02, 0]} scale={10}>
+      {/* <mesh
+        rotation={[-Math.PI / 2, 0, 0]}
+        position={[0, -0.002, 0]}
+        scale={10}
+      >
         <planeGeometry args={[20, 20]} />
 
-        <meshBasicMaterial color={"white"} />
-      </mesh>
+        <meshBasicMaterial color={"black"} />
+      </mesh> */}
 
-      <mesh rotation={[-Math.PI / 2, 0, 0.2]} position={[1, 0, 4]} scale={0.9}>
+      {/* <mesh rotation={[-Math.PI / 2, 0, 0.2]} position={[1, 0, 4]} scale={0.9}>
         <planeGeometry args={[2, 2]} />
 
         <meshBasicMaterial map={schisimTexture} />
@@ -156,11 +178,21 @@ export default function Experience() {
         <planeGeometry args={[2, 2]} />
 
         <meshBasicMaterial map={darkSide} />
-      </mesh>
+      </mesh> */}
       <PorfolioModel />
       <AboutModel />
       <BakeShadows />
-      <SoftShadows size={25} samples={25} focus={0} />
+
+      <SoftShadows size={35} samples={20} />
+      <EffectComposer stencilBuffer={true}>
+        <Bloom
+          intensity={0.1}
+          luminanceThreshold={0.2}
+          luminanceSmoothing={0.9}
+        />
+        <Vignette darkness={0.7} offset={0.1} />
+        <TiltShift2 blur={0.3} />
+      </EffectComposer>
     </group>
   );
 }

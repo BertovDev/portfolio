@@ -8,7 +8,7 @@ interface AnnotationProps extends ComponentProps<typeof Html> {
 export default function Annotation({ children, ...props }: AnnotationProps) {
   return (
     <Html {...props} transform occlude="raycast" castShadow={false}>
-      <div className="font-mono  text-shadow-lg/30 font-bold text-white  text-xs">
+      <div className="font-mono font-extrabold   text-black text-sm ">
         {children}
       </div>
     </Html>
