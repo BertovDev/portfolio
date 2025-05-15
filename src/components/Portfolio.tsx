@@ -19,7 +19,7 @@ export function PorfolioModel() {
   // });
 
   const [hoverShovel, setHoverShovel] = useState<boolean>(false);
-  const [hoverCard, setHoverCard] = useState<boolean>(false);
+  // const [hoverCard, setHoverCard] = useState<boolean>(false);
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
   const [hoverMail, setHoverMail] = useState<boolean>(false);
 

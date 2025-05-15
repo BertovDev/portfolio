@@ -1,11 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import {
-  BakeShadows,
-  OrbitControls,
-  SoftShadows,
-  SpotLight,
-  useTexture,
-} from "@react-three/drei";
+import React, { useEffect, useRef } from "react";
+import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
 
@@ -34,21 +28,19 @@ type CameraPositions = {
 };
 
 export default function Experience() {
-  const { position, rotation, zoom, lightPos, darkness, offset } = useControls({
+  const { position, rotation, zoom, lightPos } = useControls({
     position: [-1.1, 3.9, 5],
     rotation: [0, 0.67, 0],
     zoom: 130,
     lightPos: [-1.8, 2.5, 3],
-    darkness: 0.7,
-    offset: 0.3,
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
-  const [schisimTexture, darkSide] = useTexture([
-    "/images/tool.jpeg",
-    "/images/darkside.jpeg",
-  ]);
+  // const [schisimTexture, darkSide] = useTexture([
+  //   "/images/tool.jpeg",
+  //   "/images/darkside.jpeg",
+  // ]);
 
   const cameraPositions: CameraPositions = {
     initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
