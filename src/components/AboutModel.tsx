@@ -42,6 +42,7 @@ export function AboutModel() {
         material={materials["Material_0.002"]}
         position={[0, 0, 0]}
         castShadow
+        receiveShadow
       >
         {hover && <Outlines thickness={1.1} color="white" />}
       </mesh>

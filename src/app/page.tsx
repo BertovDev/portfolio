@@ -8,17 +8,18 @@ import LoadingScreen from "@/components/UI/LoadingScreen";
 
 export default function Home() {
   return (
-    <main className="absolute min-w-full ">
+    <main className="min-h-screen">
       <AsideInfo />
       <Scene />
       <TipBar
         hasAnimation={false}
         hasInteration={true}
-        initialText="Hover on box to zoom"
+        initialText="What's inside the box? Hover it!"
         styleProps=" text-black"
       />
       <Aside />
       <Content />
+      {/* {process.env.NODE_ENV === "production" && <LoadingScreen />} */}
       <LoadingScreen />
     </main>
   );
