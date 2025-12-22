@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
+import { Physics, RigidBody } from "@react-three/rapier";
 
-import { useCameraStore } from "@/utils/Utils";
+import { useCameraStore, useClearDiplomasStore } from "@/utils/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
@@ -16,6 +17,8 @@ import {
   Bloom,
   TiltShift2,
 } from "@react-three/postprocessing";
+import { Diploma } from "./Diploma";
+import DiplomaInstances from "./DiplomaInstances";
 
 type CameraProp = {
   position: THREE.Vector3;
@@ -35,6 +38,7 @@ export default function Experience() {
     lightPos: [-1.8, 2.5, 3],
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
+  const { isClearDiplomas } = useClearDiplomasStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   // const [schisimTexture, darkSide] = useTexture([
@@ -136,15 +140,26 @@ export default function Experience() {
         color={"#7195eb"}
       />
 
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.01, 0]}
-        receiveShadow
-      >
-        <planeGeometry args={[10, 10, 1, 1]} />
+      <Physics colliders="cuboid" gravity={[0, -20, 0]} timeStep="vary">
+        <RigidBody type="fixed" colliders="cuboid">
+          <mesh
+            rotation={[-Math.PI / 2, 0, 0]}
+            position={[0, -0.01, 0]}
+            receiveShadow
+          >
+            <planeGeometry args={[100, 100, 1, 1]} />
+            <shadowMaterial opacity={0.65} transparent />
+          </mesh>
+        </RigidBody>
 
-        <shadowMaterial opacity={0.65} transparent />
-      </mesh>
+        {isClearDiplomas && <DiplomaInstances />}
+
+        <PorfolioModel />
+
+        <RigidBody type="fixed" colliders="hull">
+          <AboutModel />
+        </RigidBody>
+      </Physics>
       {/* <mesh
         rotation={[-Math.PI / 2, 0, 0]}
         position={[0, -0.002, 0]}
@@ -171,9 +186,11 @@ export default function Experience() {
 
         <meshBasicMaterial map={darkSide} />
       </mesh> */}
-      <PorfolioModel />
-      <AboutModel />
       <BakeShadows />
+      <Diploma
+        position={[-0.5, 0.5, 2.78]}
+        scale={120}
+      />
 
       <SoftShadows size={35} samples={20} />
       <EffectComposer stencilBuffer={true}>
