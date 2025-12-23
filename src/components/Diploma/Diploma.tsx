@@ -13,13 +13,12 @@ import { useClearDiplomasStore } from "@/utils/Utils";
 
 type GLTFResult = GLTF & {
   nodes: {
-    pCube1_lambert1_0: THREE.Mesh;
-  };
+    pCube1_lambert1_0: THREE.Mesh
+  }
   materials: {
-    lambert1: THREE.MeshStandardMaterial;
-  };
-};
-
+    lambert1: THREE.MeshStandardMaterial
+  }
+}
 export function Diploma(props: ComponentProps<"group">) {
   const { nodes, materials } = useGLTF("/diploma.glb") as unknown as GLTFResult;
   const { setClearDiplomas } = useClearDiplomasStore();
@@ -39,25 +38,26 @@ export function Diploma(props: ComponentProps<"group">) {
     setClearDiplomas(true);
   };
 
-
   return (
     <group {...props} dispose={null}>
-      <group rotation={[-0.242, 0, 0]}>
+      <group rotation={[-0.242, 0, 0]} scale={1.3}>
         <group rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
-          <mesh
-            onClick={onClick}
-            onPointerOver={hoverBox}
-            onPointerLeave={hoverLeave}
-            castShadow
-            receiveShadow
-            geometry={nodes.pCube1_lambert1_0.geometry}
-            material={materials.lambert1}
-            scale={[0.663, 0.061, 0.802]}
-          >
-            {hover && (
-              <Outlines castShadow={false} thickness={1.1} color="white" />
-            )}
-          </mesh>
+          <group scale={[0.663, 0.061, 0.802]}>
+            <mesh
+              onClick={onClick}
+              onPointerOver={hoverBox}
+              onPointerLeave={hoverLeave}
+              castShadow
+              receiveShadow
+              geometry={nodes.pCube1_lambert1_0.geometry}
+              material={materials.lambert1}
+              scale={[1, 3, 1]}
+            >
+              {hover && (
+                <Outlines castShadow={false} thickness={1.1} color="white" />
+              )}
+            </mesh>
+          </group>
         </group>
       </group>
     </group>

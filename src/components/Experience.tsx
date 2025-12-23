@@ -17,8 +17,8 @@ import {
   Bloom,
   TiltShift2,
 } from "@react-three/postprocessing";
-import { Diploma } from "./Diploma";
-import DiplomaInstances from "./DiplomaInstances";
+import { Diploma } from "./Diploma/Diploma";
+import DiplomaInstances from "./Diploma/DiplomaInstances";
 
 type CameraProp = {
   position: THREE.Vector3;
@@ -187,10 +187,12 @@ export default function Experience() {
         <meshBasicMaterial map={darkSide} />
       </mesh> */}
       <BakeShadows />
-      <Diploma
-        position={[-0.5, 0.5, 2.78]}
-        scale={120}
-      />
+      <Diploma position={[-0.7, 0.5, 2.75]} scale={100} />
+
+      {/* <DiplomaMerged
+        position={[-0.6, 0.5, 2.58]}
+        scale={100}
+      /> */}
 
       <SoftShadows size={35} samples={20} />
       <EffectComposer stencilBuffer={true}>

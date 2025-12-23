@@ -19,7 +19,6 @@ type GLTFResult = GLTF & {
     lambert1: THREE.MeshStandardMaterial;
   };
 };
-
 const RANGE = 70;
 
 // Simple noise function for dissolve effect
@@ -239,7 +238,7 @@ export default function DiplomaInstances() {
           Math.random() * 2 * Math.PI,
           Math.random() * 2 * Math.PI,
         ],
-        scale: [1, 0.7, 1],
+        scale: [1, .5, 1],
       });
     }
 
@@ -368,6 +367,7 @@ export default function DiplomaInstances() {
           ref={meshRef}
           args={[nodes.pCube1_lambert1_0.geometry, undefined, instances.length]}
           count={instances.length}
+          scale={[1, 1, 1]}
         >
           <primitive
             object={shaderMaterial}

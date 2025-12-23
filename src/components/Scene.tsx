@@ -16,7 +16,7 @@ export default function Scene() {
       className="bg-white"
     >
       {process.env.NODE_ENV === "development" && <Perf position="top-left" />}
-      <Leva hidden />
+      {/* <Leva hidden /> */}
       <Experience />
     </Canvas>
   );
