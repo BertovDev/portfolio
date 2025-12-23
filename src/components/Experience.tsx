@@ -153,46 +153,18 @@ export default function Experience() {
         </RigidBody>
 
         {isClearDiplomas && <DiplomaInstances />}
-
         <PorfolioModel />
 
         <RigidBody type="fixed" colliders="hull">
           <AboutModel />
         </RigidBody>
+
+        <RigidBody type="fixed" colliders="cuboid">
+          <Diploma position={[-0.7, 0.5, 2.75]} scale={100} />
+        </RigidBody>
       </Physics>
-      {/* <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.002, 0]}
-        scale={10}
-      >
-        <planeGeometry args={[20, 20]} />
 
-        <meshBasicMaterial color={"black"} />
-      </mesh> */}
-
-      {/* <mesh rotation={[-Math.PI / 2, 0, 0.2]} position={[1, 0, 4]} scale={0.9}>
-        <planeGeometry args={[2, 2]} />
-
-        <meshBasicMaterial map={schisimTexture} />
-      </mesh>
-
-      <mesh
-        rotation={[-Math.PI / 2, 0, Math.PI / 10]}
-        position={[0, 0.01, 4]}
-        scale={0.9}
-        castShadow
-      >
-        <planeGeometry args={[2, 2]} />
-
-        <meshBasicMaterial map={darkSide} />
-      </mesh> */}
       <BakeShadows />
-      <Diploma position={[-0.7, 0.5, 2.75]} scale={100} />
-
-      {/* <DiplomaMerged
-        position={[-0.6, 0.5, 2.58]}
-        scale={100}
-      /> */}
 
       <SoftShadows size={35} samples={20} />
       <EffectComposer stencilBuffer={true}>
