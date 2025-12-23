@@ -196,6 +196,7 @@ export function PorfolioModel() {
           geometry={nodes["Box_1-b_Boxes_0"].geometry}
           material={materials.Boxes}
           castShadow
+          receiveShadow
         />
       </group>
 

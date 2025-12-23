@@ -202,7 +202,7 @@ const fragmentShader = `
       discard;
     }
     
-    gl_FragColor = vec4(color, alpha);
+    gl_FragColor = vec4(finalColor, alpha);
   }
 `;
 
