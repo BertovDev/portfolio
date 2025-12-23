@@ -321,7 +321,7 @@ export default function DiplomaInstances() {
         key: `instance_${i}`,
         position: [
           2 + Math.random() * -5,
-          8 + Math.random() * 200,
+          8 + Math.random() * 100,
           Math.random() * 2,
         ],
         rotation: [
