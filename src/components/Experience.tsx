@@ -104,7 +104,7 @@ export default function Experience() {
 
   return (
     <group>
-      <OrbitControls />
+      {process.env.NODE_ENV === "development" && <OrbitControls />}
       <color attach="background" args={["#f0f0f0"]} />
       <fog attach="fog" args={["#f0f0f0", 0, 20]} />
 

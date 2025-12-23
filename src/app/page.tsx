@@ -5,7 +5,7 @@ import ClearDiplomas from "@/components/UI/ClearDiplomas";
 import Content from "@/components/UI/Content";
 import TipBar from "@/components/UI/TipBar";
 
-// import LoadingScreen from "@/components/UI/LoadingScreen";
+import LoadingScreen from "@/components/UI/LoadingScreen";
 
 export default function Home() {
   return (
@@ -21,7 +21,7 @@ export default function Home() {
       <Aside />
       <ClearDiplomas />
       <Content />
-      {/* {process.env.NODE_ENV === "production" && <LoadingScreen />} */}
+      {process.env.NODE_ENV === "production" && <LoadingScreen />}
       {/* <LoadingScreen /> */}
     </main>
   );

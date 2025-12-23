@@ -15,8 +15,8 @@ export default function Scene() {
       style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0 }}
       className="bg-white"
     >
-      {process.env.NODE_ENV === "development" && <Perf position="top-left" />}
-      {/* <Leva hidden /> */}
+      {process.env.NODE_ENV !== "development" && <Perf position="top-left" />}
+      <Leva hidden />
       <Experience />
     </Canvas>
   );

@@ -19,7 +19,7 @@ type GLTFResult = GLTF & {
     lambert1: THREE.MeshStandardMaterial;
   };
 };
-const RANGE = 70;
+const RANGE = 100;
 
 // Simple noise function for dissolve effect
 const noiseFunction = `
@@ -123,6 +123,9 @@ const vertexShader = `
   
   varying vec3 vColor;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
+  varying vec3 vNormal;
+  varying vec3 vWorldNormal;
   varying float vTime;
   varying float vProgress;
   varying vec2 vUv;
@@ -134,8 +137,14 @@ const vertexShader = `
     vPosition = position;
     vUv = uv;
     
+    // Transform normal to world space for lighting
+    vNormal = normal;
+    vec4 worldNormal = modelMatrix * instanceMatrix * vec4(normal, 0.0);
+    vWorldNormal = normalize(worldNormal.xyz);
+    
     // Standard vertex transformation
     vec4 modelPosition = modelMatrix * instanceMatrix * vec4(position, 1.0);
+    vWorldPosition = modelPosition.xyz;
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;
     
@@ -143,7 +152,7 @@ const vertexShader = `
   }
 `;
 
-// Fragment Shader - handles the visual appearance with dissolve effect
+// Fragment Shader - handles the visual appearance with dissolve effect and PBR lighting
 const fragmentShader = `
   ${noiseFunction}
   
@@ -157,11 +166,58 @@ const fragmentShader = `
   uniform vec3 uEdgeColor;
   uniform float uNoiseScale;
   
+  // PBR properties
+  uniform float uRoughness;
+  uniform float uMetalness;
+  uniform sampler2D uNormalMap;
+  uniform bool uHasNormalMap;
+  uniform float uNormalScale;
+  uniform sampler2D uRoughnessMap;
+  uniform bool uHasRoughnessMap;
+  uniform sampler2D uMetalnessMap;
+  uniform bool uHasMetalnessMap;
+  uniform sampler2D uAoMap;
+  uniform bool uHasAoMap;
+  uniform float uAoMapIntensity;
+  uniform vec3 uEmissive;
+  uniform float uEmissiveIntensity;
+  uniform vec3 uCameraPosition;
+  
   varying vec3 vColor;
   varying vec3 vPosition;
+  varying vec3 vWorldPosition;
+  varying vec3 vNormal;
+  varying vec3 vWorldNormal;
   varying float vTime;
   varying float vProgress;
   varying vec2 vUv;
+  
+  // Simplified PBR lighting calculation
+  vec3 calculatePBR(vec3 albedo, vec3 normal, float roughness, float metalness) {
+    // Basic directional light (simulating scene lighting)
+    vec3 lightDir = normalize(vec3(1.0, 1.0, 1.0));
+    vec3 viewDir = normalize(uCameraPosition - vWorldPosition);
+    
+    // Diffuse lighting
+    float NdotL = max(dot(normal, lightDir), 0.0);
+    vec3 diffuse = albedo * NdotL;
+    
+    // Specular lighting (simplified)
+    vec3 halfDir = normalize(lightDir + viewDir);
+    float NdotH = max(dot(normal, halfDir), 0.0);
+    float specularPower = (1.1 - roughness) * 128.0;
+    float specular = pow(NdotH, specularPower) * (1.0 - roughness);
+    
+    // Mix diffuse and specular based on metalness
+    vec3 dielectric = mix(diffuse, vec3(0.04) + specular * vec3(1.0), 0.5);
+    vec3 metallic = mix(vec3(0.04), albedo, metalness);
+    vec3 finalColor = mix(dielectric, metallic, metalness);
+    
+    // Add ambient lighting
+    finalColor += albedo * 0.1;
+    
+    return finalColor;
+  }
   
   void main() {
     // Start with base color from material
@@ -173,9 +229,44 @@ const fragmentShader = `
       color = mix(color, texColor.rgb, texColor.a);
     }
     
+    // Calculate normal (with normal map if available)
+    vec3 normal = normalize(vWorldNormal);
+    if (uHasNormalMap) {
+      vec3 normalMap = texture2D(uNormalMap, vUv).rgb * 2.0 - 1.0;
+      normalMap.xy *= uNormalScale;
+      vec3 tangent = normalize(cross(normal, vec3(0.0, 1.0, 0.0)));
+      vec3 bitangent = cross(normal, tangent);
+      mat3 TBN = mat3(tangent, bitangent, normal);
+      normal = normalize(TBN * normalMap);
+    }
+    
+    // Get roughness and metalness (with maps if available)
+    float roughness = uRoughness;
+    if (uHasRoughnessMap) {
+      roughness *= texture2D(uRoughnessMap, vUv).g;
+    }
+    
+    float metalness = uMetalness;
+    if (uHasMetalnessMap) {
+      metalness *= texture2D(uMetalnessMap, vUv).b;
+    }
+    
+    // Apply AO map if available
+    float ao = 1.0;
+    if (uHasAoMap) {
+      ao = mix(1.0, texture2D(uAoMap, vUv).r, uAoMapIntensity);
+    }
+    
+    // Calculate PBR lighting
+    vec3 pbrColor = calculatePBR(color, normal, roughness, metalness);
+    pbrColor *= ao;
+    
+    // Add emissive
+    pbrColor += uEmissive * uEmissiveIntensity;
+    
     // Calculate dissolve effect
     // Use world position for noise to work consistently across instances
-    vec3 worldPos = vPosition;
+    vec3 worldPos = vWorldPosition;
     float noise = fbm(worldPos * uNoiseScale + vTime * 0.5);
     noise = (noise + 1.0) * 0.5; // Normalize to 0-1
     
@@ -195,7 +286,7 @@ const fragmentShader = `
     float border = step(threshold - uThickness, noise) - alpha;
     
     // Apply edge color to border
-    vec3 finalColor = mix(color, uEdgeColor, border);
+    vec3 finalColor = mix(pbrColor, uEdgeColor, border);
     
     // Discard pixels that should be dissolved (alpha is 0 or very low)
     if (alpha < 0.01) {
@@ -251,6 +342,18 @@ export default function DiplomaInstances() {
     const baseColor = originalMaterial.color || new THREE.Color(0xffffff);
     const hasMap = originalMaterial.map !== null;
 
+    // Extract all PBR properties from the original material
+    const roughness = originalMaterial.roughness !== undefined ? originalMaterial.roughness : 0.5;
+    const metalness = originalMaterial.metalness !== undefined ? originalMaterial.metalness : 0.0;
+    const hasNormalMap = originalMaterial.normalMap !== null;
+    const normalScale = originalMaterial.normalScale ? originalMaterial.normalScale.x : 1.0;
+    const hasRoughnessMap = originalMaterial.roughnessMap !== null;
+    const hasMetalnessMap = originalMaterial.metalnessMap !== null;
+    const hasAoMap = originalMaterial.aoMap !== null;
+    const aoMapIntensity = originalMaterial.aoMapIntensity !== undefined ? originalMaterial.aoMapIntensity : 1.0;
+    const emissive = originalMaterial.emissive || new THREE.Color(0x000000);
+    const emissiveIntensity = originalMaterial.emissiveIntensity !== undefined ? originalMaterial.emissiveIntensity : 1.0;
+
     return new THREE.ShaderMaterial({
       vertexShader,
       fragmentShader,
@@ -268,8 +371,25 @@ export default function DiplomaInstances() {
           ),
         }, // Edge glow color
         uNoiseScale: { value: dissolveControls.noiseScale }, // Noise scale for dissolve pattern
+        // PBR properties
+        uRoughness: { value: roughness },
+        uMetalness: { value: metalness },
+        uNormalMap: { value: originalMaterial.normalMap || null },
+        uHasNormalMap: { value: hasNormalMap },
+        uNormalScale: { value: normalScale },
+        uRoughnessMap: { value: originalMaterial.roughnessMap || null },
+        uHasRoughnessMap: { value: hasRoughnessMap },
+        uMetalnessMap: { value: originalMaterial.metalnessMap || null },
+        uHasMetalnessMap: { value: hasMetalnessMap },
+        uAoMap: { value: originalMaterial.aoMap || null },
+        uHasAoMap: { value: hasAoMap },
+        uAoMapIntensity: { value: aoMapIntensity },
+        uEmissive: { value: emissive },
+        uEmissiveIntensity: { value: emissiveIntensity },
+        uCameraPosition: { value: new THREE.Vector3(0, 0, 0) },
       },
       transparent: true,
+      side: originalMaterial.side || THREE.FrontSide,
     });
   }, [materials, dissolveControls]);
 
@@ -332,13 +452,20 @@ export default function DiplomaInstances() {
         },
       });
     }
-  }, [disolveDiplomas]);
+  }, [disolveDiplomas, setClearDiplomas, setDisolveDiplomas]);
 
   // Animate shader uniforms and update from Leva controls
   useFrame((state) => {
     console.log(disolveDiplomas);
     if (shaderMaterialRef.current) {
       shaderMaterialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
+      
+      // Update camera position for lighting calculations
+      if (state.camera) {
+        shaderMaterialRef.current.uniforms.uCameraPosition.value.copy(
+          state.camera.position
+        );
+      }
 
       // Update uniforms from Leva controls
       //   shaderMaterialRef.current.uniforms.uProgress.value =
