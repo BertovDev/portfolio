@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from "react";
 import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 import { useControls } from "leva";
+import { Physics, RigidBody } from "@react-three/rapier";
 
-import { useCameraStore } from "@/utils/Utils";
+import { useCameraStore, useClearDiplomasStore } from "@/utils/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
@@ -16,6 +17,8 @@ import {
   Bloom,
   TiltShift2,
 } from "@react-three/postprocessing";
+import { Diploma } from "./Diploma/Diploma";
+import DiplomaInstances from "./Diploma/DiplomaInstances";
 
 type CameraProp = {
   position: THREE.Vector3;
@@ -35,6 +38,7 @@ export default function Experience() {
     lightPos: [-1.8, 2.5, 3],
   });
   const { cameraZoomed, setTransitioning } = useCameraStore();
+  const { isClearDiplomas } = useClearDiplomasStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   // const [schisimTexture, darkSide] = useTexture([
@@ -100,7 +104,8 @@ export default function Experience() {
 
   return (
     <group>
-      <OrbitControls />
+       <OrbitControls />
+      {/* {process.env.NODE_ENV === "development" && <OrbitControls />} */}
       <color attach="background" args={["#f0f0f0"]} />
       <fog attach="fog" args={["#f0f0f0", 0, 20]} />
 
@@ -136,43 +141,30 @@ export default function Experience() {
         color={"#7195eb"}
       />
 
-      <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.01, 0]}
-        receiveShadow
-      >
-        <planeGeometry args={[10, 10, 1, 1]} />
+      <Physics colliders="cuboid" gravity={[0, -20, 0]} timeStep="vary">
+        <RigidBody type="fixed" colliders="cuboid">
+          <mesh
+            rotation={[-Math.PI / 2, 0, 0]}
+            position={[0, -0.01, 0]}
+            receiveShadow
+          >
+            <planeGeometry args={[100, 100, 1, 1]} />
+            <shadowMaterial opacity={0.65} transparent />
+          </mesh>
+        </RigidBody>
 
-        <shadowMaterial opacity={0.65} transparent />
-      </mesh>
-      {/* <mesh
-        rotation={[-Math.PI / 2, 0, 0]}
-        position={[0, -0.002, 0]}
-        scale={10}
-      >
-        <planeGeometry args={[20, 20]} />
+        {isClearDiplomas && <DiplomaInstances />}
+        <PorfolioModel />
 
-        <meshBasicMaterial color={"black"} />
-      </mesh> */}
+        <RigidBody type="fixed" colliders="hull">
+          <AboutModel />
+        </RigidBody>
 
-      {/* <mesh rotation={[-Math.PI / 2, 0, 0.2]} position={[1, 0, 4]} scale={0.9}>
-        <planeGeometry args={[2, 2]} />
+        <RigidBody type="fixed" colliders="cuboid">
+          <Diploma position={[-0.7, 0.5, 2.75]} scale={100} />
+        </RigidBody>
+      </Physics>
 
-        <meshBasicMaterial map={schisimTexture} />
-      </mesh>
-
-      <mesh
-        rotation={[-Math.PI / 2, 0, Math.PI / 10]}
-        position={[0, 0.01, 4]}
-        scale={0.9}
-        castShadow
-      >
-        <planeGeometry args={[2, 2]} />
-
-        <meshBasicMaterial map={darkSide} />
-      </mesh> */}
-      <PorfolioModel />
-      <AboutModel />
       <BakeShadows />
 
       <SoftShadows size={35} samples={20} />

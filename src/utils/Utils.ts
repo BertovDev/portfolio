@@ -17,6 +17,13 @@ type SectionState = {
   setSectionClicked: (name: string | null, state: boolean) => void;
 };
 
+type ClearDiplomasState = {
+  isClearDiplomas: boolean;
+  setClearDiplomas: (state: boolean) => void;
+  disolveDiplomas: boolean;
+  setDisolveDiplomas: (state: boolean) => void;
+};
+
 const useCameraStore = create<CameraState>((set) => ({
   cameraZoomed: false,
   isTransitioning: false,
@@ -30,4 +37,11 @@ const useSectionStore = create<SectionState>((set) => ({
     set({ isSectionClicked: { name: name, isClicked: state } }),
 }));
 
-export { useCameraStore, useSectionStore };
+const useClearDiplomasStore = create<ClearDiplomasState>((set) => ({
+  isClearDiplomas: false,
+  setClearDiplomas: (state: boolean) => set({ isClearDiplomas: state }),
+  disolveDiplomas: false,
+  setDisolveDiplomas: (state: boolean) => set({ disolveDiplomas: state }),
+}));
+
+export { useCameraStore, useSectionStore, useClearDiplomasStore };

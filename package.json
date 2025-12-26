@@ -14,15 +14,17 @@
     "@react-three/postprocessing": "^3.0.4",
     "@react-three/rapier": "^2.1.0",
     "@types/three": "^0.174.0",
+    "gl-noise": "^1.6.1",
     "gsap": "^3.13.0",
     "leva": "^0.10.0",
-    "next": "^15.2.4",
+    "next": "15.2.8",
     "r3f-perf": "^7.2.3",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hook-form": "^7.55.0",
     "resend": "^4.2.0",
     "three": "^0.174.0",
+    "three-custom-shader-material": "^6.4.0",
     "zustand": "^5.0.3"
   },
   "devDependencies": {
