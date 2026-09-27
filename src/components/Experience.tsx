@@ -105,7 +105,9 @@ export default function Experience() {
 
   return (
     <group>
-      {process.env.NODE_ENV === "development" && <OrbitControls />}
+      {/* Required in prod: its per-frame update aims the camera at the origin,
+          including during the zoom tweens. */}
+      <OrbitControls />
       <color attach="background" args={["#f0f0f0"]} />
       <fog attach="fog" args={["#f0f0f0", 0, 20]} />
 

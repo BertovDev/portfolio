@@ -78,6 +78,9 @@ export default function CursorTip({
         try {
           await fadeOut().then(async () => {
             video.pause();
+            // preload="none" on mount avoids fetching before hover; switch
+            // to auto here or load() suspends and canplay never fires.
+            video.preload = "auto";
             video.src = imageContent || "";
             video.load();
 
