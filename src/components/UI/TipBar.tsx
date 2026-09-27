@@ -16,7 +16,7 @@ export default function TipBar({
   hasAnimation,
   styleProps,
 }: Props) {
-  const { cameraZoomed } = useCameraStore();
+  const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
 
   const [tipText, setTipText] = useState<string>(initialText);
 

@@ -9,7 +9,8 @@ type SectionProps = {
 };
 
 const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
-  const { isSectionClicked, setSectionClicked } = useSectionStore();
+  const isSectionClicked = useSectionStore((s) => s.isSectionClicked);
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   const ref = useRef<HTMLDivElement>(null);
   const animRef = useRef<gsap.core.Tween | undefined>(undefined);

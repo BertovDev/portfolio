@@ -15,7 +15,7 @@ const SectionComponents: SectionComponent = {
 };
 
 const Content: React.FC = memo(() => {
-  const { isSectionClicked } = useSectionStore();
+  const isSectionClicked = useSectionStore((s) => s.isSectionClicked);
 
   // Memoize the section component to render
   const SectionToRender = useMemo(

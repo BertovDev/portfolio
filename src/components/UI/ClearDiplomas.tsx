@@ -4,7 +4,8 @@ import React from "react";
 import { useClearDiplomasStore } from "@/utils/Utils";
 
 export default function ClearDiplomas() {
-  const { isClearDiplomas, setDisolveDiplomas  } = useClearDiplomasStore();
+  const isClearDiplomas = useClearDiplomasStore((s) => s.isClearDiplomas);
+  const setDisolveDiplomas = useClearDiplomasStore((s) => s.setDisolveDiplomas);
 
   return (
     <>

@@ -24,8 +24,10 @@ export function PorfolioModel() {
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
   const [hoverMail, setHoverMail] = useState<boolean>(false);
 
-  const { cameraZoomed, setCameraZoomed, isTransitioning } = useCameraStore();
-  const { setSectionClicked } = useSectionStore();
+  const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
+  const setCameraZoomed = useCameraStore((s) => s.setCameraZoomed);
+  const isTransitioning = useCameraStore((s) => s.isTransitioning);
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   const [toolTexture] = useTexture(["/images/tool3.png"]);
 

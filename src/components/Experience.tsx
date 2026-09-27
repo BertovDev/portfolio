@@ -35,8 +35,9 @@ const CAMERA_POSITIONS: CameraPositions = {
 };
 
 export default function Experience() {
-  const { cameraZoomed, setTransitioning } = useCameraStore();
-  const { isClearDiplomas } = useClearDiplomasStore();
+  const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
+  const setTransitioning = useCameraStore((s) => s.setTransitioning);
+  const isClearDiplomas = useClearDiplomasStore((s) => s.isClearDiplomas);
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
   useEffect(() => {

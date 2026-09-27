@@ -13,7 +13,7 @@ import { useSectionStore } from "@/utils/Utils";
 export function AboutModel() {
   const [hover, setHover] = useState(false);
 
-  const { setSectionClicked } = useSectionStore();
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   const { nodes, materials } = useGLTF(
     "/bautiModel.glb"

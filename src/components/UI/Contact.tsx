@@ -17,9 +17,10 @@ const COUNT: number = 30;
 
 export default function Contact() {
   const divSectionRef = useRef<HTMLDivElement>(null);
-  const tl = gsap.timeline();
 
   useEffect(() => {
+    const tl = gsap.timeline();
+
     tl.to(".contact-p", {
       opacity: 0,
       duration: 0.2,
@@ -33,14 +34,19 @@ export default function Contact() {
       zIndex: 100,
     });
 
-    gsap.to(divSectionRef.current, {
+    const reveal = gsap.to(divSectionRef.current, {
       opacity: 1,
       zIndex: 90, // ending value
       delay: 1.5,
       duration: 0.6, // short duration since it's a discrete change
       ease: "none", // no easing for z-index
     });
-  }, [tl]);
+
+    return () => {
+      tl.kill();
+      reveal.kill();
+    };
+  }, []);
 
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];

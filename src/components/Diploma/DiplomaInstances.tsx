@@ -303,8 +303,9 @@ export default function DiplomaInstances() {
   );
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const shaderMaterialRef = useRef<THREE.ShaderMaterial>(null);
-  const { disolveDiplomas, setClearDiplomas, setDisolveDiplomas } =
-    useClearDiplomasStore();
+  const disolveDiplomas = useClearDiplomasStore((s) => s.disolveDiplomas);
+  const setClearDiplomas = useClearDiplomasStore((s) => s.setClearDiplomas);
+  const setDisolveDiplomas = useClearDiplomasStore((s) => s.setDisolveDiplomas);
 
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];

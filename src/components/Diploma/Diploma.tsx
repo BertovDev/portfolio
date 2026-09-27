@@ -21,7 +21,7 @@ type GLTFResult = GLTF & {
 }
 export function Diploma(props: ComponentProps<"group">) {
   const { nodes, materials } = useGLTF("/diploma.glb") as unknown as GLTFResult;
-  const { setClearDiplomas } = useClearDiplomasStore();
+  const setClearDiplomas = useClearDiplomasStore((s) => s.setClearDiplomas);
   const [hover, setHover] = useState(false);
 
   const hoverBox = () => {

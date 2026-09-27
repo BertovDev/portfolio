@@ -25,7 +25,7 @@ eight plans. Findings judged not worth a plan are listed at the bottom.
 | 003 | Code-split the 3D scene and overlay sections | P1 | M | 002 | DONE |
 | 004 | Cut per-frame GPU and reconciliation cost (shadows, MSAA, post, Annotation) | P1 | M | 002 | DONE |
 | 005 | Dissolve shader: alphaTest, noise early-out, geometry clone/dispose | P2 | M | 002 | DONE |
-| 006 | Zustand selectors + Contact GSAP cleanup | P2 | S | — (land after 005) | TODO |
+| 006 | Zustand selectors + Contact GSAP cleanup | P2 | S | — (land after 005) | DONE |
 | 007 | Compress GLB textures (512² WebP, prune) + transcode project videos | P1 | M | 001 | DONE |
 | 008 | UI hygiene: CursorTip listeners, compositor-only animations, Inter font | P2 | S | 001, 007 | DONE |
 
