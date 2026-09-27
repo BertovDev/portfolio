@@ -10,12 +10,7 @@ import { PorfolioModel } from "../components/Portfolio";
 import { AboutModel } from "./AboutModel";
 import Lights from "./Lights";
 
-import {
-  Vignette,
-  EffectComposer,
-  Bloom,
-  TiltShift2,
-} from "@react-three/postprocessing";
+import PostProcessing from "./PostProcessing";
 import { Diploma } from "./Diploma/Diploma";
 import DiplomaInstances from "./Diploma/DiplomaInstances";
 
@@ -34,22 +29,22 @@ const CAMERA_ROTATION: [number, number, number] = [0, 0.67, 0];
 const CAMERA_ZOOM = 130;
 const KEY_LIGHT_POSITION: [number, number, number] = [-1.8, 2.5, 3];
 
+const CAMERA_POSITIONS: CameraPositions = {
+  initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
+  zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
+};
+
 export default function Experience() {
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const { isClearDiplomas } = useClearDiplomasStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
-  const cameraPositions: CameraPositions = {
-    initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
-    zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
-  };
-
   useEffect(() => {
     if (cameraZoomed && refCamera.current) {
       gsap.to(refCamera.current.position, {
-        x: cameraPositions.zoomedPos.position.x,
-        y: cameraPositions.zoomedPos.position.y,
-        z: cameraPositions.zoomedPos.position.z,
+        x: CAMERA_POSITIONS.zoomedPos.position.x,
+        y: CAMERA_POSITIONS.zoomedPos.position.y,
+        z: CAMERA_POSITIONS.zoomedPos.position.z,
         duration: 1,
         ease: "power3.inOut",
         onUpdate: () => {
@@ -64,16 +59,16 @@ export default function Experience() {
       });
 
       gsap.to(refCamera.current, {
-        zoom: cameraPositions.zoomedPos.zoom,
+        zoom: CAMERA_POSITIONS.zoomedPos.zoom,
         duration: 1,
         ease: "power3.inOut",
       });
     } else if (!cameraZoomed && refCamera.current) {
       //Zoomout anim
       gsap.to(refCamera.current.position, {
-        x: cameraPositions.initialPos.position.x,
-        y: cameraPositions.initialPos.position.y,
-        z: cameraPositions.initialPos.position.z,
+        x: CAMERA_POSITIONS.initialPos.position.x,
+        y: CAMERA_POSITIONS.initialPos.position.y,
+        z: CAMERA_POSITIONS.initialPos.position.z,
         duration: 1,
         ease: "power3.inOut",
         onUpdate: () => {
@@ -88,12 +83,24 @@ export default function Experience() {
       });
 
       gsap.to(refCamera.current, {
-        zoom: cameraPositions.initialPos.zoom,
+        zoom: CAMERA_POSITIONS.initialPos.zoom,
         duration: 1,
         ease: "power3.inOut",
       });
     }
-  }, [cameraZoomed]);
+
+    const camera = refCamera.current;
+    return () => {
+      if (camera) {
+        // Killing an in-flight tween skips its onComplete; reset the flag so
+        // hover interactions don't stay locked. The next tween's onStart sets
+        // it back to true.
+        setTransitioning(false);
+        gsap.killTweensOf(camera.position);
+        gsap.killTweensOf(camera);
+      }
+    };
+  }, [cameraZoomed, setTransitioning]);
 
   return (
     <group>
@@ -123,13 +130,16 @@ export default function Experience() {
         castShadow
         shadow-mapSize={1024}
         shadow-bias={0}
+        shadow-camera-near={0.5}
+        shadow-camera-far={25}
+        shadow-camera-left={-5}
+        shadow-camera-right={5}
+        shadow-camera-top={5}
+        shadow-camera-bottom={-5}
       />
       <directionalLight
         position={[0.3, 2, 3]}
         intensity={1.2}
-        castShadow
-        shadow-mapSize={1024}
-        shadow-bias={0.0001}
         color={"#7195eb"}
       />
 
@@ -159,16 +169,8 @@ export default function Experience() {
 
       <BakeShadows />
 
-      <SoftShadows size={35} samples={20} />
-      <EffectComposer stencilBuffer={true}>
-        <Bloom
-          intensity={0.1}
-          luminanceThreshold={0.2}
-          luminanceSmoothing={0.9}
-        />
-        <Vignette darkness={0.7} offset={0.1} />
-        <TiltShift2 blur={0.3} />
-      </EffectComposer>
+      <SoftShadows size={35} samples={10} />
+      <PostProcessing />
     </group>
   );
 }
