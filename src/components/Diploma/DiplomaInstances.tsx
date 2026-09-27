@@ -456,7 +456,6 @@ export default function DiplomaInstances() {
 
   // Animate shader uniforms and update from Leva controls
   useFrame((state) => {
-    console.log(disolveDiplomas);
     if (shaderMaterialRef.current) {
       shaderMaterialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
       

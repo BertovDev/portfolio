@@ -204,7 +204,7 @@ export default function LoadingScreen() {
         <div className="flex flex-col justify-center items-center  min-h-screen">
           <div className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-full">
             {/* <p>LOADING</p> */}
-            <Image src={"/benjiDor.png"} width={500} height={500} alt="benji" />
+            <Image src={"/benjiDor.png"} width={500} height={500} alt="benji" priority />
           </div>
           <div
             ref={loadingTextRef}

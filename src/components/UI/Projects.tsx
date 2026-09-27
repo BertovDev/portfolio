@@ -185,7 +185,6 @@ export default function Projects() {
         listRef.current.children
       );
       items.forEach((item, index) => {
-        console.log(item);
 
         gsap.set(item, {
           opacity: 0,

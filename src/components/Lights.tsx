@@ -1,11 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { useControls } from "leva";
-import { useFrame } from "@react-three/fiber";
-import { PointLight, Vector3 } from "three";
+import { PointLight } from "three";
 
 export default function Lights() {
   const light1 = useRef<PointLight>(null);
-  const target = new Vector3(0, 0, 0);
 
   const bulbLightControls = useControls("Bulb Light", {
     intensity: { value: 10, min: 0, max: 20 },
@@ -23,12 +21,6 @@ export default function Lights() {
 
     return () => clearInterval(interval);
   }, []);
-
-  useFrame(() => {
-    if (light1.current) {
-      light1.current.lookAt(target);
-    }
-  });
 
   return (
     <>

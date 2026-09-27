@@ -82,7 +82,6 @@ export default function CursorTip({
             });
 
             if (currentId === currentLoadId.current) {
-              console.log("Playing video");
               await video.play();
               fadeIn();
             }

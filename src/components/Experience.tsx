@@ -41,11 +41,6 @@ export default function Experience() {
   const { isClearDiplomas } = useClearDiplomasStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
-  // const [schisimTexture, darkSide] = useTexture([
-  //   "/images/tool.jpeg",
-  //   "/images/darkside.jpeg",
-  // ]);
-
   const cameraPositions: CameraPositions = {
     initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
     zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
@@ -104,8 +99,7 @@ export default function Experience() {
 
   return (
     <group>
-       <OrbitControls />
-      {/* {process.env.NODE_ENV === "development" && <OrbitControls />} */}
+      {process.env.NODE_ENV === "development" && <OrbitControls />}
       <color attach="background" args={["#f0f0f0"]} />
       <fog attach="fog" args={["#f0f0f0", 0, 20]} />
 

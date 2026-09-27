@@ -57,7 +57,6 @@ export default function TipBar({
       });
 
       return () => {
-        console.log("Cleaning up animation");
         tl.kill();
       };
     }
