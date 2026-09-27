@@ -104,7 +104,7 @@ export default function LoadingScreen() {
     tl.to(
       ".underline-bar",
       {
-        width: "100%",
+        scaleX: 1,
         duration: 1,
         onComplete: () => {
           setIsButtonDisabled(false);
@@ -130,7 +130,7 @@ export default function LoadingScreen() {
       tl.to(
         ".underline-bar",
         {
-          width: "0%",
+          scaleX: 0,
           duration: 0.3,
         },
         0
@@ -162,12 +162,9 @@ export default function LoadingScreen() {
 
   useEffect(() => {
     if (!loadingTextRef.current) return;
-    const current: number = 500 - (progress * 500) / 100;
     gsap.to(loadingTextRef.current, {
-      width: `${current}`,
+      scaleX: 1 - progress / 100,
       duration: 2,
-      // yoyo: true,
-      // repeat: -1,
       ease: "power2",
     });
 
@@ -220,7 +217,7 @@ export default function LoadingScreen() {
                 <h2 className="welcome text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
                   Welcome
                 </h2>
-                <div className="underline-bar w-0 relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
+                <div className="underline-bar w-full scale-x-0 origin-left relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
               </div>
               <button
                 className="start-button border cursor-pointer rounded-lg py-1 text-lg font-intter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"

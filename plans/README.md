@@ -27,7 +27,7 @@ eight plans. Findings judged not worth a plan are listed at the bottom.
 | 005 | Dissolve shader: alphaTest, noise early-out, geometry clone/dispose | P2 | M | 002 | DONE |
 | 006 | Zustand selectors + Contact GSAP cleanup | P2 | S | — (land after 005) | TODO |
 | 007 | Compress GLB textures (512² WebP, prune) + transcode project videos | P1 | M | 001 | DONE |
-| 008 | UI hygiene: CursorTip listeners, compositor-only animations, Inter font | P2 | S | 001, 007 | TODO |
+| 008 | UI hygiene: CursorTip listeners, compositor-only animations, Inter font | P2 | S | 001, 007 | DONE |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) | REJECTED (with one-line rationale)
 

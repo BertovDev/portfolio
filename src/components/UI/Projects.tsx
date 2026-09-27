@@ -116,10 +116,8 @@ const proejcts: Project[] = [
 ];
 
 function ProjectItem({ ...props }: ProjectProps) {
-  const ref: React.RefObject<HTMLLIElement | null> = React.createRef();
-
   return (
-    <li className="flex flex-col lg:flex-row gap-2 item" ref={ref}>
+    <li className="flex flex-col lg:flex-row gap-2 item">
       <div
         onPointerEnter={() =>
           props.setHoverProject({ demo: props.project.demo, state: true })
@@ -177,30 +175,21 @@ export default function Projects() {
     if (hoverProject.demo !== null) {
       setCurrentDemo(hoverProject.demo);
     }
-  }, [hoverProject.state]);
+  }, [hoverProject.state, hoverProject.demo]);
 
   useEffect(() => {
     if (listRef.current) {
       const items: HTMLLIElement[] = gsap.utils.toArray(
         listRef.current.children
       );
-      items.forEach((item, index) => {
-
-        gsap.set(item, {
-          opacity: 0,
-          x: index > 2 ? 50 : -50,
-          y: -20,
-        });
-
-        gsap.to(item, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          stagger: 0.2,
-          duration: 0.5,
-          delay: index * 0.1,
-        });
-      });
+      const tween = gsap.fromTo(
+        items,
+        { opacity: 0, x: (i: number) => (i > 2 ? 50 : -50), y: -20 },
+        { opacity: 1, x: 0, y: 0, duration: 0.5, stagger: 0.1 }
+      );
+      return () => {
+        tween.kill();
+      };
     }
   }, []);
 

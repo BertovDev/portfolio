@@ -18,14 +18,16 @@ export default function CursorTip({
   const positionRef = useRef({ x: 0, y: 0 });
   const currentLoadId = useRef(0);
   const hoverTimeout = useRef<number | null>(null);
+  const rafId = useRef<number | null>(null);
 
   const updateMousePosition = useCallback((ev: MouseEvent) => {
-    if (!ref.current) return;
-
-    requestAnimationFrame(() => {
+    positionRef.current = { x: ev.clientX, y: ev.clientY };
+    if (rafId.current !== null) return;
+    rafId.current = requestAnimationFrame(() => {
+      rafId.current = null;
       if (ref.current) {
-        positionRef.current = { x: ev.clientX, y: ev.clientY };
-        ref.current.style.transform = `translate(${ev.clientX}px, ${ev.clientY}px)`;
+        const { x, y } = positionRef.current;
+        ref.current.style.transform = `translate(${x}px, ${y}px)`;
       }
     });
   }, []);
@@ -34,8 +36,14 @@ export default function CursorTip({
     window.addEventListener("mousemove", updateMousePosition, {
       passive: true,
     });
-    return () => window.removeEventListener("mousemove", updateMousePosition);
-  }, [isHovering, updateMousePosition]);
+    return () => {
+      window.removeEventListener("mousemove", updateMousePosition);
+      if (rafId.current !== null) {
+        cancelAnimationFrame(rafId.current);
+        rafId.current = null;
+      }
+    };
+  }, [updateMousePosition]);
 
   const fadeTween = useRef<gsap.core.Tween | null>(null);
 
@@ -92,6 +100,13 @@ export default function CursorTip({
       };
       loadAndPlayVideo();
     }, 100);
+
+    return () => {
+      if (hoverTimeout.current !== null) {
+        window.clearTimeout(hoverTimeout.current);
+        hoverTimeout.current = null;
+      }
+    };
   }, [imageContent]);
 
   return (
@@ -103,15 +118,13 @@ export default function CursorTip({
       {textContent}
       {imageContent && (
         <video
-          width={window.innerWidth < 900 ? 200 : 500}
-          height={window.innerWidth < 900 ? 200 : 500}
           // autoPlay
           loop
           playsInline
           preload="none"
           muted
           ref={videoRef}
-          className="pointer-events-none rounded-md drop-shadow-2xl opacity-0"
+          className="pointer-events-none rounded-md drop-shadow-2xl opacity-0 w-[200px] h-[200px] min-[900px]:w-[500px] min-[900px]:h-[500px]"
         >
           <source src={imageContent} type="video/mp4" />
           Your browser does not support the video tag.
