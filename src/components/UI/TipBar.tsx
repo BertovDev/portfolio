@@ -24,11 +24,6 @@ export default function TipBar({
     useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
-    if (!hasInteration) return;
-    setTipText(cameraZoomed ? "Click outside to zoom out" : initialText);
-  }, [cameraZoomed]);
-
-  useEffect(() => {
     if (hasAnimation && tipRef.current) {
       const tl = gsap.timeline({
         repeat: -1,
@@ -62,6 +57,12 @@ export default function TipBar({
     }
   }, [hasAnimation, initialText]);
 
+  const displayText = hasInteration
+    ? cameraZoomed
+      ? "Click outside to zoom out"
+      : initialText
+    : tipText;
+
   return (
     <div
       className={`absolute  z-10 bottom-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 font-inter  font-semibold text-center  ${styleProps}`}
@@ -69,9 +70,9 @@ export default function TipBar({
       <span
         ref={tipRef}
         className="block  text-md  lg:text-xl relative  min-w-[300px] md:min-w-[200px]"
-        data-text={tipText}
+        data-text={displayText}
       >
-        {tipText}
+        {displayText}
       </span>
     </div>
   );

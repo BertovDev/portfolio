@@ -6,26 +6,29 @@ import {
   Physics,
   RigidBody,
 } from "@react-three/rapier";
-import React, { Suspense, useMemo } from "react";
+import React, { Suspense, useState } from "react";
 import { MailModel } from "../Mail";
 
 const COUNT: number = 30;
 
+// Random layout is generated once, outside render (React Compiler purity).
+const createInstances = (): InstancedRigidBodyProps[] => {
+  const instances: InstancedRigidBodyProps[] = [];
+
+  for (let i = 0; i < COUNT; i++) {
+    instances.push({
+      key: "instance_" + i,
+      position: [4.5 - Math.random() * 10, 6, 1 - Math.random() * 2],
+      rotation: [Math.random(), 1 - Math.random() * 3, Math.random() * 2],
+      scale: [0.5, 0.5, 0.5],
+    });
+  }
+
+  return instances;
+};
+
 export default function ContactScene() {
-  const instances = useMemo(() => {
-    const instances: InstancedRigidBodyProps[] = [];
-
-    for (let i = 0; i < COUNT; i++) {
-      instances.push({
-        key: "instance_" + Math.random(),
-        position: [4.5 - Math.random() * 10, 6, 1 - Math.random() * 2],
-        rotation: [Math.random(), 1 - Math.random() * 3, Math.random() * 2],
-        scale: [0.5, 0.5, 0.5],
-      });
-    }
-
-    return instances;
-  }, []);
+  const [instances] = useState(createInstances);
 
   return (
     <Canvas

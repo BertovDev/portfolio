@@ -171,11 +171,11 @@ export default function Projects() {
   const [currentDemo, setCurrentDemo] = useState<string | null>("");
   const listRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
-    if (hoverProject.demo !== null) {
-      setCurrentDemo(hoverProject.demo);
-    }
-  }, [hoverProject.state, hoverProject.demo]);
+  // Keep the last hovered demo so the preview can fade out on leave.
+  const handleHover = (next: ProjectState) => {
+    setHoverProject(next);
+    if (next.demo !== null) setCurrentDemo(next.demo);
+  };
 
   useEffect(() => {
     if (listRef.current) {
@@ -208,7 +208,7 @@ export default function Projects() {
               <ProjectItem
                 key={index}
                 project={project}
-                setHoverProject={setHoverProject}
+                setHoverProject={handleHover}
               />
             );
           })}

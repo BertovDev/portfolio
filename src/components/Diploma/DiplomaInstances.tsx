@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   InstancedRigidBodies,
   InstancedRigidBodyProps,
@@ -293,6 +293,30 @@ const fragmentShader = `
   }
 `;
 
+// Random layout is generated once, outside render (React Compiler purity).
+const createInstances = (): InstancedRigidBodyProps[] => {
+  const instances: InstancedRigidBodyProps[] = [];
+
+  for (let i = 0; i < RANGE; i++) {
+    instances.push({
+      key: `instance_${i}`,
+      position: [
+        2 + Math.random() * -5,
+        8 + Math.random() * 100,
+        Math.random() * 2,
+      ],
+      rotation: [
+        Math.random() * 2 * Math.PI,
+        Math.random() * 2 * Math.PI,
+        Math.random() * 2 * Math.PI,
+      ],
+      scale: [1, .5, 1],
+    });
+  }
+
+  return instances;
+};
+
 export default function DiplomaInstances() {
   const { nodes, materials } = useGLTF("/diploma.glb") as unknown as GLTFResult;
   // Private copy: the GLB geometry is shared with the standalone <Diploma>,
@@ -307,28 +331,7 @@ export default function DiplomaInstances() {
   const setClearDiplomas = useClearDiplomasStore((s) => s.setClearDiplomas);
   const setDisolveDiplomas = useClearDiplomasStore((s) => s.setDisolveDiplomas);
 
-  const instances = useMemo(() => {
-    const instances: InstancedRigidBodyProps[] = [];
-
-    for (let i = 0; i < RANGE; i++) {
-      instances.push({
-        key: `instance_${i}`,
-        position: [
-          2 + Math.random() * -5,
-          8 + Math.random() * 100,
-          Math.random() * 2,
-        ],
-        rotation: [
-          Math.random() * 2 * Math.PI,
-          Math.random() * 2 * Math.PI,
-          Math.random() * 2 * Math.PI,
-        ],
-        scale: [1, .5, 1],
-      });
-    }
-
-    return instances;
-  }, []);
+  const [instances] = useState(createInstances);
 
   // Create shader material using properties from GLB material
   const shaderMaterial = useMemo(() => {

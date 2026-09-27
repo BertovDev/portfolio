@@ -1,11 +1,26 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import Image from "next/image";
 
 gsap.registerPlugin(SplitText);
+
+const NARROW_QUERY = "(max-width: 899px)";
+const subscribeNarrow = (onChange: () => void) => {
+  const mq = window.matchMedia(NARROW_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+const getNarrow = () => window.matchMedia(NARROW_QUERY).matches;
+const getNarrowServer = () => false;
 
 export default function LoadingScreen() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
@@ -15,18 +30,19 @@ export default function LoadingScreen() {
   const splitWelcomeRef = useRef<SplitText | null>(null);
   const { progress } = useProgress();
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Lazy init covers client-side navigation back to "/" after assets loaded.
+  const [isLoading, setIsLoading] = useState<boolean>(
+    () => useProgress.getState().progress !== 100
+  );
   // Latches at 100: later loads (e.g. prefetched mail.glb) move drei's global
   // progress again and must not rewind the bar or remount the welcome block.
   const hasFinishedRef = useRef(false);
 
-  const [mobileWarning, setMobileWarning] = useState<boolean>(false);
-
-  const detectMobile = () => {
-    if (window.innerWidth < 900) {
-      setMobileWarning(true);
-    }
-  };
+  const mobileWarning = useSyncExternalStore(
+    subscribeNarrow,
+    getNarrow,
+    getNarrowServer
+  );
 
   const animateText = () => {
     if (!loadingTextRef.current) return;
@@ -173,13 +189,19 @@ export default function LoadingScreen() {
 
     if (progress === 0) {
       animateText();
-      detectMobile();
     }
     if (progress === 100) {
       hasFinishedRef.current = true;
-      setIsLoading(false);
     }
   }, [progress]);
+
+  useEffect(
+    () =>
+      useProgress.subscribe((state) => {
+        if (state.progress === 100) setIsLoading(false);
+      }),
+    []
+  );
 
   // Loading Done -> show welcome section
 
