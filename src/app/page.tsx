@@ -1,4 +1,4 @@
-import Scene from "@/components/Scene";
+import SceneLoader from "@/components/SceneLoader";
 import Aside from "@/components/UI/Aside";
 import AsideInfo from "@/components/UI/AsideInfo";
 import ClearDiplomas from "@/components/UI/ClearDiplomas";
@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <main className="min-h-screen">
       <AsideInfo />
-      <Scene />
+      <SceneLoader />
       <TipBar
         hasAnimation={false}
         hasInteration={true}

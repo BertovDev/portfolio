@@ -3,25 +3,15 @@
 import React, { memo, useMemo } from "react";
 import Section from "./Section";
 import { useSectionStore } from "@/utils/Utils";
-import About from "./About";
-import Work from "./Work";
-import Projects from "./Projects";
-import Contact from "./Contact";
+import dynamic from "next/dynamic";
 
-type SectionComponent = Record<string, React.FC>;
+type SectionComponent = Record<string, React.ComponentType>;
 
-// Memoize section components
-const MemoizedAbout = memo(About);
-const MemoizedWork = memo(Work);
-const MemoizedProjects = memo(Projects);
-const MemoizedContact = memo(Contact);
-
-// Memoize the components mapping
 const SectionComponents: SectionComponent = {
-  About: MemoizedAbout,
-  Work: MemoizedWork,
-  Projects: MemoizedProjects,
-  Contact: MemoizedContact,
+  About: dynamic(() => import("./About")),
+  Work: dynamic(() => import("./Work")),
+  Projects: dynamic(() => import("./Projects")),
+  Contact: dynamic(() => import("./Contact"), { ssr: false }),
 };
 
 const Content: React.FC = memo(() => {
