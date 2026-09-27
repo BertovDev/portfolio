@@ -21,7 +21,7 @@ eight plans. Findings judged not worth a plan are listed at the bottom.
 | Plan | Title | Priority | Effort | Depends on | Status |
 |------|-------|----------|--------|------------|--------|
 | 001 | Remove debug leftovers, dead assets, per-frame no-ops | P1 | S | — | DONE |
-| 002 | Remove leva and r3f-perf from the production bundle | P1 | M | 001 | TODO |
+| 002 | Remove leva and r3f-perf from the production bundle | P1 | M | 001 | DONE |
 | 003 | Code-split the 3D scene and overlay sections | P1 | M | 002 | TODO |
 | 004 | Cut per-frame GPU and reconciliation cost (shadows, MSAA, post, Annotation) | P1 | M | 002 | TODO |
 | 005 | Dissolve shader: alphaTest, noise early-out, geometry clone/dispose | P2 | M | 002 | TODO |

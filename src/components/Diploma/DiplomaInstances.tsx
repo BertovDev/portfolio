@@ -7,7 +7,6 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { useControls } from "leva";
 import { useClearDiplomasStore } from "@/utils/Utils";
 import gsap from "gsap";
 
@@ -20,6 +19,10 @@ type GLTFResult = GLTF & {
   };
 };
 const RANGE = 100;
+const DISSOLVE_THICKNESS = 0.1;
+const DISSOLVE_NOISE_SCALE = 2.0;
+const DISSOLVE_EDGE_COLOR = "#eb5a13";
+const DISSOLVE_EDGE_INTENSITY = 20;
 
 // Simple noise function for dissolve effect
 const noiseFunction = `
@@ -304,15 +307,6 @@ export default function DiplomaInstances() {
   const { disolveDiplomas, setClearDiplomas, setDisolveDiplomas } =
     useClearDiplomasStore();
 
-  // Leva controls for dissolve effect
-  const dissolveControls = useControls("Dissolve Effect", {
-    progress: { value: 1.0, min: 0.0, max: 1.0, step: 0.01 },
-    thickness: { value: 0.1, min: 0.0, max: 0.5, step: 0.01 },
-    noiseScale: { value: 2.0, min: 0.5, max: 5.0, step: 0.1 },
-    edgeColor: "#eb5a13",
-    edgeIntensity: { value: 20, min: 1, max: 50, step: 1 },
-  });
-
   const instances = useMemo(() => {
     const instances: InstancedRigidBodyProps[] = [];
 
@@ -363,14 +357,14 @@ export default function DiplomaInstances() {
         uSpeed: { value: 1.0 },
         uMap: { value: originalMaterial.map || null },
         uHasMap: { value: hasMap },
-        uProgress: { value: dissolveControls.progress }, // 1.0 = fully visible, 0.0 = fully dissolved
-        uThickness: { value: dissolveControls.thickness }, // Edge glow thickness
+        uProgress: { value: 1.0 }, // 1.0 = fully visible, 0.0 = fully dissolved
+        uThickness: { value: DISSOLVE_THICKNESS }, // Edge glow thickness
         uEdgeColor: {
-          value: new THREE.Color(dissolveControls.edgeColor).multiplyScalar(
-            dissolveControls.edgeIntensity
+          value: new THREE.Color(DISSOLVE_EDGE_COLOR).multiplyScalar(
+            DISSOLVE_EDGE_INTENSITY
           ),
         }, // Edge glow color
-        uNoiseScale: { value: dissolveControls.noiseScale }, // Noise scale for dissolve pattern
+        uNoiseScale: { value: DISSOLVE_NOISE_SCALE }, // Noise scale for dissolve pattern
         // PBR properties
         uRoughness: { value: roughness },
         uMetalness: { value: metalness },
@@ -391,7 +385,7 @@ export default function DiplomaInstances() {
       transparent: true,
       side: originalMaterial.side || THREE.FrontSide,
     });
-  }, [materials, dissolveControls]);
+  }, [materials]);
 
   // Set up instance attributes for per-instance variations
   React.useEffect(() => {
@@ -454,7 +448,7 @@ export default function DiplomaInstances() {
     }
   }, [disolveDiplomas, setClearDiplomas, setDisolveDiplomas]);
 
-  // Animate shader uniforms and update from Leva controls
+  // Animate shader uniforms
   useFrame((state) => {
     if (shaderMaterialRef.current) {
       shaderMaterialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
@@ -465,17 +459,6 @@ export default function DiplomaInstances() {
           state.camera.position
         );
       }
-
-      // Update uniforms from Leva controls
-      //   shaderMaterialRef.current.uniforms.uProgress.value =
-      //     dissolveControls.progress;
-      shaderMaterialRef.current.uniforms.uThickness.value =
-        dissolveControls.thickness;
-      shaderMaterialRef.current.uniforms.uNoiseScale.value =
-        dissolveControls.noiseScale;
-      shaderMaterialRef.current.uniforms.uEdgeColor.value
-        .set(dissolveControls.edgeColor)
-        .multiplyScalar(dissolveControls.edgeIntensity);
     }
   });
 

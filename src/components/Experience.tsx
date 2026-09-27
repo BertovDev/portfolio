@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
-import { useControls } from "leva";
 import { Physics, RigidBody } from "@react-three/rapier";
 
 import { useCameraStore, useClearDiplomasStore } from "@/utils/Utils";
@@ -30,13 +29,12 @@ type CameraPositions = {
   zoomedPos: CameraProp;
 };
 
+const CAMERA_POSITION: [number, number, number] = [-1.1, 3.9, 5];
+const CAMERA_ROTATION: [number, number, number] = [0, 0.67, 0];
+const CAMERA_ZOOM = 130;
+const KEY_LIGHT_POSITION: [number, number, number] = [-1.8, 2.5, 3];
+
 export default function Experience() {
-  const { position, rotation, zoom, lightPos } = useControls({
-    position: [-1.1, 3.9, 5],
-    rotation: [0, 0.67, 0],
-    zoom: 130,
-    lightPos: [-1.8, 2.5, 3],
-  });
   const { cameraZoomed, setTransitioning } = useCameraStore();
   const { isClearDiplomas } = useClearDiplomasStore();
   const refCamera = useRef<THREE.OrthographicCamera>(null);
@@ -106,11 +104,11 @@ export default function Experience() {
       <OrthographicCamera
         ref={refCamera}
         makeDefault // Make this the main camera
-        position={position} // Adjust as needed
-        rotation={rotation}
+        position={CAMERA_POSITION} // Adjust as needed
+        rotation={CAMERA_ROTATION}
         near={0.1}
         far={20}
-        zoom={zoom} // Adjust zoom to frame the scene correctly
+        zoom={CAMERA_ZOOM} // Adjust zoom to frame the scene correctly
       />
 
       <ambientLight intensity={0.1} />
@@ -120,7 +118,7 @@ export default function Experience() {
       {/* <pointLight color={"white"} position={[-1, 6, 0]} intensity={2} /> */}
 
       <directionalLight
-        position={lightPos}
+        position={KEY_LIGHT_POSITION}
         intensity={3.8}
         castShadow
         shadow-mapSize={1024}
