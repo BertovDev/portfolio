@@ -19,6 +19,9 @@ type SectionState = {
 
 type ClearDiplomasState = {
   isClearDiplomas: boolean;
+  // Latches on the first diploma request; keeps the lazily loaded physics
+  // world mounted afterwards (as it was before physics became lazy).
+  physicsRequested: boolean;
   setClearDiplomas: (state: boolean) => void;
   disolveDiplomas: boolean;
   setDisolveDiplomas: (state: boolean) => void;
@@ -39,7 +42,13 @@ const useSectionStore = create<SectionState>((set) => ({
 
 const useClearDiplomasStore = create<ClearDiplomasState>((set) => ({
   isClearDiplomas: false,
-  setClearDiplomas: (state: boolean) => set({ isClearDiplomas: state }),
+  physicsRequested: false,
+  setClearDiplomas: (state: boolean) =>
+    set(
+      state
+        ? { isClearDiplomas: true, physicsRequested: true }
+        : { isClearDiplomas: false }
+    ),
   disolveDiplomas: false,
   setDisolveDiplomas: (state: boolean) => set({ disolveDiplomas: state }),
 }));

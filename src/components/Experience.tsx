@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { Suspense, lazy, useEffect, useRef } from "react";
 import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
-import { Physics, RigidBody } from "@react-three/rapier";
 
 import { useCameraStore, useClearDiplomasStore } from "@/utils/Utils";
 import * as THREE from "three";
@@ -11,8 +10,16 @@ import { AboutModel } from "./AboutModel";
 import Lights from "./Lights";
 
 import PostProcessing from "./PostProcessing";
-import { Diploma } from "./Diploma/Diploma";
-import DiplomaInstances from "./Diploma/DiplomaInstances";
+import { DIPLOMA_POSITION, DIPLOMA_SCALE, Diploma } from "./Diploma/Diploma";
+import { Ground } from "./Ground";
+import {
+  loadPhysicsWorld,
+  prefetchPhysicsWorld,
+} from "./physics/loadPhysicsWorld";
+
+// Rapier stays out of the initial Scene chunk graph; it loads on the first
+// diploma request (prefetched on idle / diploma hover).
+const PhysicsWorld = lazy(loadPhysicsWorld);
 
 type CameraProp = {
   position: THREE.Vector3;
@@ -37,8 +44,24 @@ const CAMERA_POSITIONS: CameraPositions = {
 export default function Experience() {
   const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
   const setTransitioning = useCameraStore((s) => s.setTransitioning);
-  const isClearDiplomas = useClearDiplomasStore((s) => s.isClearDiplomas);
+  const physicsRequested = useClearDiplomasStore((s) => s.physicsRequested);
   const refCamera = useRef<THREE.OrthographicCamera>(null);
+
+  // This commits only after the models above resolved (no Suspense boundary
+  // in between), so the scene is ready: warm the physics chunk when idle.
+  // Kept inside the Scene graph so the lazy chunk only adds rapier on top of
+  // modules the Scene already loaded.
+  useEffect(() => {
+    // Safari has no requestIdleCallback.
+    if (typeof window.requestIdleCallback === "function") {
+      const id = window.requestIdleCallback(() => prefetchPhysicsWorld(), {
+        timeout: 3000,
+      });
+      return () => window.cancelIdleCallback(id);
+    }
+    const id = setTimeout(prefetchPhysicsWorld, 1000);
+    return () => clearTimeout(id);
+  }, []);
 
   useEffect(() => {
     if (cameraZoomed && refCamera.current) {
@@ -146,29 +169,18 @@ export default function Experience() {
         color={"#7195eb"}
       />
 
-      <Physics colliders="cuboid" gravity={[0, -20, 0]} timeStep="vary">
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh
-            rotation={[-Math.PI / 2, 0, 0]}
-            position={[0, -0.01, 0]}
-            receiveShadow
-          >
-            <planeGeometry args={[100, 100, 1, 1]} />
-            <shadowMaterial opacity={0.65} transparent />
-          </mesh>
-        </RigidBody>
+      <Ground />
+      <PorfolioModel />
+      <AboutModel />
+      <Diploma position={DIPLOMA_POSITION} scale={DIPLOMA_SCALE} />
 
-        {isClearDiplomas && <DiplomaInstances />}
-        <PorfolioModel />
-
-        <RigidBody type="fixed" colliders="hull">
-          <AboutModel />
-        </RigidBody>
-
-        <RigidBody type="fixed" colliders="cuboid">
-          <Diploma position={[-0.7, 0.5, 2.75]} scale={100} />
-        </RigidBody>
-      </Physics>
+      {/* Fixed colliders + falling diplomas; own boundary so loading it never
+          suspends the rest of the scene. */}
+      {physicsRequested && (
+        <Suspense fallback={null}>
+          <PhysicsWorld />
+        </Suspense>
+      )}
 
       <BakeShadows />
 
