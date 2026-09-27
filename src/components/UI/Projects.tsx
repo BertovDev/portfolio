@@ -32,7 +32,7 @@ const proejcts: Project[] = [
     id: 1,
     title: "Viniltify",
     description: "",
-    demo: "/videos/vinil2.mkv",
+    demo: "/videos/viniltify.mp4",
     type: "3D Web experience ",
     link: {
       github: "https://github.com/BertovDev/viniltify_app",
@@ -44,7 +44,7 @@ const proejcts: Project[] = [
     id: 2,
     title: "My Daily Bliss Blog",
     description: "",
-    demo: "/videos/blog.mkv",
+    demo: "/videos/blog.mp4",
     type: "Blog",
     link: {
       github: "https://github.com/BertovDev/myDailyBlissBlog",
@@ -56,7 +56,7 @@ const proejcts: Project[] = [
     id: 3,
     title: "3D Connect Four",
     description: "",
-    demo: "/videos/connect.mkv",
+    demo: "/videos/connect.mp4",
     type: "3D Web experience ",
     link: {
       github: "https://github.com/BertovDev/3D-Connect-Four",
@@ -69,7 +69,7 @@ const proejcts: Project[] = [
     id: 4,
     title: "Canvas Hologram Camera",
     description: "",
-    demo: "/videos/holograme.mkv",
+    demo: "/videos/holograme.mp4",
     type: "Shader ",
     link: {
       github: "",
@@ -81,7 +81,7 @@ const proejcts: Project[] = [
     id: 5,
     title: "Join The Evolution",
     description: "",
-    demo: "/videos/evolution.mkv",
+    demo: "/videos/evolution.mp4",
     type: "Shader | Gesture detection ",
     link: {
       github: "https://github.com/BertovDev/Join-the-evolution",
@@ -93,7 +93,7 @@ const proejcts: Project[] = [
     id: 6,
     title: "Canvas Camera Shader",
     description: "",
-    demo: "/videos/camshader.mkv",
+    demo: "/videos/camshader.mp4",
     type: "Shader",
     link: {
       github: "",
@@ -105,7 +105,7 @@ const proejcts: Project[] = [
     id: 7,
     title: "Isavet",
     description: "",
-    demo: "/videos/isavet.mkv",
+    demo: "/videos/isavet.mp4",
     type: "Business solution ",
     link: {
       github: "https://github.com/BertovDev/IsaVet",

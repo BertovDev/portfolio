@@ -108,6 +108,7 @@ export default function CursorTip({
           // autoPlay
           loop
           playsInline
+          preload="none"
           muted
           ref={videoRef}
           className="pointer-events-none rounded-md drop-shadow-2xl opacity-0"
