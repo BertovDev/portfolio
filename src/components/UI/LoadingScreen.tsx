@@ -16,6 +16,9 @@ export default function LoadingScreen() {
   const { progress } = useProgress();
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Latches at 100: later loads (e.g. prefetched mail.glb) move drei's global
+  // progress again and must not rewind the bar or remount the welcome block.
+  const hasFinishedRef = useRef(false);
 
   const [mobileWarning, setMobileWarning] = useState<boolean>(false);
 
@@ -161,7 +164,7 @@ export default function LoadingScreen() {
   };
 
   useEffect(() => {
-    if (!loadingTextRef.current) return;
+    if (!loadingTextRef.current || hasFinishedRef.current) return;
     gsap.to(loadingTextRef.current, {
       scaleX: 1 - progress / 100,
       duration: 2,
@@ -173,6 +176,7 @@ export default function LoadingScreen() {
       detectMobile();
     }
     if (progress === 100) {
+      hasFinishedRef.current = true;
       setIsLoading(false);
     }
   }, [progress]);
@@ -211,7 +215,7 @@ export default function LoadingScreen() {
         </div>
 
         <div className="flex flex-col gap-y-1 my-auto justify-center items-center ">
-          {progress === 100 && (
+          {!isLoading && (
             <div className="flex flex-col justify-center items-center">
               <div className="">
                 <h2 className="welcome text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
