@@ -26,6 +26,7 @@ export default function LoadingScreen() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
   const loadingTextRef = useRef<HTMLParagraphElement>(null);
+  const welcomeRef = useRef<HTMLDivElement>(null);
 
   const splitWelcomeRef = useRef<SplitText | null>(null);
   const { progress } = useProgress();
@@ -91,6 +92,9 @@ export default function LoadingScreen() {
         // tlRef.current?.kill();
         if (loadingTextRef.current && loadingTextRef.current.parentElement)
           loadingTextRef.current.parentElement.style.display = "none";
+        // Revealed in the same frame the logo column is hidden, so the welcome
+        // block appears in place instead of moving into view (CLS).
+        if (welcomeRef.current) welcomeRef.current.style.visibility = "visible";
       },
     });
     const split = new SplitText(".welcome", {
@@ -135,6 +139,8 @@ export default function LoadingScreen() {
 
   const animateWelcomeOut = () => {
     if (ref.current && splitWelcomeRef.current) {
+      // Let the 3D scene receive input while the overlay fades out.
+      ref.current.style.pointerEvents = "none";
       const tl = gsap.timeline();
       tl.to(splitWelcomeRef.current.chars, {
         yPercent: "random([-100,100])",
@@ -171,7 +177,7 @@ export default function LoadingScreen() {
           duration: 1,
           ease: "back",
           onComplete: () => {
-            if (ref.current) ref.current.style.display = " none";
+            if (ref.current) ref.current.style.display = "none";
           },
         },
         "-=0.5"
@@ -227,7 +233,14 @@ export default function LoadingScreen() {
         <div className="flex flex-col justify-center items-center  min-h-screen">
           <div className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-full">
             {/* <p>LOADING</p> */}
-            <Image src={"/benjiDor.png"} width={500} height={500} alt="benji" priority />
+            <Image
+              src="/benjiDor.webp"
+              width={500}
+              height={500}
+              alt="benji"
+              priority
+              unoptimized
+            />
           </div>
           <div
             ref={loadingTextRef}
@@ -235,7 +248,16 @@ export default function LoadingScreen() {
           ></div>
           <h2 className="mt-5 font-inter font-bold text-3xl">Loading...</h2>
         </div>
+      </div>
 
+      {/* Out of flow so hiding the logo column doesn't move it (CLS). The
+          p-10 inset matches the root padding: same centering as the in-flow
+          column, and the mobile warning's bottom-0 still hits the viewport
+          edge. Hidden until animateWelcome hides the logo column. */}
+      <div
+        ref={welcomeRef}
+        className="invisible absolute inset-0 p-10 box-border flex flex-col justify-around items-center"
+      >
         <div className="flex flex-col gap-y-1 my-auto justify-center items-center ">
           {!isLoading && (
             <div className="flex flex-col justify-center items-center">
@@ -246,7 +268,7 @@ export default function LoadingScreen() {
                 <div className="underline-bar w-full scale-x-0 origin-left relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
               </div>
               <button
-                className="start-button border cursor-pointer rounded-lg py-1 text-lg font-intter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
+                className="start-button border cursor-pointer rounded-lg py-1 text-lg font-inter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
                 onClick={() => startExperience()}
                 disabled={isButtonDisabled}
               >
@@ -254,7 +276,7 @@ export default function LoadingScreen() {
               </button>
 
               {mobileWarning && (
-                <div className="text-yellow-500 text-center flex items-center absolute bottom-0">
+                <div className="visible text-yellow-500 text-center flex items-center absolute bottom-0">
                   Warning: This experience is not fully suported on mobile{" "}
                 </div>
               )}
