@@ -38,11 +38,13 @@ type CameraPositions = {
 
 const CAMERA_POSITION: [number, number, number] = [-1.1, 3.9, 5];
 const CAMERA_ROTATION: [number, number, number] = [0, 0.67, 0];
-const CAMERA_ZOOM = 130;
+// Resting zoom. Production shows this framing when the loading screen lifts
+// (the old 130 -> 120 intro tween ran hidden behind it), so mount here too.
+const CAMERA_ZOOM = 120;
 const KEY_LIGHT_POSITION: [number, number, number] = [-1.8, 2.5, 3];
 
 const CAMERA_POSITIONS: CameraPositions = {
-  initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
+  initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: CAMERA_ZOOM },
   zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
 };
 
