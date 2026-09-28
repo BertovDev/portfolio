@@ -6,10 +6,10 @@ import React, {
   useState,
   useSyncExternalStore,
 } from "react";
-import { useProgress } from "@react-three/drei";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import Image from "next/image";
+import { useLoadingStore } from "@/utils/Utils";
 
 gsap.registerPlugin(SplitText);
 
@@ -22,6 +22,11 @@ const subscribeNarrow = (onChange: () => void) => {
 const getNarrow = () => window.matchMedia(NARROW_QUERY).matches;
 const getNarrowServer = () => false;
 
+// Assets loaded and the scene's first frame rendered (shaders compiled).
+type LoadingSnapshot = { progress: number; sceneReady: boolean };
+const isSceneDone = ({ progress, sceneReady }: LoadingSnapshot) =>
+  progress === 100 && sceneReady;
+
 export default function LoadingScreen() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
@@ -29,11 +34,11 @@ export default function LoadingScreen() {
   const welcomeRef = useRef<HTMLDivElement>(null);
 
   const splitWelcomeRef = useRef<SplitText | null>(null);
-  const { progress } = useProgress();
+  const progress = useLoadingStore((s) => s.progress);
 
-  // Lazy init covers client-side navigation back to "/" after assets loaded.
+  // Lazy init covers client-side navigation back to "/" after the scene loaded.
   const [isLoading, setIsLoading] = useState<boolean>(
-    () => useProgress.getState().progress !== 100
+    () => !isSceneDone(useLoadingStore.getState())
   );
   // Latches at 100: later loads (e.g. prefetched mail.glb) move drei's global
   // progress again and must not rewind the bar or remount the welcome block.
@@ -139,8 +144,6 @@ export default function LoadingScreen() {
 
   const animateWelcomeOut = () => {
     if (ref.current && splitWelcomeRef.current) {
-      // Let the 3D scene receive input while the overlay fades out.
-      ref.current.style.pointerEvents = "none";
       const tl = gsap.timeline();
       tl.to(splitWelcomeRef.current.chars, {
         yPercent: "random([-100,100])",
@@ -203,13 +206,13 @@ export default function LoadingScreen() {
 
   useEffect(
     () =>
-      useProgress.subscribe((state) => {
-        if (state.progress === 100) setIsLoading(false);
+      useLoadingStore.subscribe((state) => {
+        if (isSceneDone(state)) setIsLoading(false);
       }),
     []
   );
 
-  // Loading Done -> show welcome section
+  // Scene loaded and first frame rendered -> show welcome section
 
   useEffect(() => {
     if (!isLoading) {

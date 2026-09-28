@@ -2,7 +2,11 @@ import React, { Suspense, lazy, useEffect, useRef } from "react";
 import { BakeShadows, OrbitControls, SoftShadows } from "@react-three/drei";
 import { OrthographicCamera } from "@react-three/drei";
 
-import { useCameraStore, useClearDiplomasStore } from "@/utils/Utils";
+import {
+  useCameraStore,
+  useClearDiplomasStore,
+  useLoadingStore,
+} from "@/utils/Utils";
 import * as THREE from "three";
 import gsap from "gsap";
 import { PorfolioModel } from "../components/Portfolio";
@@ -16,6 +20,7 @@ import {
   loadPhysicsWorld,
   prefetchPhysicsWorld,
 } from "./physics/loadPhysicsWorld";
+import SceneWarmup from "./loading/SceneWarmup";
 
 // Rapier stays out of the initial Scene chunk graph; it loads on the first
 // diploma request (prefetched on idle / diploma hover).
@@ -45,13 +50,15 @@ export default function Experience() {
   const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
   const setTransitioning = useCameraStore((s) => s.setTransitioning);
   const physicsRequested = useClearDiplomasStore((s) => s.physicsRequested);
+  const sceneReady = useLoadingStore((s) => s.sceneReady);
   const refCamera = useRef<THREE.OrthographicCamera>(null);
 
-  // This commits only after the models above resolved (no Suspense boundary
-  // in between), so the scene is ready: warm the physics chunk when idle.
+  // Warm the physics chunk when idle, once shaders are compiled and the first
+  // frame is out, so rapier's ~2 MB evaluation doesn't compete with them.
   // Kept inside the Scene graph so the lazy chunk only adds rapier on top of
   // modules the Scene already loaded.
   useEffect(() => {
+    if (!sceneReady) return;
     // Safari has no requestIdleCallback.
     if (typeof window.requestIdleCallback === "function") {
       const id = window.requestIdleCallback(() => prefetchPhysicsWorld(), {
@@ -61,9 +68,12 @@ export default function Experience() {
     }
     const id = setTimeout(prefetchPhysicsWorld, 1000);
     return () => clearTimeout(id);
-  }, []);
+  }, [sceneReady]);
 
   useEffect(() => {
+    // Hold the intro zoom-out until the first frame is on screen; otherwise
+    // it plays while the shader warmup pauses rendering and is never seen.
+    if (!sceneReady) return;
     if (cameraZoomed && refCamera.current) {
       gsap.to(refCamera.current.position, {
         x: CAMERA_POSITIONS.zoomedPos.position.x,
@@ -124,7 +134,7 @@ export default function Experience() {
         gsap.killTweensOf(camera);
       }
     };
-  }, [cameraZoomed, setTransitioning]);
+  }, [cameraZoomed, setTransitioning, sceneReady]);
 
   return (
     <group>
@@ -156,16 +166,13 @@ export default function Experience() {
         castShadow
         shadow-mapSize={1024}
         shadow-bias={0}
-        shadow-camera-near={0.5}
-        shadow-camera-far={25}
-        shadow-camera-left={-5}
-        shadow-camera-right={5}
-        shadow-camera-top={5}
-        shadow-camera-bottom={-5}
       />
       <directionalLight
         position={[0.3, 2, 3]}
         intensity={1.2}
+        castShadow
+        shadow-mapSize={1024}
+        shadow-bias={0.0001}
         color={"#7195eb"}
       />
 
@@ -184,8 +191,11 @@ export default function Experience() {
 
       <BakeShadows />
 
-      <SoftShadows size={35} samples={10} />
+      <SoftShadows size={35} samples={20} />
       <PostProcessing />
+
+      {/* Last on purpose: its effects must run after SoftShadows' (see file). */}
+      <SceneWarmup />
     </group>
   );
 }

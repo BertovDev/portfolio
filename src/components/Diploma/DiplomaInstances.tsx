@@ -108,7 +108,7 @@ const noiseFunction = `
     float value = 0.0;
     float amplitude = 0.5;
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 5; i++) {
       value += amplitude * snoise(p);
       p *= 2.0;
       amplitude *= 0.5;
