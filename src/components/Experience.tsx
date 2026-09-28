@@ -42,7 +42,7 @@ const CAMERA_ZOOM = 130;
 const KEY_LIGHT_POSITION: [number, number, number] = [-1.8, 2.5, 3];
 
 const CAMERA_POSITIONS: CameraPositions = {
-  initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: CAMERA_ZOOM },
+  initialPos: { position: new THREE.Vector3(-1.1, 3.9, 5), zoom: 120 },
   zoomedPos: { position: new THREE.Vector3(-3, 5, 5), zoom: 170 },
 };
 
