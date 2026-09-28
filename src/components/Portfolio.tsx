@@ -155,7 +155,7 @@ export function PorfolioModel() {
   const isTransitioning = useCameraStore((s) => s.isTransitioning);
   const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
-  const [toolTexture] = useTexture(["/images/tool3.png"]);
+  const [toolTexture] = useTexture(["/images/tool3.webp"]);
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -382,3 +382,4 @@ export function PorfolioModel() {
 }
 
 useGLTF.preload("/portfolio.glb");
+useTexture.preload("/images/tool3.webp");
