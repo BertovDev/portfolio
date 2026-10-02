@@ -10,6 +10,7 @@ import React, { ComponentProps, useState } from "react";
 import { Outlines, useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import { useClearDiplomasStore } from "@/utils/Utils";
+import { prefetchPhysicsWorld } from "../physics/loadPhysicsWorld";
 
 type GLTFResult = GLTF & {
   nodes: {
@@ -19,14 +20,38 @@ type GLTFResult = GLTF & {
     lambert1: THREE.MeshStandardMaterial
   }
 }
+// Shared nesting so the visual mesh and the physics collider copy can't drift.
+function DiplomaTransform({
+  children,
+  ...props
+}: ComponentProps<"group">) {
+  return (
+    <group {...props} dispose={null}>
+      <group rotation={[-0.242, 0, 0]} scale={1.3}>
+        <group rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
+          <group scale={[0.663, 0.061, 0.802]}>{children}</group>
+        </group>
+      </group>
+    </group>
+  );
+}
+
+const DIPLOMA_MESH_SCALE: [number, number, number] = [1, 3, 1];
+
+/** Where the diploma sits in the scene; shared with its physics collider. */
+export const DIPLOMA_POSITION: [number, number, number] = [-0.7, 0.5, 2.75];
+export const DIPLOMA_SCALE = 100;
+
 export function Diploma(props: ComponentProps<"group">) {
   const { nodes, materials } = useGLTF("/diploma.glb") as unknown as GLTFResult;
-  const { setClearDiplomas } = useClearDiplomasStore();
+  const setClearDiplomas = useClearDiplomasStore((s) => s.setClearDiplomas);
   const [hover, setHover] = useState(false);
 
   const hoverBox = () => {
     document.body.style.cursor = "pointer";
     setHover(true);
+    // Start fetching physics now so the click doesn't wait on it.
+    prefetchPhysicsWorld();
   };
 
   const hoverLeave = () => {
@@ -39,28 +64,40 @@ export function Diploma(props: ComponentProps<"group">) {
   };
 
   return (
-    <group {...props} dispose={null}>
-      <group rotation={[-0.242, 0, 0]} scale={1.3}>
-        <group rotation={[Math.PI / 2, 0, 0]} scale={0.01}>
-          <group scale={[0.663, 0.061, 0.802]}>
-            <mesh
-              onClick={onClick}
-              onPointerOver={hoverBox}
-              onPointerLeave={hoverLeave}
-              castShadow
-              receiveShadow
-              geometry={nodes.pCube1_lambert1_0.geometry}
-              material={materials.lambert1}
-              scale={[1, 3, 1]}
-            >
-              {hover && (
-                <Outlines castShadow={false} thickness={1.1} color="white" />
-              )}
-            </mesh>
-          </group>
-        </group>
-      </group>
-    </group>
+    <DiplomaTransform {...props}>
+      <mesh
+        onClick={onClick}
+        onPointerOver={hoverBox}
+        onPointerLeave={hoverLeave}
+        castShadow
+        receiveShadow
+        geometry={nodes.pCube1_lambert1_0.geometry}
+        material={materials.lambert1}
+        scale={DIPLOMA_MESH_SCALE}
+      >
+        {hover && (
+          <Outlines castShadow={false} thickness={1.1} color="white" />
+        )}
+      </mesh>
+    </DiplomaTransform>
+  );
+}
+
+/**
+ * Invisible copy of the diploma (same nesting and geometry) used by the lazily
+ * loaded physics world for its cuboid collider.
+ */
+export function DiplomaColliderShape(props: ComponentProps<"group">) {
+  const { nodes } = useGLTF("/diploma.glb") as unknown as GLTFResult;
+  return (
+    <DiplomaTransform {...props}>
+      <mesh
+        geometry={nodes.pCube1_lambert1_0.geometry}
+        scale={DIPLOMA_MESH_SCALE}
+      >
+        <meshBasicMaterial visible={false} />
+      </mesh>
+    </DiplomaTransform>
   );
 }
 

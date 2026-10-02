@@ -16,17 +16,12 @@ export default function TipBar({
   hasAnimation,
   styleProps,
 }: Props) {
-  const { cameraZoomed } = useCameraStore();
+  const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
 
   const [tipText, setTipText] = useState<string>(initialText);
 
   const tipRef: React.RefObject<HTMLSpanElement | null> =
     useRef<HTMLSpanElement>(null);
-
-  useEffect(() => {
-    if (!hasInteration) return;
-    setTipText(cameraZoomed ? "Click outside to zoom out" : initialText);
-  }, [cameraZoomed]);
 
   useEffect(() => {
     if (hasAnimation && tipRef.current) {
@@ -57,11 +52,16 @@ export default function TipBar({
       });
 
       return () => {
-        console.log("Cleaning up animation");
         tl.kill();
       };
     }
   }, [hasAnimation, initialText]);
+
+  const displayText = hasInteration
+    ? cameraZoomed
+      ? "Click outside to zoom out"
+      : initialText
+    : tipText;
 
   return (
     <div
@@ -70,9 +70,9 @@ export default function TipBar({
       <span
         ref={tipRef}
         className="block  text-md  lg:text-xl relative  min-w-[300px] md:min-w-[200px]"
-        data-text={tipText}
+        data-text={displayText}
       >
-        {tipText}
+        {displayText}
       </span>
     </div>
   );

@@ -11,7 +11,133 @@ import PorfolioGLTF from "@/types/model";
 import { MailModel } from "./Mail";
 import Annotation from "./Annotation";
 import { DoubleSide } from "three";
-import { RigidBody } from "@react-three/rapier";
+import type { ColliderBody, ColliderBodyProps } from "./physics/types";
+
+const PORTFOLIO_SCALE = 11;
+const PORTFOLIO_POSITION: [number, number, number] = [4, 0, -1.7];
+const PORTFOLIO_ROTATION: [number, number, number] = [0, 5.4, 0];
+
+const BOX_BASE_POSITION: [number, number, number] = [-0.065, 0, 0.443];
+const BOX_BASE_ROTATION: [number, number, number] = [-Math.PI / 2, 0, 0];
+const WALL_THICKNESS = 0.005;
+const WALL_OFFSET_Y = 0.05; // Moves the wall colliders up
+const WALLS_POSITION: [number, number, number] = [
+  BOX_BASE_POSITION[0],
+  BOX_BASE_POSITION[1] + WALL_OFFSET_Y,
+  BOX_BASE_POSITION[2],
+];
+
+// Black plane behind the vinyl cover: hover target + collider.
+const VINYL_BACK_POSITION: [number, number, number] = [-0.061, 0.079, 0.319];
+const VINYL_BACK_ROTATION: [number, number, number] = [-0.17, 3.14, 0];
+const VINYL_ARGS: [number, number] = [0.15, 0.15];
+
+function NoBody({ children }: ColliderBodyProps) {
+  return <>{children}</>;
+}
+
+/**
+ * Invisible box walls. The visual model renders them as plain meshes (they
+ * are raycast targets for the box hover); the lazily loaded physics world
+ * renders them wrapped in fixed RigidBodies. One component keeps both copies
+ * identical.
+ */
+function BoxWalls({ Body = NoBody }: { Body?: ColliderBody }) {
+  const { nodes } = useGLTF("/portfolio.glb") as unknown as PorfolioGLTF;
+
+  const boxDimensions = useMemo(() => {
+    const geometry = nodes["Box_1-b_Boxes_0"].geometry;
+    geometry.computeBoundingBox();
+    const box = geometry.boundingBox!;
+
+    return {
+      width: box.max.x - box.min.x,
+      height: box.max.y - box.min.y,
+      depth: box.max.z - box.min.z,
+    };
+  }, [nodes]);
+
+  return (
+    <group position={WALLS_POSITION} rotation={BOX_BASE_ROTATION}>
+      {/* Bottom wall */}
+      <Body>
+        <mesh position={[0, -boxDimensions.height / 2.2, 0]}>
+          <boxGeometry
+            args={[boxDimensions.width, WALL_THICKNESS, boxDimensions.depth]}
+          />
+          <meshStandardMaterial visible={false} />
+        </mesh>
+      </Body>
+
+      <Body>
+        <mesh position={[0, boxDimensions.height / 2.2, 0]}>
+          <boxGeometry
+            args={[boxDimensions.width, WALL_THICKNESS, boxDimensions.depth]}
+          />
+          <meshStandardMaterial visible={false} />
+        </mesh>
+      </Body>
+
+      {/* Front wall intentionally omitted (open box) */}
+
+      {/* Back wall */}
+      <Body>
+        <mesh position={[0, 0, -boxDimensions.depth / 2.2]}>
+          <boxGeometry
+            args={[boxDimensions.width, boxDimensions.height, WALL_THICKNESS]}
+          />
+          <meshStandardMaterial visible={false} />
+        </mesh>
+      </Body>
+
+      {/* Left wall */}
+      <Body>
+        <mesh position={[-boxDimensions.width / 2.2, 0, 0]}>
+          <boxGeometry
+            args={[WALL_THICKNESS, boxDimensions.height, boxDimensions.depth]}
+          />
+          <meshStandardMaterial visible={false} />
+        </mesh>
+      </Body>
+
+      {/* Right wall */}
+      <Body>
+        <mesh position={[boxDimensions.width / 2.2, 0, 0]}>
+          <boxGeometry
+            args={[WALL_THICKNESS, boxDimensions.height, boxDimensions.depth]}
+          />
+          <meshStandardMaterial visible={false} />
+        </mesh>
+      </Body>
+    </group>
+  );
+}
+
+/**
+ * Collider shapes of the portfolio box (walls + vinyl) under the same
+ * transforms as PorfolioModel. Rendered only by the lazily loaded physics
+ * world.
+ */
+export function PortfolioColliderShapes({ Body }: { Body: ColliderBody }) {
+  return (
+    <group
+      dispose={null}
+      scale={PORTFOLIO_SCALE}
+      position={PORTFOLIO_POSITION}
+      rotation={PORTFOLIO_ROTATION}
+    >
+      <BoxWalls Body={Body} />
+      <group>
+        <Body>
+          <mesh position={VINYL_BACK_POSITION} rotation={VINYL_BACK_ROTATION}>
+            <planeGeometry args={VINYL_ARGS} />
+            <meshBasicMaterial visible={false} />
+          </mesh>
+        </Body>
+      </group>
+    </group>
+  );
+}
 
 export function PorfolioModel() {
   // const { rota, posa } = useControls({
@@ -24,10 +150,12 @@ export function PorfolioModel() {
   const [hoverVinyl, setHoverVinyl] = useState<boolean>(false);
   const [hoverMail, setHoverMail] = useState<boolean>(false);
 
-  const { cameraZoomed, setCameraZoomed, isTransitioning } = useCameraStore();
-  const { setSectionClicked } = useSectionStore();
+  const cameraZoomed = useCameraStore((s) => s.cameraZoomed);
+  const setCameraZoomed = useCameraStore((s) => s.setCameraZoomed);
+  const isTransitioning = useCameraStore((s) => s.isTransitioning);
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
-  const [toolTexture] = useTexture(["/images/tool3.png"]);
+  const [toolTexture] = useTexture(["/images/tool3.webp"]);
 
   const hoverBox = () => {
     if (isTransitioning) return;
@@ -49,34 +177,12 @@ export function PorfolioModel() {
     "/portfolio.glb"
   ) as unknown as PorfolioGLTF;
 
-  const boxDimensions = useMemo(() => {
-    const geometry = nodes["Box_1-b_Boxes_0"].geometry;
-    geometry.computeBoundingBox();
-    const box = geometry.boundingBox!;
-
-    return {
-      width: box.max.x - box.min.x,
-      height: box.max.y - box.min.y,
-      depth: box.max.z - box.min.z,
-      center: [
-        (box.max.x + box.min.x) / 2,
-        (box.max.y + box.min.y) / 2,
-        (box.max.z + box.min.z) / 2,
-      ] as [number, number, number],
-    };
-  }, [nodes]);
-
-  const basePosition: [number, number, number] = [-0.065, 0, 0.443];
-  const baseRotation: [number, number, number] = [-Math.PI / 2, 0, 0];
-  const wallThickness = 0.005;
-  const offsetY = 0.05; // Adjust this value to move RigidBodies up
-
   return (
     <group
       dispose={null}
-      scale={11}
-      position={[4, 0, -1.7]}
-      rotation={[0, 5.4, 0]}
+      scale={PORTFOLIO_SCALE}
+      position={PORTFOLIO_POSITION}
+      rotation={PORTFOLIO_ROTATION}
       onPointerOver={() => hoverBox()}
       onPointerMissed={() => hoverLeave()}
     >
@@ -191,7 +297,7 @@ export function PorfolioModel() {
       </group>
 
       {/* Visual mesh (the actual box you see) - stays in original position */}
-      <group position={basePosition} rotation={baseRotation}>
+      <group position={BOX_BASE_POSITION} rotation={BOX_BASE_ROTATION}>
         <mesh
           geometry={nodes["Box_1-b_Boxes_0"].geometry}
           material={materials.Boxes}
@@ -200,88 +306,24 @@ export function PorfolioModel() {
         />
       </group>
 
-      {/* Separate group for RigidBodies, moved up */}
-      <group
-        position={[basePosition[0], basePosition[1] + offsetY, basePosition[2]]}
-        rotation={baseRotation}
-      >
-        {/* Bottom wall */}
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[0, -boxDimensions.height / 2.2, 0]}>
-            <boxGeometry
-              args={[boxDimensions.width, wallThickness, boxDimensions.depth]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody>
-
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[0, boxDimensions.height / 2.2, 0]}>
-            <boxGeometry
-              args={[boxDimensions.width, wallThickness, boxDimensions.depth]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody>
-
-        {/* Front wall */}
-        {/* <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[0, 0, boxDimensions.depth / 2.2]}>
-            <boxGeometry
-              args={[boxDimensions.width, boxDimensions.height, wallThickness]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody> */}
-
-        {/* Back wall */}
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[0, 0, -boxDimensions.depth / 2.2]}>
-            <boxGeometry
-              args={[boxDimensions.width, boxDimensions.height, wallThickness]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody>
-
-        {/* Left wall */}
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[-boxDimensions.width / 2.2, 0, 0]}>
-            <boxGeometry
-              args={[wallThickness, boxDimensions.height, boxDimensions.depth]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody>
-
-        {/* Right wall */}
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh position={[boxDimensions.width / 2.2, 0, 0]}>
-            <boxGeometry
-              args={[wallThickness, boxDimensions.height, boxDimensions.depth]}
-            />
-            <meshStandardMaterial visible={false} />
-          </mesh>
-        </RigidBody>
-      </group>
+      {/* Invisible walls; their colliders live in the lazy physics world */}
+      <BoxWalls />
 
       <group>
-        <RigidBody type="fixed" colliders="cuboid">
-          <mesh
-            position={[-0.061, 0.079, 0.319]}
-            rotation={[-0.17, 3.14, 0]}
-            onPointerEnter={() => setHoverVinyl(true)}
-            onPointerLeave={() => setHoverVinyl(false)}
-          >
-            <planeGeometry args={[0.15, 0.15]} />
-            <meshStandardMaterial color={"black"} side={DoubleSide} />
-          </mesh>
-          {hoverVinyl && (
-            <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
-              <span>Projects</span>
-            </Annotation>
-          )}
-        </RigidBody>
+        <mesh
+          position={VINYL_BACK_POSITION}
+          rotation={VINYL_BACK_ROTATION}
+          onPointerEnter={() => setHoverVinyl(true)}
+          onPointerLeave={() => setHoverVinyl(false)}
+        >
+          <planeGeometry args={VINYL_ARGS} />
+          <meshStandardMaterial color={"black"} side={DoubleSide} />
+        </mesh>
+        {hoverVinyl && (
+          <Annotation scale={0.1} position={[-0.07, 0.15, 0.27]}>
+            <span>Projects</span>
+          </Annotation>
+        )}
       </group>
       <mesh
         position={[-0.055, 0.079, 0.33]}
@@ -293,7 +335,7 @@ export function PorfolioModel() {
           setSectionClicked("Projects", true);
         }}
       >
-        <planeGeometry args={[0.15, 0.15]} />
+        <planeGeometry args={VINYL_ARGS} />
         <meshStandardMaterial map={toolTexture} side={DoubleSide} />
         {hoverVinyl && (
           <Outlines
@@ -340,3 +382,4 @@ export function PorfolioModel() {
 }
 
 useGLTF.preload("/portfolio.glb");
+useTexture.preload("/images/tool3.webp");

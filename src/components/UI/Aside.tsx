@@ -4,7 +4,8 @@ import { useSectionStore } from "@/utils/Utils";
 import React from "react";
 
 export default function Aside() {
-  const { isSectionClicked, setSectionClicked } = useSectionStore();
+  const isSectionClicked = useSectionStore((s) => s.isSectionClicked);
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   return (
     <div className="z-100 absolute top-5 right-5 text-3xl text-black font-inter font-semibold text-center">

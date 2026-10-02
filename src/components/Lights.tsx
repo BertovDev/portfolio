@@ -1,17 +1,12 @@
 import React, { useRef, useEffect } from "react";
-import { useControls } from "leva";
-import { useFrame } from "@react-three/fiber";
-import { PointLight, Vector3 } from "three";
+import { PointLight } from "three";
+
+const BULB_INTENSITY = 10;
+const BULB_POSITION: [number, number, number] = [0, 2, 0];
+const BULB_COLOR = "#ffddaa";
 
 export default function Lights() {
   const light1 = useRef<PointLight>(null);
-  const target = new Vector3(0, 0, 0);
-
-  const bulbLightControls = useControls("Bulb Light", {
-    intensity: { value: 10, min: 0, max: 20 },
-    position: { value: [0, 2, 0], step: 0.1 },
-    color: "#ffddaa",
-  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,20 +19,14 @@ export default function Lights() {
     return () => clearInterval(interval);
   }, []);
 
-  useFrame(() => {
-    if (light1.current) {
-      light1.current.lookAt(target);
-    }
-  });
-
   return (
     <>
       {/* Bulb Light */}
       <pointLight
         ref={light1}
-        intensity={bulbLightControls.intensity}
-        position={bulbLightControls.position}
-        color={bulbLightControls.color}
+        intensity={BULB_INTENSITY}
+        position={BULB_POSITION}
+        color={BULB_COLOR}
         decay={2}
         distance={10}
       />

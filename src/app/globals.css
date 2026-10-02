@@ -3,6 +3,10 @@
 @theme {
   --color-custom-red: #db0000;
   --color-custom-blue: #006be4;
+  /* Tailwind 4.0's default stack, which production renders with; 4.3 changed
+     the default to an explicit -apple-system/Segoe UI/Roboto list. */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
 }
 
 html {

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   InstancedRigidBodies,
   InstancedRigidBodyProps,
@@ -7,7 +7,6 @@ import { useGLTF } from "@react-three/drei";
 import { GLTF } from "three-stdlib";
 import * as THREE from "three";
 import { useFrame } from "@react-three/fiber";
-import { useControls } from "leva";
 import { useClearDiplomasStore } from "@/utils/Utils";
 import gsap from "gsap";
 
@@ -20,6 +19,10 @@ type GLTFResult = GLTF & {
   };
 };
 const RANGE = 100;
+const DISSOLVE_THICKNESS = 0.1;
+const DISSOLVE_NOISE_SCALE = 2.0;
+const DISSOLVE_EDGE_COLOR = "#eb5a13";
+const DISSOLVE_EDGE_INTENSITY = 20;
 
 // Simple noise function for dissolve effect
 const noiseFunction = `
@@ -104,8 +107,7 @@ const noiseFunction = `
   float fbm(vec3 p) {
     float value = 0.0;
     float amplitude = 0.5;
-    float frequency = 0.0;
-    
+
     for (int i = 0; i < 5; i++) {
       value += amplitude * snoise(p);
       p *= 2.0;
@@ -264,77 +266,72 @@ const fragmentShader = `
     // Add emissive
     pbrColor += uEmissive * uEmissiveIntensity;
     
+    // Fast path: fully visible, nothing to dissolve — skip the noise entirely.
+    if (uProgress >= 0.999) {
+      gl_FragColor = vec4(pbrColor, 1.0);
+      return;
+    }
+
     // Calculate dissolve effect
     // Use world position for noise to work consistently across instances
     vec3 worldPos = vWorldPosition;
     float noise = fbm(worldPos * uNoiseScale + vTime * 0.5);
     noise = (noise + 1.0) * 0.5; // Normalize to 0-1
-    
-    // Use global progress (uProgress takes precedence)
-    // When uProgress is 0.0, fully dissolve regardless of instance progress
-    float progress = uProgress;
-    
-    // Calculate threshold - when progress is 0, threshold is 1 (fully dissolved)
-    // When progress is 1, threshold is 0 (fully visible)
-    float threshold = 1.0 - progress;
-    
-    // Calculate alpha: noise >= threshold means visible
-    // When threshold is 1.0 (progress = 0), noise (0-1) will never be >= 1.0, so alpha = 0
+
+    // uProgress 1.0 -> threshold 0.0 (fully visible); 0.0 -> threshold 1.0 (fully dissolved)
+    float threshold = 1.0 - uProgress;
     float alpha = step(threshold, noise);
-    
-    // Calculate border (edge glow) - area just before the threshold
+
+    // Edge glow: band just below the threshold
     float border = step(threshold - uThickness, noise) - alpha;
-    
-    // Apply edge color to border
     vec3 finalColor = mix(pbrColor, uEdgeColor, border);
-    
-    // Discard pixels that should be dissolved (alpha is 0 or very low)
-    if (alpha < 0.01) {
-      discard;
-    }
-    
+
+    // alpha is exactly 0.0 or 1.0. ShaderMaterial does not inject the
+    // alphatest chunk, so discard manually at the material's alphaTest (0.5).
+    if (alpha < 0.5) discard;
     gl_FragColor = vec4(finalColor, alpha);
   }
 `;
 
+// Random layout is generated once, outside render (React Compiler purity).
+const createInstances = (): InstancedRigidBodyProps[] => {
+  const instances: InstancedRigidBodyProps[] = [];
+
+  for (let i = 0; i < RANGE; i++) {
+    instances.push({
+      key: `instance_${i}`,
+      position: [
+        2 + Math.random() * -5,
+        8 + Math.random() * 100,
+        Math.random() * 2,
+      ],
+      rotation: [
+        Math.random() * 2 * Math.PI,
+        Math.random() * 2 * Math.PI,
+        Math.random() * 2 * Math.PI,
+      ],
+      scale: [1, .5, 1],
+    });
+  }
+
+  return instances;
+};
+
 export default function DiplomaInstances() {
   const { nodes, materials } = useGLTF("/diploma.glb") as unknown as GLTFResult;
+  // Private copy: the GLB geometry is shared with the standalone <Diploma>,
+  // which must not carry instanced attributes.
+  const instancedGeometry = useMemo(
+    () => nodes.pCube1_lambert1_0.geometry.clone(),
+    [nodes]
+  );
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const shaderMaterialRef = useRef<THREE.ShaderMaterial>(null);
-  const { disolveDiplomas, setClearDiplomas, setDisolveDiplomas } =
-    useClearDiplomasStore();
+  const disolveDiplomas = useClearDiplomasStore((s) => s.disolveDiplomas);
+  const setClearDiplomas = useClearDiplomasStore((s) => s.setClearDiplomas);
+  const setDisolveDiplomas = useClearDiplomasStore((s) => s.setDisolveDiplomas);
 
-  // Leva controls for dissolve effect
-  const dissolveControls = useControls("Dissolve Effect", {
-    progress: { value: 1.0, min: 0.0, max: 1.0, step: 0.01 },
-    thickness: { value: 0.1, min: 0.0, max: 0.5, step: 0.01 },
-    noiseScale: { value: 2.0, min: 0.5, max: 5.0, step: 0.1 },
-    edgeColor: "#eb5a13",
-    edgeIntensity: { value: 20, min: 1, max: 50, step: 1 },
-  });
-
-  const instances = useMemo(() => {
-    const instances: InstancedRigidBodyProps[] = [];
-
-    for (let i = 0; i < RANGE; i++) {
-      instances.push({
-        key: `instance_${i}`,
-        position: [
-          2 + Math.random() * -5,
-          8 + Math.random() * 100,
-          Math.random() * 2,
-        ],
-        rotation: [
-          Math.random() * 2 * Math.PI,
-          Math.random() * 2 * Math.PI,
-          Math.random() * 2 * Math.PI,
-        ],
-        scale: [1, .5, 1],
-      });
-    }
-
-    return instances;
-  }, []);
+  const [instances] = useState(createInstances);
 
   // Create shader material using properties from GLB material
   const shaderMaterial = useMemo(() => {
@@ -363,14 +360,14 @@ export default function DiplomaInstances() {
         uSpeed: { value: 1.0 },
         uMap: { value: originalMaterial.map || null },
         uHasMap: { value: hasMap },
-        uProgress: { value: dissolveControls.progress }, // 1.0 = fully visible, 0.0 = fully dissolved
-        uThickness: { value: dissolveControls.thickness }, // Edge glow thickness
+        uProgress: { value: 1.0 }, // 1.0 = fully visible, 0.0 = fully dissolved
+        uThickness: { value: DISSOLVE_THICKNESS }, // Edge glow thickness
         uEdgeColor: {
-          value: new THREE.Color(dissolveControls.edgeColor).multiplyScalar(
-            dissolveControls.edgeIntensity
+          value: new THREE.Color(DISSOLVE_EDGE_COLOR).multiplyScalar(
+            DISSOLVE_EDGE_INTENSITY
           ),
         }, // Edge glow color
-        uNoiseScale: { value: dissolveControls.noiseScale }, // Noise scale for dissolve pattern
+        uNoiseScale: { value: DISSOLVE_NOISE_SCALE }, // Noise scale for dissolve pattern
         // PBR properties
         uRoughness: { value: roughness },
         uMetalness: { value: metalness },
@@ -388,16 +385,23 @@ export default function DiplomaInstances() {
         uEmissiveIntensity: { value: emissiveIntensity },
         uCameraPosition: { value: new THREE.Vector3(0, 0, 0) },
       },
-      transparent: true,
+      transparent: false,
+      alphaTest: 0.5,
+      depthWrite: true,
       side: originalMaterial.side || THREE.FrontSide,
     });
-  }, [materials, dissolveControls]);
+  }, [materials]);
+
+  useEffect(() => {
+    return () => {
+      instancedGeometry.dispose();
+      shaderMaterial.dispose();
+    };
+  }, [instancedGeometry, shaderMaterial]);
 
   // Set up instance attributes for per-instance variations
   React.useEffect(() => {
-    if (!meshRef.current) return;
-
-    const geometry = nodes.pCube1_lambert1_0.geometry;
+    const geometry = instancedGeometry;
 
     // Create instance color attribute
     const instanceColors = new Float32Array(RANGE * 3);
@@ -436,27 +440,29 @@ export default function DiplomaInstances() {
       "instanceProgress",
       new THREE.InstancedBufferAttribute(instanceProgress, 1)
     );
-  }, [nodes, materials]);
+  }, [instancedGeometry, materials]);
 
   useEffect(() => {
-    if (disolveDiplomas && shaderMaterialRef.current) {
-      const tl = gsap.timeline();
+    if (!disolveDiplomas || !shaderMaterialRef.current) return;
 
-      tl.to(shaderMaterialRef.current.uniforms.uProgress, {
-        value: 0,
-        duration: 1,
-        ease: "power1.inOut",
-        onComplete: () => {
-          setDisolveDiplomas(false);
-          setClearDiplomas(false);
-        },
-      });
-    }
+    const tl = gsap.timeline();
+    tl.to(shaderMaterialRef.current.uniforms.uProgress, {
+      value: 0,
+      duration: 1,
+      ease: "power1.inOut",
+      onComplete: () => {
+        setDisolveDiplomas(false);
+        setClearDiplomas(false);
+      },
+    });
+
+    return () => {
+      tl.kill();
+    };
   }, [disolveDiplomas, setClearDiplomas, setDisolveDiplomas]);
 
-  // Animate shader uniforms and update from Leva controls
+  // Animate shader uniforms
   useFrame((state) => {
-    console.log(disolveDiplomas);
     if (shaderMaterialRef.current) {
       shaderMaterialRef.current.uniforms.uTime.value = state.clock.elapsedTime;
       
@@ -466,17 +472,6 @@ export default function DiplomaInstances() {
           state.camera.position
         );
       }
-
-      // Update uniforms from Leva controls
-      //   shaderMaterialRef.current.uniforms.uProgress.value =
-      //     dissolveControls.progress;
-      shaderMaterialRef.current.uniforms.uThickness.value =
-        dissolveControls.thickness;
-      shaderMaterialRef.current.uniforms.uNoiseScale.value =
-        dissolveControls.noiseScale;
-      shaderMaterialRef.current.uniforms.uEdgeColor.value
-        .set(dissolveControls.edgeColor)
-        .multiplyScalar(dissolveControls.edgeIntensity);
     }
   });
 
@@ -492,7 +487,7 @@ export default function DiplomaInstances() {
       >
         <instancedMesh
           ref={meshRef}
-          args={[nodes.pCube1_lambert1_0.geometry, undefined, instances.length]}
+          args={[instancedGeometry, undefined, instances.length]}
           count={instances.length}
           scale={[1, 1, 1]}
         >

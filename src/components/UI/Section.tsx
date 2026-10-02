@@ -9,7 +9,8 @@ type SectionProps = {
 };
 
 const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
-  const { isSectionClicked, setSectionClicked } = useSectionStore();
+  const isSectionClicked = useSectionStore((s) => s.isSectionClicked);
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   const ref = useRef<HTMLDivElement>(null);
   const animRef = useRef<gsap.core.Tween | undefined>(undefined);
@@ -22,13 +23,11 @@ const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
           y: -50,
           opacity: 0,
           scale: 0.98,
-          filter: "blur(5px)",
         },
         to: {
           y: 0,
           opacity: 1,
           scale: 1,
-          filter: "blur(0px)",
           ease: "expo.out",
           duration: 0.8,
           transformOrigin: "50% 50%",
@@ -39,7 +38,6 @@ const Section: React.FC<SectionProps> = memo(({ children }: SectionProps) => {
           y: -30,
           opacity: 0,
           scale: 0.95,
-          filter: "blur(4px)",
           ease: "power2.inOut",
           duration: 0.6,
           transformOrigin: "50% 50%",

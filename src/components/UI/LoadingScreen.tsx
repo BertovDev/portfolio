@@ -1,29 +1,54 @@
 "use client";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useProgress } from "@react-three/drei";
+import React, {
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import gsap from "gsap";
 import { SplitText } from "gsap/SplitText";
 import Image from "next/image";
+import { useLoadingStore } from "@/utils/Utils";
 
 gsap.registerPlugin(SplitText);
+
+const NARROW_QUERY = "(max-width: 899px)";
+const subscribeNarrow = (onChange: () => void) => {
+  const mq = window.matchMedia(NARROW_QUERY);
+  mq.addEventListener("change", onChange);
+  return () => mq.removeEventListener("change", onChange);
+};
+const getNarrow = () => window.matchMedia(NARROW_QUERY).matches;
+const getNarrowServer = () => false;
+
+// Assets loaded and the scene's first frame rendered (shaders compiled).
+type LoadingSnapshot = { progress: number; sceneReady: boolean };
+const isSceneDone = ({ progress, sceneReady }: LoadingSnapshot) =>
+  progress === 100 && sceneReady;
 
 export default function LoadingScreen() {
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
   const ref = useRef<HTMLDivElement | null>(null);
   const loadingTextRef = useRef<HTMLParagraphElement>(null);
+  const welcomeRef = useRef<HTMLDivElement>(null);
 
   const splitWelcomeRef = useRef<SplitText | null>(null);
-  const { progress } = useProgress();
+  const progress = useLoadingStore((s) => s.progress);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  // Lazy init covers client-side navigation back to "/" after the scene loaded.
+  const [isLoading, setIsLoading] = useState<boolean>(
+    () => !isSceneDone(useLoadingStore.getState())
+  );
+  // Latches at 100: later loads (e.g. prefetched mail.glb) move drei's global
+  // progress again and must not rewind the bar or remount the welcome block.
+  const hasFinishedRef = useRef(false);
 
-  const [mobileWarning, setMobileWarning] = useState<boolean>(false);
-
-  const detectMobile = () => {
-    if (window.innerWidth < 900) {
-      setMobileWarning(true);
-    }
-  };
+  const mobileWarning = useSyncExternalStore(
+    subscribeNarrow,
+    getNarrow,
+    getNarrowServer
+  );
 
   const animateText = () => {
     if (!loadingTextRef.current) return;
@@ -72,6 +97,9 @@ export default function LoadingScreen() {
         // tlRef.current?.kill();
         if (loadingTextRef.current && loadingTextRef.current.parentElement)
           loadingTextRef.current.parentElement.style.display = "none";
+        // Revealed in the same frame the logo column is hidden, so the welcome
+        // block appears in place instead of moving into view (CLS).
+        if (welcomeRef.current) welcomeRef.current.style.visibility = "visible";
       },
     });
     const split = new SplitText(".welcome", {
@@ -104,7 +132,7 @@ export default function LoadingScreen() {
     tl.to(
       ".underline-bar",
       {
-        width: "100%",
+        scaleX: 1,
         duration: 1,
         onComplete: () => {
           setIsButtonDisabled(false);
@@ -130,7 +158,7 @@ export default function LoadingScreen() {
       tl.to(
         ".underline-bar",
         {
-          width: "0%",
+          scaleX: 0,
           duration: 0.3,
         },
         0
@@ -152,7 +180,7 @@ export default function LoadingScreen() {
           duration: 1,
           ease: "back",
           onComplete: () => {
-            if (ref.current) ref.current.style.display = " none";
+            if (ref.current) ref.current.style.display = "none";
           },
         },
         "-=0.5"
@@ -161,26 +189,30 @@ export default function LoadingScreen() {
   };
 
   useEffect(() => {
-    if (!loadingTextRef.current) return;
-    const current: number = 500 - (progress * 500) / 100;
+    if (!loadingTextRef.current || hasFinishedRef.current) return;
     gsap.to(loadingTextRef.current, {
-      width: `${current}`,
+      scaleX: 1 - progress / 100,
       duration: 2,
-      // yoyo: true,
-      // repeat: -1,
       ease: "power2",
     });
 
     if (progress === 0) {
       animateText();
-      detectMobile();
     }
     if (progress === 100) {
-      setIsLoading(false);
+      hasFinishedRef.current = true;
     }
   }, [progress]);
 
-  // Loading Done -> show welcome section
+  useEffect(
+    () =>
+      useLoadingStore.subscribe((state) => {
+        if (isSceneDone(state)) setIsLoading(false);
+      }),
+    []
+  );
+
+  // Scene loaded and first frame rendered -> show welcome section
 
   useEffect(() => {
     if (!isLoading) {
@@ -204,7 +236,14 @@ export default function LoadingScreen() {
         <div className="flex flex-col justify-center items-center  min-h-screen">
           <div className="text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-bold loading-text bg-black text-white w-full">
             {/* <p>LOADING</p> */}
-            <Image src={"/benjiDor.png"} width={500} height={500} alt="benji" />
+            <Image
+              src="/benjiDor.webp"
+              width={500}
+              height={500}
+              alt="benji"
+              priority
+              unoptimized
+            />
           </div>
           <div
             ref={loadingTextRef}
@@ -212,18 +251,27 @@ export default function LoadingScreen() {
           ></div>
           <h2 className="mt-5 font-inter font-bold text-3xl">Loading...</h2>
         </div>
+      </div>
 
+      {/* Out of flow so hiding the logo column doesn't move it (CLS). The
+          p-10 inset matches the root padding: same centering as the in-flow
+          column, and the mobile warning's bottom-0 still hits the viewport
+          edge. Hidden until animateWelcome hides the logo column. */}
+      <div
+        ref={welcomeRef}
+        className="invisible absolute inset-0 p-10 box-border flex flex-col justify-around items-center"
+      >
         <div className="flex flex-col gap-y-1 my-auto justify-center items-center ">
-          {progress === 100 && (
+          {!isLoading && (
             <div className="flex flex-col justify-center items-center">
               <div className="">
                 <h2 className="welcome text-[60px] sm:text-[100px] md:text-[150px] lg:text-[200px] 2xl:text-[300px] font-inter font-bold uppercase">
                   Welcome
                 </h2>
-                <div className="underline-bar w-0 relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
+                <div className="underline-bar w-full scale-x-0 origin-left relative bottom-3 2xl:bottom-20 h-1 bg-black"></div>
               </div>
               <button
-                className="start-button border cursor-pointer rounded-lg py-1 text-lg font-intter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
+                className="start-button border cursor-pointer rounded-lg py-1 text-lg font-inter px-10 hover:text-white hover:bg-black hover:border-white transition-all duration-500"
                 onClick={() => startExperience()}
                 disabled={isButtonDisabled}
               >
@@ -231,7 +279,7 @@ export default function LoadingScreen() {
               </button>
 
               {mobileWarning && (
-                <div className="text-yellow-500 text-center flex items-center absolute bottom-0">
+                <div className="visible text-yellow-500 text-center flex items-center absolute bottom-0">
                   Warning: This experience is not fully suported on mobile{" "}
                 </div>
               )}

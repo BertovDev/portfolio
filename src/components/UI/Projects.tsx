@@ -32,7 +32,7 @@ const proejcts: Project[] = [
     id: 1,
     title: "Viniltify",
     description: "",
-    demo: "/videos/vinil2.mkv",
+    demo: "/videos/viniltify.mp4",
     type: "3D Web experience ",
     link: {
       github: "https://github.com/BertovDev/viniltify_app",
@@ -44,7 +44,7 @@ const proejcts: Project[] = [
     id: 2,
     title: "My Daily Bliss Blog",
     description: "",
-    demo: "/videos/blog.mkv",
+    demo: "/videos/blog.mp4",
     type: "Blog",
     link: {
       github: "https://github.com/BertovDev/myDailyBlissBlog",
@@ -56,7 +56,7 @@ const proejcts: Project[] = [
     id: 3,
     title: "3D Connect Four",
     description: "",
-    demo: "/videos/connect.mkv",
+    demo: "/videos/connect.mp4",
     type: "3D Web experience ",
     link: {
       github: "https://github.com/BertovDev/3D-Connect-Four",
@@ -69,7 +69,7 @@ const proejcts: Project[] = [
     id: 4,
     title: "Canvas Hologram Camera",
     description: "",
-    demo: "/videos/holograme.mkv",
+    demo: "/videos/holograme.mp4",
     type: "Shader ",
     link: {
       github: "",
@@ -81,7 +81,7 @@ const proejcts: Project[] = [
     id: 5,
     title: "Join The Evolution",
     description: "",
-    demo: "/videos/evolution.mkv",
+    demo: "/videos/evolution.mp4",
     type: "Shader | Gesture detection ",
     link: {
       github: "https://github.com/BertovDev/Join-the-evolution",
@@ -93,7 +93,7 @@ const proejcts: Project[] = [
     id: 6,
     title: "Canvas Camera Shader",
     description: "",
-    demo: "/videos/camshader.mkv",
+    demo: "/videos/camshader.mp4",
     type: "Shader",
     link: {
       github: "",
@@ -105,7 +105,7 @@ const proejcts: Project[] = [
     id: 7,
     title: "Isavet",
     description: "",
-    demo: "/videos/isavet.mkv",
+    demo: "/videos/isavet.mp4",
     type: "Business solution ",
     link: {
       github: "https://github.com/BertovDev/IsaVet",
@@ -116,10 +116,8 @@ const proejcts: Project[] = [
 ];
 
 function ProjectItem({ ...props }: ProjectProps) {
-  const ref: React.RefObject<HTMLLIElement | null> = React.createRef();
-
   return (
-    <li className="flex flex-col lg:flex-row gap-2 item" ref={ref}>
+    <li className="flex flex-col lg:flex-row gap-2 item">
       <div
         onPointerEnter={() =>
           props.setHoverProject({ demo: props.project.demo, state: true })
@@ -173,35 +171,25 @@ export default function Projects() {
   const [currentDemo, setCurrentDemo] = useState<string | null>("");
   const listRef = useRef<HTMLUListElement>(null);
 
-  useEffect(() => {
-    if (hoverProject.demo !== null) {
-      setCurrentDemo(hoverProject.demo);
-    }
-  }, [hoverProject.state]);
+  // Keep the last hovered demo so the preview can fade out on leave.
+  const handleHover = (next: ProjectState) => {
+    setHoverProject(next);
+    if (next.demo !== null) setCurrentDemo(next.demo);
+  };
 
   useEffect(() => {
     if (listRef.current) {
       const items: HTMLLIElement[] = gsap.utils.toArray(
         listRef.current.children
       );
-      items.forEach((item, index) => {
-        console.log(item);
-
-        gsap.set(item, {
-          opacity: 0,
-          x: index > 2 ? 50 : -50,
-          y: -20,
-        });
-
-        gsap.to(item, {
-          opacity: 1,
-          x: 0,
-          y: 0,
-          stagger: 0.2,
-          duration: 0.5,
-          delay: index * 0.1,
-        });
-      });
+      const tween = gsap.fromTo(
+        items,
+        { opacity: 0, x: (i: number) => (i > 2 ? 50 : -50), y: -20 },
+        { opacity: 1, x: 0, y: 0, duration: 0.5, stagger: 0.1 }
+      );
+      return () => {
+        tween.kill();
+      };
     }
   }, []);
 
@@ -220,7 +208,7 @@ export default function Projects() {
               <ProjectItem
                 key={index}
                 project={project}
-                setHoverProject={setHoverProject}
+                setHoverProject={handleHover}
               />
             );
           })}

@@ -10,10 +10,15 @@ import Annotation from "./Annotation";
 
 import { useSectionStore } from "@/utils/Utils";
 
+const ABOUT_POSITION: [number, number, number] = [-0.02, 0.08, 0];
+const ABOUT_ROTATION: [number, number, number] = [-0.51, -0.26, 0];
+const ABOUT_SCALE = 0.7;
+const ABOUT_MESH_POSITION: [number, number, number] = [0, 0, 0];
+
 export function AboutModel() {
   const [hover, setHover] = useState(false);
 
-  const { setSectionClicked } = useSectionStore();
+  const setSectionClicked = useSectionStore((s) => s.setSectionClicked);
 
   const { nodes, materials } = useGLTF(
     "/bautiModel.glb"
@@ -21,9 +26,9 @@ export function AboutModel() {
   return (
     <group
       dispose={null}
-      position={[-0.02, 0.08, 0]}
-      rotation={[-0.51, -0.26, 0]}
-      scale={0.7}
+      position={ABOUT_POSITION}
+      rotation={ABOUT_ROTATION}
+      scale={ABOUT_SCALE}
       onPointerOver={(e) => {
         e.stopPropagation();
         setHover(true);
@@ -40,7 +45,7 @@ export function AboutModel() {
       <mesh
         geometry={nodes.tmpsj0p995tply001.geometry}
         material={materials["Material_0.002"]}
-        position={[0, 0, 0]}
+        position={ABOUT_MESH_POSITION}
         castShadow
         receiveShadow
       >
@@ -51,6 +56,29 @@ export function AboutModel() {
           <span className="text-shadow-2xl">About me</span>
         </Annotation>
       )}
+    </group>
+  );
+}
+
+/**
+ * Invisible copy of the model's mesh (same transforms and geometry) used by
+ * the lazily loaded physics world to build the head's convex hull collider.
+ */
+export function AboutModelColliderShape() {
+  const { nodes } = useGLTF("/bautiModel.glb") as unknown as AboutModelGLTF;
+  return (
+    <group
+      dispose={null}
+      position={ABOUT_POSITION}
+      rotation={ABOUT_ROTATION}
+      scale={ABOUT_SCALE}
+    >
+      <mesh
+        geometry={nodes.tmpsj0p995tply001.geometry}
+        position={ABOUT_MESH_POSITION}
+      >
+        <meshBasicMaterial visible={false} />
+      </mesh>
     </group>
   );
 }
